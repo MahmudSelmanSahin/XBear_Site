@@ -1,55 +1,66 @@
 /* ============================================
    XBear Event-Media — Main JavaScript
+   v2.0 — Professional & Refined
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   // ===== PRELOADER =====
   const preloader = document.getElementById('preloader');
+
   window.addEventListener('load', () => {
     setTimeout(() => {
       preloader.classList.add('hidden');
-    }, 800);
+    }, 600);
   });
 
-  // Fallback: hide preloader after 3 seconds
+  // Fallback
   setTimeout(() => {
     preloader.classList.add('hidden');
-  }, 3000);
+  }, 2500);
 
 
-  // ===== NAVBAR SCROLL =====
+  // ===== NAVBAR =====
   const navbar = document.getElementById('navbar');
   const backToTop = document.getElementById('backToTop');
+  let lastScrollY = 0;
+  let ticking = false;
 
-  window.addEventListener('scroll', () => {
+  function handleScroll() {
     const scrollY = window.scrollY;
 
     // Navbar background
-    if (scrollY > 80) {
-      navbar.classList.add('scrolled');
+    navbar.classList.toggle('scrolled', scrollY > 60);
+
+    // Back to top
+    backToTop.classList.toggle('visible', scrollY > 500);
+
+    // Hide/show navbar on scroll
+    if (scrollY > lastScrollY && scrollY > 200) {
+      navbar.style.transform = 'translateY(-100%)';
     } else {
-      navbar.classList.remove('scrolled');
+      navbar.style.transform = 'translateY(0)';
     }
 
-    // Back to top button
-    if (scrollY > 600) {
-      backToTop.classList.add('visible');
-    } else {
-      backToTop.classList.remove('visible');
-    }
-
-    // Active nav link highlighting
+    lastScrollY = scrollY;
     updateActiveNavLink();
-  });
+    ticking = false;
+  }
 
-  // Back to top click
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(handleScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // back to top
   backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
 
-  // ===== HAMBURGER MENU =====
+  // ===== HAMBURGER =====
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
 
@@ -59,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
   });
 
-  // Close mobile menu on link click
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('active');
@@ -72,27 +82,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== ACTIVE NAV LINK =====
   function updateActiveNavLink() {
     const sections = document.querySelectorAll('section[id]');
-    const navItems = navLinks.querySelectorAll('a:not(.nav-cta)');
-
+    const navItems = navLinks.querySelectorAll('a');
     let currentSection = '';
 
     sections.forEach(section => {
-      const sectionTop = section.offsetTop - 120;
+      const sectionTop = section.offsetTop - 140;
       if (window.scrollY >= sectionTop) {
         currentSection = section.getAttribute('id');
       }
     });
 
     navItems.forEach(item => {
-      item.classList.remove('active');
-      if (item.getAttribute('href') === `#${currentSection}`) {
-        item.classList.add('active');
-      }
+      item.classList.toggle('active', item.getAttribute('href') === `#${currentSection}`);
     });
   }
 
 
-  // ===== SCROLL REVEAL ANIMATION =====
+  // ===== SCROLL REVEAL =====
   const revealElements = document.querySelectorAll('.reveal');
 
   const revealObserver = new IntersectionObserver((entries) => {
@@ -103,8 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
@@ -122,20 +128,20 @@ document.addEventListener('DOMContentLoaded', () => {
         counterObserver.unobserve(counter);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.4 });
 
   counters.forEach(counter => counterObserver.observe(counter));
 
   function animateCounter(element, target) {
-    const duration = 2000;
+    const duration = 1800;
     const startTime = performance.now();
 
     function update(currentTime) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Easing function (ease-out)
-      const easeOut = 1 - Math.pow(1 - progress, 3);
+      // smooth ease-out
+      const easeOut = 1 - Math.pow(1 - progress, 4);
       const currentValue = Math.floor(easeOut * target);
 
       element.textContent = currentValue.toLocaleString('tr-TR');
@@ -172,26 +178,24 @@ document.addEventListener('DOMContentLoaded', () => {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData);
-
-    // Simulate form submission
     const submitBtn = contactForm.querySelector('.form-submit');
     const originalText = submitBtn.innerHTML;
 
     submitBtn.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 0.8s linear infinite;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
       Gönderiliyor...
     `;
     submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
 
     setTimeout(() => {
       submitBtn.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Başarıyla Gönderildi!
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Başarıyla Gönderildi
       `;
-      submitBtn.style.background = '#25D366';
-      submitBtn.style.borderColor = '#25D366';
+      submitBtn.style.background = '#22c55e';
+      submitBtn.style.borderColor = '#22c55e';
+      submitBtn.style.opacity = '1';
 
       setTimeout(() => {
         submitBtn.innerHTML = originalText;
@@ -199,43 +203,72 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.style.borderColor = '';
         submitBtn.disabled = false;
         contactForm.reset();
-      }, 3000);
-    }, 1500);
+      }, 2500);
+    }, 1200);
   });
 
 
-  // ===== PARALLAX EFFECT ON HERO =====
+  // ===== PARALLAX =====
   const heroImg = document.querySelector('.hero-bg img');
 
   if (heroImg && window.innerWidth > 768) {
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
       if (scrollY < window.innerHeight) {
-        heroImg.style.transform = `scale(${1.1 + scrollY * 0.0002}) translateY(${scrollY * 0.2}px)`;
+        heroImg.style.transform = `scale(${1.05 + scrollY * 0.0001}) translateY(${scrollY * 0.15}px)`;
       }
-    });
+    }, { passive: true });
   }
 
 
-  // ===== NAVBAR HIDE ON SCROLL DOWN, SHOW ON SCROLL UP =====
-  let lastScrollY = 0;
+  // ===== DRAG TO SCROLL (Gallery) =====
+  document.querySelectorAll('.gallery-scroll').forEach(container => {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let moved = false;
 
-  window.addEventListener('scroll', () => {
-    const currentScrollY = window.scrollY;
+    container.addEventListener('mousedown', (e) => {
+      isDown = true;
+      moved = false;
+      container.classList.add('dragging');
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    });
 
-    if (currentScrollY > lastScrollY && currentScrollY > 200) {
-      navbar.style.transform = 'translateY(-100%)';
-    } else {
-      navbar.style.transform = 'translateY(0)';
-    }
+    container.addEventListener('mouseleave', () => {
+      isDown = false;
+      container.classList.remove('dragging');
+    });
 
-    lastScrollY = currentScrollY;
+    container.addEventListener('mouseup', () => {
+      isDown = false;
+      container.classList.remove('dragging');
+    });
+
+    container.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      if (Math.abs(walk) > 5) moved = true;
+      container.scrollLeft = scrollLeft - walk;
+    });
+
+    // Prevent click when dragging
+    container.addEventListener('click', (e) => {
+      if (moved) {
+        e.stopPropagation();
+        e.preventDefault();
+        moved = false;
+      }
+    }, true);
   });
 
 });
 
 
-// ===== LIGHTBOX (Global functions) =====
+// ===== LIGHTBOX =====
 function openLightbox(item) {
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
@@ -252,9 +285,90 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-// Close lightbox with Escape key
+// ===== REEL POPUP =====
+function openReelPopup(reelUrl, account) {
+  const overlay    = document.getElementById('reelPopupOverlay');
+  const accountEl  = document.getElementById('reelAccountName');
+  const igLink     = document.getElementById('reelOpenInstagram');
+  const igLoginBtn = document.getElementById('reelIgLoginBtn');
+  const body       = document.getElementById('reelPopupBody');
+
+  // Update header info
+  accountEl.textContent = account;
+  igLink.href = reelUrl;
+  igLoginBtn.href = reelUrl;
+
+  // Clear previous embed content and create fresh blockquote
+  body.innerHTML = `
+    <div class="reel-popup-loading">
+      <div class="reel-loading-spinner"></div>
+      <span>Yükleniyor...</span>
+    </div>
+    <blockquote class="instagram-media"
+      data-instgrm-captioned
+      data-instgrm-permalink="${reelUrl}?utm_source=ig_embed"
+      data-instgrm-version="14"
+      style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; min-width:326px; padding:0; width:100%; max-width:540px;">
+    </blockquote>
+  `;
+
+  // Show overlay
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Process Instagram embed
+  setTimeout(() => {
+    if (window.instgrm && window.instgrm.Embeds) {
+      window.instgrm.Embeds.process();
+    }
+    // Hide loading spinner once iframe is rendered
+    const checkEmbed = setInterval(() => {
+      const iframe = body.querySelector('iframe');
+      if (iframe) {
+        const loadingEl = body.querySelector('.reel-popup-loading');
+        if (loadingEl) loadingEl.style.display = 'none';
+        clearInterval(checkEmbed);
+      }
+    }, 300);
+    // Timeout fallback: hide loading after 5 seconds regardless
+    setTimeout(() => {
+      clearInterval(checkEmbed);
+      const loadingEl = body.querySelector('.reel-popup-loading');
+      if (loadingEl) loadingEl.style.display = 'none';
+    }, 5000);
+  }, 100);
+}
+
+function closeReelPopup(e) {
+  // Allow close from overlay background click or close button (no event / button click)
+  if (e && e.target && e.target !== document.getElementById('reelPopupOverlay')) return;
+  
+  const overlay = document.getElementById('reelPopupOverlay');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+
+  // Reset body after close animation
+  setTimeout(() => {
+    const body = document.getElementById('reelPopupBody');
+    if (body) {
+      body.innerHTML = `
+        <div class="reel-popup-loading">
+          <div class="reel-loading-spinner"></div>
+          <span>Yükleniyor...</span>
+        </div>
+      `;
+    }
+  }, 350);
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeLightbox();
+    // Close reel popup too
+    const overlay = document.getElementById('reelPopupOverlay');
+    if (overlay && overlay.classList.contains('active')) {
+      closeReelPopup();
+    }
   }
 });
+
