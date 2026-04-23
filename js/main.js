@@ -5,6 +5,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ===== REELS (js/reels-data.js) =====
+  // window.XBEAR_REELS üzerinden reel listesini doldurup etkileşimleri bağlar.
+  hydrateReelsFromData();
+  initGalleryInteractions();
+  ensureAboutVideoPlayback();
+
   // ===== PRELOADER =====
   const preloader = document.getElementById('preloader');
 
@@ -175,11 +181,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== CONTACT FORM =====
   const contactForm = document.getElementById('contactForm');
 
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const submitBtn = contactForm.querySelector('.form-submit');
     const originalText = submitBtn.innerHTML;
+    const recipientEmail = (contactForm.dataset.recipientEmail || '').trim();
+
+    if (!recipientEmail || !recipientEmail.includes('@')) {
+      alert("Form gönderimi için önce form üzerindeki data-recipient-email alanına hedef e-posta adresini yazın.");
+      return;
+    }
 
     submitBtn.innerHTML = `
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 0.8s linear infinite;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
@@ -188,7 +200,23 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
 
-    setTimeout(() => {
+    try {
+      const formData = new FormData(contactForm);
+      formData.append('_subject', 'XBear Site - Yeni Teklif Formu');
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
+
+      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: formData,
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || 'Mail gönderilemedi');
+      }
+
       submitBtn.innerHTML = `
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Başarıyla Gönderildi
@@ -204,7 +232,23 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = false;
         contactForm.reset();
       }, 2500);
-    }, 1200);
+    } catch (err) {
+      submitBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Gönderilemedi
+      `;
+      submitBtn.style.background = '#ef4444';
+      submitBtn.style.borderColor = '#ef4444';
+      submitBtn.style.opacity = '1';
+
+      setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.style.background = '';
+        submitBtn.style.borderColor = '';
+        submitBtn.disabled = false;
+      }, 2800);
+      console.error('[contact-form]', err);
+    }
   });
 
 
@@ -221,154 +265,614 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // ===== DRAG TO SCROLL (Gallery) =====
-  document.querySelectorAll('.gallery-scroll').forEach(container => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-    let moved = false;
+  const reelPrevBtn = document.getElementById('reelPopupPrev');
+  const reelNextBtn = document.getElementById('reelPopupNext');
+  if (reelPrevBtn) reelPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateReel(-1); });
+  if (reelNextBtn) reelNextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateReel(1); });
 
-    container.addEventListener('mousedown', (e) => {
-      isDown = true;
-      moved = false;
-      container.classList.add('dragging');
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
+  const lightboxEl = document.getElementById('lightbox');
+  const lightboxPrevBtn = document.getElementById('lightboxPrev');
+  const lightboxNextBtn = document.getElementById('lightboxNext');
+  const lightboxCloseBtn = document.getElementById('lightboxClose');
+  const lightboxImgEl = document.getElementById('lightboxImg');
+
+  if (lightboxEl) {
+    // Sadece overlay (boş alan) tıklamasında kapansın.
+    lightboxEl.addEventListener('click', (e) => {
+      if (e.target === lightboxEl) closeLightbox();
     });
-
-    container.addEventListener('mouseleave', () => {
-      isDown = false;
-      container.classList.remove('dragging');
-    });
-
-    container.addEventListener('mouseup', () => {
-      isDown = false;
-      container.classList.remove('dragging');
-    });
-
-    container.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      if (Math.abs(walk) > 5) moved = true;
-      container.scrollLeft = scrollLeft - walk;
-    });
-
-    // Prevent click when dragging
-    container.addEventListener('click', (e) => {
-      if (moved) {
-        e.stopPropagation();
-        e.preventDefault();
-        moved = false;
-      }
-    }, true);
-  });
+  }
+  if (lightboxImgEl) {
+    lightboxImgEl.addEventListener('click', (e) => e.stopPropagation());
+  }
+  if (lightboxCloseBtn) {
+    lightboxCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+  }
+  if (lightboxPrevBtn) {
+    lightboxPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(-1); });
+  }
+  if (lightboxNextBtn) {
+    lightboxNextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(1); });
+  }
 
 });
 
 
-// ===== LIGHTBOX =====
-function openLightbox(item) {
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const imgSrc = item.querySelector('img').src;
+// ===== GALLERY INTERACTIONS =====
+// .gallery-scroll container'ları ve içindeki kartlar her yeniden doldurulduğunda
+// yeniden bağlanabilmeli. Aynı container'a iki kez listener eklemeyi önlemek
+// için container üzerine bir bayrak koyuyoruz.
+function initGalleryInteractions() {
+  document.querySelectorAll('.gallery-scroll').forEach(container => {
+    if (container.dataset.interactionsReady === 'true') return;
+    container.dataset.interactionsReady = 'true';
 
-  lightboxImg.src = imgSrc;
-  lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
+    let isPointerDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let dragDistance = 0;
+
+    const stopDragging = () => {
+      isPointerDown = false;
+      container.classList.remove('dragging');
+    };
+
+    container.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+      isPointerDown = true;
+      dragDistance = 0;
+      startX = e.clientX;
+      scrollLeft = container.scrollLeft;
+      container.classList.add('dragging');
+    });
+
+    container.addEventListener('pointermove', (e) => {
+      if (!isPointerDown) return;
+
+      const walk = (e.clientX - startX) * 1.5;
+      dragDistance = Math.max(dragDistance, Math.abs(walk));
+
+      if (dragDistance > 4) e.preventDefault();
+      container.scrollLeft = scrollLeft - walk;
+    });
+
+    container.addEventListener('pointerup', stopDragging);
+    container.addEventListener('pointercancel', stopDragging);
+    container.addEventListener('mouseleave', () => {
+      if (isPointerDown) stopDragging();
+    });
+
+    // Drag sonrası gelen click'i yut, sadece gerçek click'i geçir.
+    container.addEventListener('click', (e) => {
+      if (dragDistance > 6) {
+        e.stopPropagation();
+        e.preventDefault();
+        dragDistance = 0;
+      }
+    }, true);
+  });
+
+  document.querySelectorAll('[data-lightbox="true"]').forEach(item => {
+    if (item.dataset.clickReady === 'true') return;
+    item.dataset.clickReady = 'true';
+    item.addEventListener('click', () => openLightbox(item));
+  });
+
+  document.querySelectorAll('.reel-card[data-reel-url], .reel-card[data-reel-src]').forEach(card => {
+    if (card.dataset.clickReady === 'true') return;
+    card.dataset.clickReady = 'true';
+    card.addEventListener('click', () => openReelPopupFromCard(card));
+  });
+
+  syncReelPreviewFrames();
+}
+
+
+// ===== REELS DATA HYDRATION =====
+// js/reels-data.js içindeki window.XBEAR_REELS listesini DOM'a yazar.
+function hydrateReelsFromData() {
+  const data = window.XBEAR_REELS;
+  if (!data) return;
+
+  const bindings = {
+    xbearevent: { containerId: 'reelsScrollEvent', badgeClass: 'reel-badge--media' },
+    xbearmedia: { containerId: 'reelsScrollMedia', badgeClass: 'reel-badge--media' },
+  };
+
+  Object.entries(bindings).forEach(([username, mapping]) => {
+    const list = Array.isArray(data[username]) ? data[username] : [];
+    const el = document.getElementById(mapping.containerId);
+    if (!el) return;
+    if (!list.length) {
+      el.innerHTML = '';
+      return;
+    }
+    el.innerHTML = list
+      .map(item => renderReelCard(item, username, mapping.badgeClass))
+      .join('');
+  });
+}
+
+function renderReelCard(item, username, badgeClass) {
+  const isVideo = Boolean(item.src);
+  const reelType = isVideo ? 'video' : 'instagram';
+  const url = item.url || item.permalink || '';
+  const src = item.src || '';
+  const shortcode = extractReelShortcode(url);
+  const title = escapeHtml(item.title || 'Reel');
+  const account = `@${username}`;
+  const accountAttr = escapeAttr(account);
+  const permalink = escapeAttr(url);
+  const srcAttr = escapeAttr(src);
+  const popupFit = escapeAttr(item.popupFit || '');
+  const popupPosition = escapeAttr(item.popupPosition || '');
+  const popupZoomRaw = Number(item.popupZoom);
+  const popupZoom = Number.isFinite(popupZoomRaw) && popupZoomRaw > 0 ? String(popupZoomRaw) : '';
+  const previewSeconds = Number(item.previewAt);
+  const previewAt = Number.isFinite(previewSeconds) && previewSeconds > 0 ? previewSeconds : 0;
+  const previewSrc = previewAt > 0 ? `${src}#t=${previewAt}` : src;
+  const previewSrcAttr = escapeAttr(previewSrc);
+  const srcName = src ? src.split('/').pop() || '' : '';
+  const srcStem = srcName.endsWith('.mp4') ? srcName.slice(0, -4) : srcName;
+  const autoVideoThumb = srcStem ? `assets/images/reels/thumbs/${srcStem}.jpg` : '';
+  const thumbSrc = isVideo
+    ? (item.thumb || autoVideoThumb)
+    : (item.thumb || (shortcode ? `assets/images/reels/${username}_${shortcode}.jpg` : ''));
+  const thumbAttr = escapeAttr(thumbSrc);
+  const mediaMarkup = isVideo
+    ? (thumbSrc
+      ? `<img src="${thumbAttr}" alt="${title}" loading="lazy" decoding="async" onerror="this.closest('.reel-thumb').classList.add('reel-thumb--placeholder'); this.remove();">`
+      : `<video src="${previewSrcAttr}" muted loop playsinline preload="metadata" data-preview-at="${previewAt}"></video>`)
+    : (thumbSrc
+      ? `<img src="${thumbAttr}" alt="${title}" loading="lazy" decoding="async" onerror="this.closest('.reel-thumb').classList.add('reel-thumb--placeholder'); this.remove();">`
+      : '');
+
+  const cardDataAttrs = isVideo
+    ? `data-reel-src="${srcAttr}" data-reel-type="${reelType}" data-reel-popup-fit="${popupFit}" data-reel-popup-position="${popupPosition}" data-reel-popup-zoom="${popupZoom}" data-reel-preview-at="${previewAt}"`
+    : `data-reel-url="${permalink}" data-reel-type="${reelType}"`;
+
+  const badgeIconClass = isVideo ? 'ph ph-video-camera' : 'ph ph-instagram-logo';
+
+  return `<div class="reel-card" ${cardDataAttrs} data-reel-account="${accountAttr}" data-reel-title="${title}">
+      <div class="reel-thumb${mediaMarkup ? '' : ' reel-thumb--placeholder'}">
+        ${mediaMarkup}
+        <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+        <div class="reel-badge ${badgeClass}">
+          <i class="${badgeIconClass}"></i> ${account}
+        </div>
+      </div>
+      <div class="reel-title">${title}</div>
+    </div>`;
+}
+
+function extractReelShortcode(url) {
+  if (!url) return '';
+  const match = String(url).match(/\/(?:reel|p|tv)\/([^/?#]+)/i);
+  return match ? match[1] : '';
+}
+
+function ensureAboutVideoPlayback() {
+  const aboutVideo = document.getElementById('aboutVideo');
+  if (!aboutVideo) return;
+  aboutVideo.defaultMuted = false;
+  aboutVideo.muted = false;
+  const playPromise = aboutVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(() => {
+      // Tarayıcı sesli autoplay'i engellerse kullanıcı controls üzerinden oynatabilir.
+    });
+  }
+}
+
+function syncReelPreviewFrames() {
+  document.querySelectorAll('.reel-card .reel-thumb video[data-preview-at]').forEach(video => {
+    if (video.dataset.previewReady === 'true') return;
+    video.dataset.previewReady = 'true';
+
+    const previewAt = Number(video.dataset.previewAt || 0);
+    if (!Number.isFinite(previewAt) || previewAt <= 0) {
+      video.pause();
+      return;
+    }
+
+    const freezeOnTarget = () => {
+      try {
+        const target = Math.min(Math.max(previewAt, 0), Math.max(0, video.duration - 0.05));
+        if (Number.isFinite(target) && target >= 0) {
+          video.currentTime = target;
+        }
+      } catch (_) {
+        // ignore
+      }
+      video.pause();
+      video.muted = true;
+    };
+    video.addEventListener('loadedmetadata', freezeOnTarget, { once: true });
+    video.addEventListener('loadeddata', freezeOnTarget, { once: true });
+    video.addEventListener('canplay', freezeOnTarget, { once: true });
+    if (video.readyState >= 1) freezeOnTarget();
+    setTimeout(freezeOnTarget, 150);
+    video.pause();
+  });
+}
+
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function escapeAttr(str) {
+  return escapeHtml(str).replaceAll('"', '&quot;');
+}
+
+
+// ===== LIGHTBOX =====
+let lightboxPlaylist = [];
+let lightboxIndex = -1;
+
+function openLightbox(item) {
+  const container = item.closest('.gallery-scroll');
+  const items = container
+    ? Array.from(container.querySelectorAll('[data-lightbox="true"]'))
+    : [item];
+
+  lightboxPlaylist = items.map(el => {
+    const img = el.querySelector('img');
+    const overlayText = el.querySelector('.gallery-scroll-overlay span');
+    const source = img ? img.src : '';
+    const normalized = source.toLowerCase();
+    const popupSource = normalized.includes('/xbear1.jpeg')
+      ? 'assets/images/reels/Xbear1_lightbox.jpg'
+      : source;
+    return {
+      src: popupSource,
+      title: overlayText ? overlayText.textContent.trim() : (img?.alt || ''),
+      fit: el.dataset.lightboxFit || '',
+      position: el.dataset.lightboxPosition || '',
+    };
+  });
+
+  lightboxIndex = items.indexOf(item);
+  if (lightboxIndex < 0) lightboxIndex = 0;
+
+  renderLightbox(lightboxIndex, /* firstOpen */ true);
+}
+
+function navigateLightbox(direction) {
+  if (!lightboxPlaylist.length) return;
+  const total = lightboxPlaylist.length;
+  lightboxIndex = (lightboxIndex + direction + total) % total;
+  renderLightbox(lightboxIndex, /* firstOpen */ false);
+}
+
+function renderLightbox(index, firstOpen) {
+  const entry = lightboxPlaylist[index];
+  if (!entry) return;
+
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const titleEl = document.getElementById('lightboxTitle');
+  const counterEl = document.getElementById('lightboxCounter');
+  const prevBtn = document.getElementById('lightboxPrev');
+  const nextBtn = document.getElementById('lightboxNext');
+
+  const swap = () => {
+    img.src = entry.src;
+    img.alt = entry.title || 'Galeri görseli';
+    img.style.objectFit = entry.fit || '';
+    img.style.objectPosition = entry.position || '';
+    if (titleEl) titleEl.textContent = entry.title || '';
+    if (counterEl) {
+      counterEl.textContent = lightboxPlaylist.length > 1
+        ? `${index + 1} / ${lightboxPlaylist.length}`
+        : '';
+    }
+    requestAnimationFrame(() => img.classList.remove('is-swapping'));
+  };
+
+  if (firstOpen) {
+    img.classList.remove('is-swapping');
+    swap();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  } else {
+    img.classList.add('is-swapping');
+    setTimeout(swap, 150);
+  }
+
+  if (prevBtn && nextBtn) {
+    const multiple = lightboxPlaylist.length > 1;
+    prevBtn.style.display = multiple ? '' : 'none';
+    nextBtn.style.display = multiple ? '' : 'none';
+  }
 }
 
 function closeLightbox() {
   const lightbox = document.getElementById('lightbox');
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
+  setTimeout(() => {
+    lightboxPlaylist = [];
+    lightboxIndex = -1;
+  }, 350);
 }
 
 // ===== REEL POPUP =====
-function openReelPopup(reelUrl, account) {
+let reelPlaylist = [];
+let reelPlaylistIndex = -1;
+
+function openReelPopupFromCard(card) {
+  const container = card.closest('.gallery-scroll--reels');
+  const selector = '.reel-card[data-reel-url], .reel-card[data-reel-src]';
+  reelPlaylist = container
+    ? Array.from(container.querySelectorAll(selector)).map(el => ({
+        type: el.dataset.reelType || (el.dataset.reelSrc ? 'video' : 'instagram'),
+        url: el.dataset.reelUrl || '',
+        src: el.dataset.reelSrc || '',
+        account: el.dataset.reelAccount || '',
+        title: el.dataset.reelTitle || 'Reel',
+        popupFit: el.dataset.reelPopupFit || '',
+        popupPosition: el.dataset.reelPopupPosition || '',
+        popupZoom: el.dataset.reelPopupZoom || '',
+        previewAt: Number(el.dataset.reelPreviewAt || 0),
+      }))
+    : [{
+        type: card.dataset.reelType || (card.dataset.reelSrc ? 'video' : 'instagram'),
+        url: card.dataset.reelUrl || '',
+        src: card.dataset.reelSrc || '',
+        account: card.dataset.reelAccount || '',
+        title: card.dataset.reelTitle || 'Reel',
+        popupFit: card.dataset.reelPopupFit || '',
+        popupPosition: card.dataset.reelPopupPosition || '',
+        popupZoom: card.dataset.reelPopupZoom || '',
+        previewAt: Number(card.dataset.reelPreviewAt || 0),
+      }];
+
+  const activeKey = card.dataset.reelSrc || card.dataset.reelUrl || '';
+  reelPlaylistIndex = reelPlaylist.findIndex(item => (item.src || item.url) === activeKey);
+  if (reelPlaylistIndex < 0) reelPlaylistIndex = 0;
+
+  renderReel(reelPlaylistIndex, /* firstOpen */ true);
+}
+
+function navigateReel(direction) {
+  if (!reelPlaylist.length) return;
+  const total = reelPlaylist.length;
+  reelPlaylistIndex = (reelPlaylistIndex + direction + total) % total;
+  renderReel(reelPlaylistIndex, /* firstOpen */ false);
+}
+
+function renderReel(index, firstOpen) {
+  const item = reelPlaylist[index];
+  if (!item) return;
+
   const overlay    = document.getElementById('reelPopupOverlay');
+  const popup      = document.getElementById('reelPopup');
   const accountEl  = document.getElementById('reelAccountName');
+  const counterEl  = document.getElementById('reelPopupCounter');
   const igLink     = document.getElementById('reelOpenInstagram');
   const igLoginBtn = document.getElementById('reelIgLoginBtn');
   const body       = document.getElementById('reelPopupBody');
+  const footer     = popup ? popup.querySelector('.reel-popup-footer') : null;
+  const prevBtn    = document.getElementById('reelPopupPrev');
+  const nextBtn    = document.getElementById('reelPopupNext');
 
-  // Update header info
-  accountEl.textContent = account;
-  igLink.href = reelUrl;
-  igLoginBtn.href = reelUrl;
+  const isVideo = item.type === 'video' && item.src;
+  if (popup) popup.classList.toggle('is-video', Boolean(isVideo));
+  body.classList.toggle('is-video', Boolean(isVideo));
+  if (footer) footer.style.display = isVideo ? 'none' : '';
+  accountEl.textContent = item.account || '@xbearevent';
+  if (counterEl) {
+    counterEl.textContent = reelPlaylist.length > 1
+      ? `${index + 1} / ${reelPlaylist.length}`
+      : '';
+  }
 
-  // Clear previous embed content and create fresh blockquote
-  body.innerHTML = `
-    <div class="reel-popup-loading">
-      <div class="reel-loading-spinner"></div>
-      <span>Yükleniyor...</span>
-    </div>
-    <blockquote class="instagram-media"
-      data-instgrm-captioned
-      data-instgrm-permalink="${reelUrl}?utm_source=ig_embed"
-      data-instgrm-version="14"
-      style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; min-width:326px; padding:0; width:100%; max-width:540px;">
-    </blockquote>
-  `;
+  if (prevBtn && nextBtn) {
+    const multiple = reelPlaylist.length > 1;
+    prevBtn.style.display = multiple ? '' : 'none';
+    nextBtn.style.display = multiple ? '' : 'none';
+  }
 
-  // Show overlay
-  overlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
-
-  // Process Instagram embed
-  setTimeout(() => {
-    if (window.instgrm && window.instgrm.Embeds) {
-      window.instgrm.Embeds.process();
+  if (isVideo) {
+    const videoSrc = escapeAttr(item.src);
+    const styleParts = [];
+    if (item.popupFit) styleParts.push(`object-fit:${item.popupFit}`);
+    if (item.popupPosition) styleParts.push(`object-position:${item.popupPosition}`);
+    const popupZoom = Number(item.popupZoom);
+    if (Number.isFinite(popupZoom) && popupZoom > 0 && popupZoom !== 1) {
+      styleParts.push(`transform:scale(${popupZoom})`);
+      styleParts.push('transform-origin:left center');
     }
-    // Hide loading spinner once iframe is rendered
-    const checkEmbed = setInterval(() => {
-      const iframe = body.querySelector('iframe');
-      if (iframe) {
+    const videoStyleAttr = styleParts.length ? ` style="${escapeAttr(styleParts.join(';'))}"` : '';
+    body.innerHTML = `
+      <video class="reel-popup-video" src="${videoSrc}" controls autoplay loop playsinline preload="metadata"${videoStyleAttr}></video>
+    `;
+    const popupVideo = body.querySelector('.reel-popup-video');
+    if (popupVideo) {
+      const popupPreviewAt = Number(item.previewAt || 0);
+      if (Number.isFinite(popupPreviewAt) && popupPreviewAt > 0) {
+        popupVideo.addEventListener('loadedmetadata', () => {
+          try {
+            const target = Math.min(Math.max(popupPreviewAt, 0), Math.max(0, popupVideo.duration - 0.05));
+            popupVideo.currentTime = target;
+          } catch (_) {}
+        }, { once: true });
+      }
+      popupVideo.muted = false;
+      popupVideo.volume = 1;
+      const playPromise = popupVideo.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          // Tarayıcı sesli autoplay'i engellerse kullanıcı controls ile başlatabilir.
+        });
+      }
+    }
+    igLink.style.display = 'none';
+    igLoginBtn.style.display = 'none';
+  } else {
+    igLink.style.display = '';
+    igLoginBtn.style.display = '';
+    igLink.href = item.url;
+    igLoginBtn.href = item.url;
+    body.innerHTML = `
+      ${reelLoadingSkeleton()}
+      <blockquote class="instagram-media"
+        data-instgrm-captioned
+        data-instgrm-permalink="${item.url}?utm_source=ig_embed"
+        data-instgrm-version="14"
+        style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; min-width:326px; padding:0; width:100%; max-width:540px;">
+      </blockquote>
+    `;
+  }
+
+  if (firstOpen) {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  if (!isVideo) {
+    setTimeout(() => {
+      if (window.instgrm && window.instgrm.Embeds) {
+        window.instgrm.Embeds.process();
+      }
+      const checkEmbed = setInterval(() => {
+        const iframe = body.querySelector('iframe');
+        if (iframe) {
+          const loadingEl = body.querySelector('.reel-popup-loading');
+          if (loadingEl) loadingEl.style.display = 'none';
+          clearInterval(checkEmbed);
+        }
+      }, 300);
+      setTimeout(() => {
+        clearInterval(checkEmbed);
         const loadingEl = body.querySelector('.reel-popup-loading');
         if (loadingEl) loadingEl.style.display = 'none';
-        clearInterval(checkEmbed);
-      }
-    }, 300);
-    // Timeout fallback: hide loading after 5 seconds regardless
-    setTimeout(() => {
-      clearInterval(checkEmbed);
-      const loadingEl = body.querySelector('.reel-popup-loading');
-      if (loadingEl) loadingEl.style.display = 'none';
-    }, 5000);
-  }, 100);
+      }, 5000);
+    }, 100);
+  }
+}
+
+// Backwards-compatible wrapper (still callable from inline handlers if any remain)
+function openReelPopup(reelUrl, account) {
+  reelPlaylist = [{ url: reelUrl, account: account }];
+  reelPlaylistIndex = 0;
+  renderReel(0, true);
 }
 
 function closeReelPopup(e) {
-  // Allow close from overlay background click or close button (no event / button click)
   if (e && e.target && e.target !== document.getElementById('reelPopupOverlay')) return;
-  
+
   const overlay = document.getElementById('reelPopupOverlay');
   overlay.classList.remove('active');
   document.body.style.overflow = '';
 
-  // Reset body after close animation
   setTimeout(() => {
+    const popup = document.getElementById('reelPopup');
     const body = document.getElementById('reelPopupBody');
+    const footer = popup ? popup.querySelector('.reel-popup-footer') : null;
+    if (popup) popup.classList.remove('is-video');
     if (body) {
-      body.innerHTML = `
-        <div class="reel-popup-loading">
-          <div class="reel-loading-spinner"></div>
-          <span>Yükleniyor...</span>
-        </div>
-      `;
+      body.classList.remove('is-video');
+      body.innerHTML = reelLoadingSkeleton();
     }
+    if (footer) footer.style.display = '';
+    reelPlaylist = [];
+    reelPlaylistIndex = -1;
   }, 350);
 }
 
+function reelLoadingSkeleton() {
+  return `
+    <div class="reel-popup-loading" aria-label="Yükleniyor">
+      <div class="reel-skeleton">
+        <div class="reel-skeleton-header">
+          <div class="reel-skeleton-avatar"></div>
+          <div class="reel-skeleton-text">
+            <div class="reel-skeleton-line is-short"></div>
+            <div class="reel-skeleton-line is-shorter"></div>
+          </div>
+        </div>
+        <div class="reel-skeleton-media"></div>
+        <div class="reel-skeleton-actions">
+          <div class="reel-skeleton-icon"></div>
+          <div class="reel-skeleton-icon"></div>
+          <div class="reel-skeleton-icon"></div>
+        </div>
+        <div class="reel-skeleton-line is-medium"></div>
+        <div class="reel-skeleton-line"></div>
+      </div>
+    </div>
+  `;
+}
+
 document.addEventListener('keydown', (e) => {
+  const reelOverlay = document.getElementById('reelPopupOverlay');
+  const lightboxEl  = document.getElementById('lightbox');
+  const reelOpen      = reelOverlay && reelOverlay.classList.contains('active');
+  const lightboxOpen  = lightboxEl && lightboxEl.classList.contains('active');
+
   if (e.key === 'Escape') {
-    closeLightbox();
-    // Close reel popup too
-    const overlay = document.getElementById('reelPopupOverlay');
-    if (overlay && overlay.classList.contains('active')) {
-      closeReelPopup();
+    if (lightboxOpen) closeLightbox();
+    if (reelOpen) closeReelPopup();
+    return;
+  }
+
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    const direction = e.key === 'ArrowRight' ? 1 : -1;
+    if (reelOpen) {
+      e.preventDefault();
+      navigateReel(direction);
+    } else if (lightboxOpen) {
+      e.preventDefault();
+      navigateLightbox(direction);
     }
   }
 });
+
+// Swipe navigation on touch devices inside the popup overlay & lightbox
+(function enableSwipeNavigation() {
+  let startX = 0;
+  let startY = 0;
+  let tracking = false;
+  let target = null;  // 'reel' | 'lightbox'
+
+  document.addEventListener('touchstart', (e) => {
+    const reelOverlay = document.getElementById('reelPopupOverlay');
+    const lightboxEl = document.getElementById('lightbox');
+
+    if (reelOverlay && reelOverlay.classList.contains('active') && reelOverlay.contains(e.target)) {
+      // Ignore swipes starting inside the embed iframe/body (let native scroll work)
+      const body = document.getElementById('reelPopupBody');
+      if (body && body.contains(e.target)) return;
+      target = 'reel';
+    } else if (lightboxEl && lightboxEl.classList.contains('active') && lightboxEl.contains(e.target)) {
+      target = 'lightbox';
+    } else {
+      return;
+    }
+
+    tracking = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    if (!tracking) return;
+    tracking = false;
+
+    const endTouch = e.changedTouches[0];
+    const dx = endTouch.clientX - startX;
+    const dy = endTouch.clientY - startY;
+
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) {
+      const direction = dx < 0 ? 1 : -1;
+      if (target === 'reel') navigateReel(direction);
+      else if (target === 'lightbox') navigateLightbox(direction);
+    }
+  });
+})();
 
