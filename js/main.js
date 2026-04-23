@@ -376,7 +376,7 @@ function hydrateReelsFromData() {
   if (!data) return;
 
   const bindings = {
-    xbearevent: { containerId: 'reelsScrollEvent', badgeClass: '' },
+    xbearevent: { containerId: 'reelsScrollEvent', badgeClass: 'reel-badge--media' },
     xbearmedia: { containerId: 'reelsScrollMedia', badgeClass: 'reel-badge--media' },
   };
 
