@@ -1134,6 +1134,27 @@ ul {
   overflow: hidden;
 }
 
+/* Thumbnail yoksa / yüklenemediyse Instagram gradient placeholder */
+.reel-thumb--placeholder {
+  background: linear-gradient(135deg, #f58529 0%, #dd2a7b 45%, #8134af 75%, #515bd4 100%);
+}
+
+.reel-thumb--placeholder::after {
+  content: 'XBear';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
 .reel-thumb img {
   width: 100%;
   height: 100%;

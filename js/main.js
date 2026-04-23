@@ -5,14 +5,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ===== GALLERY (Instagram JSON) =====
-  // Script'in ürettiği assets/data/gallery.json varsa galeri oradan doldurulur.
-  hydrateGalleryFromJSON()
-    .catch(err => {
-      // JSON yoksa sessizce geç; statik içerik kalır.
-      console.info('[gallery] statik içerik kullanılıyor:', err?.message || err);
-    })
-    .finally(() => initGalleryInteractions());
+  // ===== REELS (js/reels-data.js) =====
+  // window.XBEAR_REELS üzerinden reel listesini doldurup etkileşimleri bağlar.
+  hydrateReelsFromData();
+  initGalleryInteractions();
 
   // ===== PRELOADER =====
   const preloader = document.getElementById('preloader');
@@ -332,64 +328,48 @@ function initGalleryInteractions() {
 }
 
 
-// ===== GALLERY JSON HYDRATION =====
-async function hydrateGalleryFromJSON() {
-  const response = await fetch('assets/data/gallery.json', { cache: 'no-cache' });
-  if (!response.ok) throw new Error(`gallery.json not found (${response.status})`);
-  const data = await response.json();
-  if (!data || !data.accounts) throw new Error('gallery.json invalid schema');
+// ===== REELS DATA HYDRATION =====
+// js/reels-data.js içindeki window.XBEAR_REELS listesini DOM'a yazar.
+function hydrateReelsFromData() {
+  const data = window.XBEAR_REELS;
+  if (!data) return;
 
-  // Site'te bilinen hesap → scroll container eşlemesi.
   const bindings = {
-    xbearevent: { photos: 'photoScrollEvent', reels: 'reelsScrollEvent', reelBadgeClass: '' },
-    xbearmedia: { photos: 'photoScrollMedia', reels: 'reelsScrollMedia', reelBadgeClass: 'reel-badge--media' },
+    xbearevent: { containerId: 'reelsScrollEvent', badgeClass: '' },
+    xbearmedia: { containerId: 'reelsScrollMedia', badgeClass: 'reel-badge--media' },
   };
 
-  let updatedAny = false;
-
   Object.entries(bindings).forEach(([username, mapping]) => {
-    const bucket = data.accounts[username];
-    if (!bucket) return;
-
-    if (Array.isArray(bucket.photos) && bucket.photos.length) {
-      const el = document.getElementById(mapping.photos);
-      if (el) {
-        el.innerHTML = bucket.photos.map(item => renderPhotoCard(item)).join('');
-        updatedAny = true;
-      }
+    const list = Array.isArray(data[username]) ? data[username] : [];
+    const el = document.getElementById(mapping.containerId);
+    if (!el) return;
+    if (!list.length) {
+      el.innerHTML = '';
+      return;
     }
-
-    if (Array.isArray(bucket.reels) && bucket.reels.length) {
-      const el = document.getElementById(mapping.reels);
-      if (el) {
-        el.innerHTML = bucket.reels
-          .map(item => renderReelCard(item, username, mapping.reelBadgeClass))
-          .join('');
-        updatedAny = true;
-      }
-    }
+    el.innerHTML = list
+      .map(item => renderReelCard(item, username, mapping.badgeClass))
+      .join('');
   });
-
-  if (!updatedAny) throw new Error('gallery.json boş veya hesaplar eşleşmiyor');
-}
-
-function renderPhotoCard(item) {
-  const title = escapeHtml(item.title || 'Gönderi');
-  const thumb = escapeAttr(item.thumb);
-  return `<div class="gallery-scroll-item" data-lightbox="true">
-      <img src="${thumb}" alt="${title}" loading="lazy">
-      <div class="gallery-scroll-overlay"><span>${title}</span></div>
-    </div>`;
 }
 
 function renderReelCard(item, username, badgeClass) {
+  const url = item.url || item.permalink || '';
+  const shortcode = extractReelShortcode(url);
   const title = escapeHtml(item.title || 'Reel');
-  const thumb = escapeAttr(item.thumb);
-  const permalink = escapeAttr(item.permalink);
   const account = `@${username}`;
-  return `<div class="reel-card" data-reel-url="${permalink}" data-reel-account="${account}">
-      <div class="reel-thumb">
-        <img src="${thumb}" alt="${title}" loading="lazy">
+  const accountAttr = escapeAttr(account);
+  const permalink = escapeAttr(url);
+  const thumbSrc = item.thumb || (shortcode ? `assets/images/reels/${username}_${shortcode}.jpg` : '');
+  const thumbAttr = escapeAttr(thumbSrc);
+
+  const thumbMarkup = thumbSrc
+    ? `<img src="${thumbAttr}" alt="${title}" loading="lazy" onerror="this.closest('.reel-thumb').classList.add('reel-thumb--placeholder'); this.remove();">`
+    : '';
+
+  return `<div class="reel-card" data-reel-url="${permalink}" data-reel-account="${accountAttr}">
+      <div class="reel-thumb${thumbSrc ? '' : ' reel-thumb--placeholder'}">
+        ${thumbMarkup}
         <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
         <div class="reel-badge ${badgeClass}">
           <i class="ph ph-instagram-logo"></i> ${account}
@@ -397,6 +377,12 @@ function renderReelCard(item, username, badgeClass) {
       </div>
       <div class="reel-title">${title}</div>
     </div>`;
+}
+
+function extractReelShortcode(url) {
+  if (!url) return '';
+  const match = String(url).match(/\/(?:reel|p|tv)\/([^/?#]+)/i);
+  return match ? match[1] : '';
 }
 
 function escapeHtml(str) {
