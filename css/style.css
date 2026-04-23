@@ -910,6 +910,37 @@ ul {
   padding-bottom: 80px;
 }
 
+/* Galeri üst başlığı için premium ama sade ayrım */
+.gallery .section-header {
+  margin-bottom: 54px;
+  padding-bottom: 22px;
+  position: relative;
+}
+
+.gallery .section-header::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(220px, 58vw);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+}
+
+.gallery .section-header .section-title {
+  margin-bottom: 12px;
+}
+
+.gallery .section-header .section-subtitle {
+  max-width: 620px;
+  color: color-mix(in srgb, var(--text-muted) 88%, #fff 12%);
+}
+
+.gallery-category:first-of-type {
+  margin-top: 14px;
+}
+
 /* ── Gallery Category Separation ── */
 .gallery-category {
   position: relative;
@@ -917,7 +948,7 @@ ul {
 
 .gallery-category-header {
   position: relative;
-  margin-top: 24px;
+  margin-top: 0;
   margin-bottom: 32px;
   padding: 4px 0 20px;
   border-bottom: 1px solid var(--border-subtle);
