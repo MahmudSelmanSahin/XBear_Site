@@ -522,9 +522,16 @@ function openLightbox(item) {
   lightboxPlaylist = items.map(el => {
     const img = el.querySelector('img');
     const overlayText = el.querySelector('.gallery-scroll-overlay span');
+    const source = img ? img.src : '';
+    const normalized = source.toLowerCase();
+    const popupSource = normalized.includes('/xbear1.jpeg')
+      ? 'assets/images/reels/Xbear1_lightbox.jpg'
+      : source;
     return {
-      src: img ? img.src : '',
+      src: popupSource,
       title: overlayText ? overlayText.textContent.trim() : (img?.alt || ''),
+      fit: el.dataset.lightboxFit || '',
+      position: el.dataset.lightboxPosition || '',
     };
   });
 
@@ -555,6 +562,8 @@ function renderLightbox(index, firstOpen) {
   const swap = () => {
     img.src = entry.src;
     img.alt = entry.title || 'Galeri görseli';
+    img.style.objectFit = entry.fit || '';
+    img.style.objectPosition = entry.position || '';
     if (titleEl) titleEl.textContent = entry.title || '';
     if (counterEl) {
       counterEl.textContent = lightboxPlaylist.length > 1
