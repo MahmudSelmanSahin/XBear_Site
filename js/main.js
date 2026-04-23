@@ -326,6 +326,8 @@ function initGalleryInteractions() {
     card.dataset.clickReady = 'true';
     card.addEventListener('click', () => openReelPopupFromCard(card));
   });
+
+  syncReelPreviewFrames();
 }
 
 
@@ -365,18 +367,31 @@ function renderReelCard(item, username, badgeClass) {
   const accountAttr = escapeAttr(account);
   const permalink = escapeAttr(url);
   const srcAttr = escapeAttr(src);
+  const popupFit = escapeAttr(item.popupFit || '');
+  const popupPosition = escapeAttr(item.popupPosition || '');
+  const popupZoomRaw = Number(item.popupZoom);
+  const popupZoom = Number.isFinite(popupZoomRaw) && popupZoomRaw > 0 ? String(popupZoomRaw) : '';
+  const previewSeconds = Number(item.previewAt);
+  const previewAt = Number.isFinite(previewSeconds) && previewSeconds > 0 ? previewSeconds : 0;
+  const previewSrc = previewAt > 0 ? `${src}#t=${previewAt}` : src;
+  const previewSrcAttr = escapeAttr(previewSrc);
+  const srcName = src ? src.split('/').pop() || '' : '';
+  const srcStem = srcName.endsWith('.mp4') ? srcName.slice(0, -4) : srcName;
+  const autoVideoThumb = srcStem ? `assets/images/reels/thumbs/${srcStem}.jpg` : '';
   const thumbSrc = isVideo
-    ? ''
+    ? (item.thumb || autoVideoThumb)
     : (item.thumb || (shortcode ? `assets/images/reels/${username}_${shortcode}.jpg` : ''));
   const thumbAttr = escapeAttr(thumbSrc);
   const mediaMarkup = isVideo
-    ? `<video src="${srcAttr}" muted loop playsinline preload="metadata"></video>`
+    ? (thumbSrc
+      ? `<img src="${thumbAttr}" alt="${title}" loading="lazy" decoding="async" onerror="this.closest('.reel-thumb').classList.add('reel-thumb--placeholder'); this.remove();">`
+      : `<video src="${previewSrcAttr}" muted loop playsinline preload="metadata" data-preview-at="${previewAt}"></video>`)
     : (thumbSrc
       ? `<img src="${thumbAttr}" alt="${title}" loading="lazy" decoding="async" onerror="this.closest('.reel-thumb').classList.add('reel-thumb--placeholder'); this.remove();">`
       : '');
 
   const cardDataAttrs = isVideo
-    ? `data-reel-src="${srcAttr}" data-reel-type="${reelType}"`
+    ? `data-reel-src="${srcAttr}" data-reel-type="${reelType}" data-reel-popup-fit="${popupFit}" data-reel-popup-position="${popupPosition}" data-reel-popup-zoom="${popupZoom}" data-reel-preview-at="${previewAt}"`
     : `data-reel-url="${permalink}" data-reel-type="${reelType}"`;
 
   const badgeIconClass = isVideo ? 'ph ph-video-camera' : 'ph ph-instagram-logo';
@@ -410,6 +425,38 @@ function ensureAboutVideoPlayback() {
       // Tarayıcı sesli autoplay'i engellerse kullanıcı controls üzerinden oynatabilir.
     });
   }
+}
+
+function syncReelPreviewFrames() {
+  document.querySelectorAll('.reel-card .reel-thumb video[data-preview-at]').forEach(video => {
+    if (video.dataset.previewReady === 'true') return;
+    video.dataset.previewReady = 'true';
+
+    const previewAt = Number(video.dataset.previewAt || 0);
+    if (!Number.isFinite(previewAt) || previewAt <= 0) {
+      video.pause();
+      return;
+    }
+
+    const freezeOnTarget = () => {
+      try {
+        const target = Math.min(Math.max(previewAt, 0), Math.max(0, video.duration - 0.05));
+        if (Number.isFinite(target) && target >= 0) {
+          video.currentTime = target;
+        }
+      } catch (_) {
+        // ignore
+      }
+      video.pause();
+      video.muted = true;
+    };
+    video.addEventListener('loadedmetadata', freezeOnTarget, { once: true });
+    video.addEventListener('loadeddata', freezeOnTarget, { once: true });
+    video.addEventListener('canplay', freezeOnTarget, { once: true });
+    if (video.readyState >= 1) freezeOnTarget();
+    setTimeout(freezeOnTarget, 150);
+    video.pause();
+  });
 }
 
 function escapeHtml(str) {
@@ -520,6 +567,10 @@ function openReelPopupFromCard(card) {
         src: el.dataset.reelSrc || '',
         account: el.dataset.reelAccount || '',
         title: el.dataset.reelTitle || 'Reel',
+        popupFit: el.dataset.reelPopupFit || '',
+        popupPosition: el.dataset.reelPopupPosition || '',
+        popupZoom: el.dataset.reelPopupZoom || '',
+        previewAt: Number(el.dataset.reelPreviewAt || 0),
       }))
     : [{
         type: card.dataset.reelType || (card.dataset.reelSrc ? 'video' : 'instagram'),
@@ -527,6 +578,10 @@ function openReelPopupFromCard(card) {
         src: card.dataset.reelSrc || '',
         account: card.dataset.reelAccount || '',
         title: card.dataset.reelTitle || 'Reel',
+        popupFit: card.dataset.reelPopupFit || '',
+        popupPosition: card.dataset.reelPopupPosition || '',
+        popupZoom: card.dataset.reelPopupZoom || '',
+        previewAt: Number(card.dataset.reelPreviewAt || 0),
       }];
 
   const activeKey = card.dataset.reelSrc || card.dataset.reelUrl || '';
@@ -548,16 +603,20 @@ function renderReel(index, firstOpen) {
   if (!item) return;
 
   const overlay    = document.getElementById('reelPopupOverlay');
+  const popup      = document.getElementById('reelPopup');
   const accountEl  = document.getElementById('reelAccountName');
   const counterEl  = document.getElementById('reelPopupCounter');
   const igLink     = document.getElementById('reelOpenInstagram');
   const igLoginBtn = document.getElementById('reelIgLoginBtn');
   const body       = document.getElementById('reelPopupBody');
+  const footer     = popup ? popup.querySelector('.reel-popup-footer') : null;
   const prevBtn    = document.getElementById('reelPopupPrev');
   const nextBtn    = document.getElementById('reelPopupNext');
 
   const isVideo = item.type === 'video' && item.src;
+  if (popup) popup.classList.toggle('is-video', Boolean(isVideo));
   body.classList.toggle('is-video', Boolean(isVideo));
+  if (footer) footer.style.display = isVideo ? 'none' : '';
   accountEl.textContent = item.account || '@xbearevent';
   if (counterEl) {
     counterEl.textContent = reelPlaylist.length > 1
@@ -573,9 +632,38 @@ function renderReel(index, firstOpen) {
 
   if (isVideo) {
     const videoSrc = escapeAttr(item.src);
+    const styleParts = [];
+    if (item.popupFit) styleParts.push(`object-fit:${item.popupFit}`);
+    if (item.popupPosition) styleParts.push(`object-position:${item.popupPosition}`);
+    const popupZoom = Number(item.popupZoom);
+    if (Number.isFinite(popupZoom) && popupZoom > 0 && popupZoom !== 1) {
+      styleParts.push(`transform:scale(${popupZoom})`);
+      styleParts.push('transform-origin:left center');
+    }
+    const videoStyleAttr = styleParts.length ? ` style="${escapeAttr(styleParts.join(';'))}"` : '';
     body.innerHTML = `
-      <video class="reel-popup-video" src="${videoSrc}" controls autoplay muted loop playsinline preload="metadata"></video>
+      <video class="reel-popup-video" src="${videoSrc}" controls autoplay loop playsinline preload="metadata"${videoStyleAttr}></video>
     `;
+    const popupVideo = body.querySelector('.reel-popup-video');
+    if (popupVideo) {
+      const popupPreviewAt = Number(item.previewAt || 0);
+      if (Number.isFinite(popupPreviewAt) && popupPreviewAt > 0) {
+        popupVideo.addEventListener('loadedmetadata', () => {
+          try {
+            const target = Math.min(Math.max(popupPreviewAt, 0), Math.max(0, popupVideo.duration - 0.05));
+            popupVideo.currentTime = target;
+          } catch (_) {}
+        }, { once: true });
+      }
+      popupVideo.muted = false;
+      popupVideo.volume = 1;
+      const playPromise = popupVideo.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          // Tarayıcı sesli autoplay'i engellerse kullanıcı controls ile başlatabilir.
+        });
+      }
+    }
     igLink.style.display = 'none';
     igLoginBtn.style.display = 'none';
   } else {
@@ -636,11 +724,15 @@ function closeReelPopup(e) {
   document.body.style.overflow = '';
 
   setTimeout(() => {
+    const popup = document.getElementById('reelPopup');
     const body = document.getElementById('reelPopupBody');
+    const footer = popup ? popup.querySelector('.reel-popup-footer') : null;
+    if (popup) popup.classList.remove('is-video');
     if (body) {
       body.classList.remove('is-video');
       body.innerHTML = reelLoadingSkeleton();
     }
+    if (footer) footer.style.display = '';
     reelPlaylist = [];
     reelPlaylistIndex = -1;
   }, 350);
