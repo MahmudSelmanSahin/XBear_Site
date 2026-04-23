@@ -29,9 +29,10 @@
   <!-- Phosphor Icons -->
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=5">
 
   <!-- Critical Gallery Scroll Styles (inline for reliability) -->
   <style>
@@ -281,8 +282,9 @@
     <!-- ── XBEAR EVENT KARELERİ ── -->
     <div class="gallery-category">
       <div class="container">
-        <div class="gallery-category-header">
-          <h3><i class="ph ph-instagram-logo" style="color: #E1306C;"></i> @xbearevent</h3>
+        <div class="gallery-category-header gallery-category-header--event">
+          <span class="gallery-category-eyebrow">01 — Event</span>
+          <h3 class="gallery-category-title">Etkinlik &amp; Organizasyon</h3>
           <p>Konser, festival ve kurumsal etkinlik dünyamızdan fotoğraflar ve videolar.</p>
         </div>
       </div>
@@ -343,8 +345,9 @@
     <!-- ── XBEAR MEDIA KARELERİ ── -->
     <div class="gallery-category" style="margin-top: 80px;">
       <div class="container">
-        <div class="gallery-category-header">
-          <h3><i class="ph ph-instagram-logo" style="color: #405DE6;"></i> @xbearmedia</h3>
+        <div class="gallery-category-header gallery-category-header--media">
+          <span class="gallery-category-eyebrow">02 — Media</span>
+          <h3 class="gallery-category-title">Prodüksiyon &amp; Medya</h3>
           <p>Marka tanıtımları, prodüksiyonlar ve medya çekimlerinden anlar.</p>
         </div>
       </div>
@@ -707,20 +710,36 @@
   </a>
 
   <!-- ===== LIGHTBOX ===== -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <button class="lightbox-close" onclick="closeLightbox()">
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Kapat">
       <i class="ph ph-x"></i>
     </button>
-    <img src="" alt="Gallery Image" id="lightboxImg">
+    <button class="lightbox-nav lightbox-nav--prev" id="lightboxPrev" aria-label="Önceki fotoğraf">
+      <i class="ph ph-caret-left"></i>
+    </button>
+    <div class="lightbox-stage">
+      <img src="" alt="Gallery Image" id="lightboxImg">
+      <div class="lightbox-caption">
+        <span id="lightboxTitle"></span>
+        <span class="lightbox-counter" id="lightboxCounter"></span>
+      </div>
+    </div>
+    <button class="lightbox-nav lightbox-nav--next" id="lightboxNext" aria-label="Sonraki fotoğraf">
+      <i class="ph ph-caret-right"></i>
+    </button>
   </div>
 
   <!-- ===== REEL POPUP ===== -->
   <div class="reel-popup-overlay" id="reelPopupOverlay" onclick="closeReelPopup(event)">
+    <button class="reel-popup-nav reel-popup-nav--prev" id="reelPopupPrev" aria-label="Önceki reel">
+      <i class="ph ph-caret-left"></i>
+    </button>
     <div class="reel-popup" id="reelPopup">
       <div class="reel-popup-header">
         <div class="reel-popup-account" id="reelPopupAccount">
           <i class="ph ph-instagram-logo"></i>
           <span id="reelAccountName">@xbearevent</span>
+          <span class="reel-popup-counter" id="reelPopupCounter"></span>
         </div>
         <div class="reel-popup-actions">
           <a href="#" id="reelOpenInstagram" target="_blank" rel="noopener" class="reel-popup-ig-link">
@@ -746,10 +765,13 @@
         </a>
       </div>
     </div>
+    <button class="reel-popup-nav reel-popup-nav--next" id="reelPopupNext" aria-label="Sonraki reel">
+      <i class="ph ph-caret-right"></i>
+    </button>
   </div>
 
   <!-- Scripts -->
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=4"></script>
   <script async src="//www.instagram.com/embed.js"></script>
 </body>
 

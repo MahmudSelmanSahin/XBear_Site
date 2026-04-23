@@ -5,6 +5,15 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ===== GALLERY (Instagram JSON) =====
+  // Script'in ürettiği assets/data/gallery.json varsa galeri oradan doldurulur.
+  hydrateGalleryFromJSON()
+    .catch(err => {
+      // JSON yoksa sessizce geç; statik içerik kalır.
+      console.info('[gallery] statik içerik kullanılıyor:', err?.message || err);
+    })
+    .finally(() => initGalleryInteractions());
+
   // ===== PRELOADER =====
   const preloader = document.getElementById('preloader');
 
@@ -221,8 +230,48 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // ===== DRAG TO SCROLL (Gallery) =====
+  const reelPrevBtn = document.getElementById('reelPopupPrev');
+  const reelNextBtn = document.getElementById('reelPopupNext');
+  if (reelPrevBtn) reelPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateReel(-1); });
+  if (reelNextBtn) reelNextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateReel(1); });
+
+  const lightboxEl = document.getElementById('lightbox');
+  const lightboxPrevBtn = document.getElementById('lightboxPrev');
+  const lightboxNextBtn = document.getElementById('lightboxNext');
+  const lightboxCloseBtn = document.getElementById('lightboxClose');
+  const lightboxImgEl = document.getElementById('lightboxImg');
+
+  if (lightboxEl) {
+    // Sadece overlay (boş alan) tıklamasında kapansın.
+    lightboxEl.addEventListener('click', (e) => {
+      if (e.target === lightboxEl) closeLightbox();
+    });
+  }
+  if (lightboxImgEl) {
+    lightboxImgEl.addEventListener('click', (e) => e.stopPropagation());
+  }
+  if (lightboxCloseBtn) {
+    lightboxCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+  }
+  if (lightboxPrevBtn) {
+    lightboxPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(-1); });
+  }
+  if (lightboxNextBtn) {
+    lightboxNextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(1); });
+  }
+
+});
+
+
+// ===== GALLERY INTERACTIONS =====
+// .gallery-scroll container'ları ve içindeki kartlar her yeniden doldurulduğunda
+// yeniden bağlanabilmeli. Aynı container'a iki kez listener eklemeyi önlemek
+// için container üzerine bir bayrak koyuyoruz.
+function initGalleryInteractions() {
   document.querySelectorAll('.gallery-scroll').forEach(container => {
+    if (container.dataset.interactionsReady === 'true') return;
+    container.dataset.interactionsReady = 'true';
+
     let isPointerDown = false;
     let startX = 0;
     let scrollLeft = 0;
@@ -249,10 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const walk = (e.clientX - startX) * 1.5;
       dragDistance = Math.max(dragDistance, Math.abs(walk));
 
-      if (dragDistance > 4) {
-        e.preventDefault();
-      }
-
+      if (dragDistance > 4) e.preventDefault();
       container.scrollLeft = scrollLeft - walk;
     });
 
@@ -262,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isPointerDown) stopDragging();
     });
 
-    // Swallow only the click that belongs to a drag gesture.
+    // Drag sonrası gelen click'i yut, sadece gerçek click'i geçir.
     container.addEventListener('click', (e) => {
       if (dragDistance > 6) {
         e.stopPropagation();
@@ -273,51 +319,234 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('[data-lightbox="true"]').forEach(item => {
-    item.addEventListener('click', () => {
-      openLightbox(item);
-    });
+    if (item.dataset.clickReady === 'true') return;
+    item.dataset.clickReady = 'true';
+    item.addEventListener('click', () => openLightbox(item));
   });
 
   document.querySelectorAll('.reel-card[data-reel-url]').forEach(card => {
-    card.addEventListener('click', () => {
-      openReelPopup(card.dataset.reelUrl, card.dataset.reelAccount);
-    });
+    if (card.dataset.clickReady === 'true') return;
+    card.dataset.clickReady = 'true';
+    card.addEventListener('click', () => openReelPopupFromCard(card));
+  });
+}
+
+
+// ===== GALLERY JSON HYDRATION =====
+async function hydrateGalleryFromJSON() {
+  const response = await fetch('assets/data/gallery.json', { cache: 'no-cache' });
+  if (!response.ok) throw new Error(`gallery.json not found (${response.status})`);
+  const data = await response.json();
+  if (!data || !data.accounts) throw new Error('gallery.json invalid schema');
+
+  // Site'te bilinen hesap → scroll container eşlemesi.
+  const bindings = {
+    xbearevent: { photos: 'photoScrollEvent', reels: 'reelsScrollEvent', reelBadgeClass: '' },
+    xbearmedia: { photos: 'photoScrollMedia', reels: 'reelsScrollMedia', reelBadgeClass: 'reel-badge--media' },
+  };
+
+  let updatedAny = false;
+
+  Object.entries(bindings).forEach(([username, mapping]) => {
+    const bucket = data.accounts[username];
+    if (!bucket) return;
+
+    if (Array.isArray(bucket.photos) && bucket.photos.length) {
+      const el = document.getElementById(mapping.photos);
+      if (el) {
+        el.innerHTML = bucket.photos.map(item => renderPhotoCard(item)).join('');
+        updatedAny = true;
+      }
+    }
+
+    if (Array.isArray(bucket.reels) && bucket.reels.length) {
+      const el = document.getElementById(mapping.reels);
+      if (el) {
+        el.innerHTML = bucket.reels
+          .map(item => renderReelCard(item, username, mapping.reelBadgeClass))
+          .join('');
+        updatedAny = true;
+      }
+    }
   });
 
-});
+  if (!updatedAny) throw new Error('gallery.json boş veya hesaplar eşleşmiyor');
+}
+
+function renderPhotoCard(item) {
+  const title = escapeHtml(item.title || 'Gönderi');
+  const thumb = escapeAttr(item.thumb);
+  return `<div class="gallery-scroll-item" data-lightbox="true">
+      <img src="${thumb}" alt="${title}" loading="lazy">
+      <div class="gallery-scroll-overlay"><span>${title}</span></div>
+    </div>`;
+}
+
+function renderReelCard(item, username, badgeClass) {
+  const title = escapeHtml(item.title || 'Reel');
+  const thumb = escapeAttr(item.thumb);
+  const permalink = escapeAttr(item.permalink);
+  const account = `@${username}`;
+  return `<div class="reel-card" data-reel-url="${permalink}" data-reel-account="${account}">
+      <div class="reel-thumb">
+        <img src="${thumb}" alt="${title}" loading="lazy">
+        <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+        <div class="reel-badge ${badgeClass}">
+          <i class="ph ph-instagram-logo"></i> ${account}
+        </div>
+      </div>
+      <div class="reel-title">${title}</div>
+    </div>`;
+}
+
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function escapeAttr(str) {
+  return escapeHtml(str).replaceAll('"', '&quot;');
+}
 
 
 // ===== LIGHTBOX =====
-function openLightbox(item) {
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const imgSrc = item.querySelector('img').src;
+let lightboxPlaylist = [];
+let lightboxIndex = -1;
 
-  lightboxImg.src = imgSrc;
-  lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
+function openLightbox(item) {
+  const container = item.closest('.gallery-scroll');
+  const items = container
+    ? Array.from(container.querySelectorAll('[data-lightbox="true"]'))
+    : [item];
+
+  lightboxPlaylist = items.map(el => {
+    const img = el.querySelector('img');
+    const overlayText = el.querySelector('.gallery-scroll-overlay span');
+    return {
+      src: img ? img.src : '',
+      title: overlayText ? overlayText.textContent.trim() : (img?.alt || ''),
+    };
+  });
+
+  lightboxIndex = items.indexOf(item);
+  if (lightboxIndex < 0) lightboxIndex = 0;
+
+  renderLightbox(lightboxIndex, /* firstOpen */ true);
+}
+
+function navigateLightbox(direction) {
+  if (!lightboxPlaylist.length) return;
+  const total = lightboxPlaylist.length;
+  lightboxIndex = (lightboxIndex + direction + total) % total;
+  renderLightbox(lightboxIndex, /* firstOpen */ false);
+}
+
+function renderLightbox(index, firstOpen) {
+  const entry = lightboxPlaylist[index];
+  if (!entry) return;
+
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const titleEl = document.getElementById('lightboxTitle');
+  const counterEl = document.getElementById('lightboxCounter');
+  const prevBtn = document.getElementById('lightboxPrev');
+  const nextBtn = document.getElementById('lightboxNext');
+
+  const swap = () => {
+    img.src = entry.src;
+    img.alt = entry.title || 'Galeri görseli';
+    if (titleEl) titleEl.textContent = entry.title || '';
+    if (counterEl) {
+      counterEl.textContent = lightboxPlaylist.length > 1
+        ? `${index + 1} / ${lightboxPlaylist.length}`
+        : '';
+    }
+    requestAnimationFrame(() => img.classList.remove('is-swapping'));
+  };
+
+  if (firstOpen) {
+    img.classList.remove('is-swapping');
+    swap();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  } else {
+    img.classList.add('is-swapping');
+    setTimeout(swap, 150);
+  }
+
+  if (prevBtn && nextBtn) {
+    const multiple = lightboxPlaylist.length > 1;
+    prevBtn.style.display = multiple ? '' : 'none';
+    nextBtn.style.display = multiple ? '' : 'none';
+  }
 }
 
 function closeLightbox() {
   const lightbox = document.getElementById('lightbox');
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
+  setTimeout(() => {
+    lightboxPlaylist = [];
+    lightboxIndex = -1;
+  }, 350);
 }
 
 // ===== REEL POPUP =====
-function openReelPopup(reelUrl, account) {
+let reelPlaylist = [];
+let reelPlaylistIndex = -1;
+
+function openReelPopupFromCard(card) {
+  const container = card.closest('.gallery-scroll--reels');
+  reelPlaylist = container
+    ? Array.from(container.querySelectorAll('.reel-card[data-reel-url]')).map(el => ({
+        url: el.dataset.reelUrl,
+        account: el.dataset.reelAccount,
+      }))
+    : [{ url: card.dataset.reelUrl, account: card.dataset.reelAccount }];
+
+  reelPlaylistIndex = reelPlaylist.findIndex(item => item.url === card.dataset.reelUrl);
+  if (reelPlaylistIndex < 0) reelPlaylistIndex = 0;
+
+  renderReel(reelPlaylistIndex, /* firstOpen */ true);
+}
+
+function navigateReel(direction) {
+  if (!reelPlaylist.length) return;
+  const total = reelPlaylist.length;
+  reelPlaylistIndex = (reelPlaylistIndex + direction + total) % total;
+  renderReel(reelPlaylistIndex, /* firstOpen */ false);
+}
+
+function renderReel(index, firstOpen) {
+  const item = reelPlaylist[index];
+  if (!item) return;
+
   const overlay    = document.getElementById('reelPopupOverlay');
   const accountEl  = document.getElementById('reelAccountName');
+  const counterEl  = document.getElementById('reelPopupCounter');
   const igLink     = document.getElementById('reelOpenInstagram');
   const igLoginBtn = document.getElementById('reelIgLoginBtn');
   const body       = document.getElementById('reelPopupBody');
+  const prevBtn    = document.getElementById('reelPopupPrev');
+  const nextBtn    = document.getElementById('reelPopupNext');
 
-  // Update header info
-  accountEl.textContent = account;
-  igLink.href = reelUrl;
-  igLoginBtn.href = reelUrl;
+  accountEl.textContent = item.account;
+  if (counterEl) {
+    counterEl.textContent = reelPlaylist.length > 1
+      ? `${index + 1} / ${reelPlaylist.length}`
+      : '';
+  }
+  igLink.href = item.url;
+  igLoginBtn.href = item.url;
 
-  // Clear previous embed content and create fresh blockquote
+  if (prevBtn && nextBtn) {
+    const multiple = reelPlaylist.length > 1;
+    prevBtn.style.display = multiple ? '' : 'none';
+    nextBtn.style.display = multiple ? '' : 'none';
+  }
+
   body.innerHTML = `
     <div class="reel-popup-loading">
       <div class="reel-loading-spinner"></div>
@@ -325,22 +554,21 @@ function openReelPopup(reelUrl, account) {
     </div>
     <blockquote class="instagram-media"
       data-instgrm-captioned
-      data-instgrm-permalink="${reelUrl}?utm_source=ig_embed"
+      data-instgrm-permalink="${item.url}?utm_source=ig_embed"
       data-instgrm-version="14"
       style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; min-width:326px; padding:0; width:100%; max-width:540px;">
     </blockquote>
   `;
 
-  // Show overlay
-  overlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  if (firstOpen) {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
 
-  // Process Instagram embed
   setTimeout(() => {
     if (window.instgrm && window.instgrm.Embeds) {
       window.instgrm.Embeds.process();
     }
-    // Hide loading spinner once iframe is rendered
     const checkEmbed = setInterval(() => {
       const iframe = body.querySelector('iframe');
       if (iframe) {
@@ -349,7 +577,6 @@ function openReelPopup(reelUrl, account) {
         clearInterval(checkEmbed);
       }
     }, 300);
-    // Timeout fallback: hide loading after 5 seconds regardless
     setTimeout(() => {
       clearInterval(checkEmbed);
       const loadingEl = body.querySelector('.reel-popup-loading');
@@ -358,15 +585,20 @@ function openReelPopup(reelUrl, account) {
   }, 100);
 }
 
+// Backwards-compatible wrapper (still callable from inline handlers if any remain)
+function openReelPopup(reelUrl, account) {
+  reelPlaylist = [{ url: reelUrl, account: account }];
+  reelPlaylistIndex = 0;
+  renderReel(0, true);
+}
+
 function closeReelPopup(e) {
-  // Allow close from overlay background click or close button (no event / button click)
   if (e && e.target && e.target !== document.getElementById('reelPopupOverlay')) return;
-  
+
   const overlay = document.getElementById('reelPopupOverlay');
   overlay.classList.remove('active');
   document.body.style.overflow = '';
 
-  // Reset body after close animation
   setTimeout(() => {
     const body = document.getElementById('reelPopupBody');
     if (body) {
@@ -377,17 +609,75 @@ function closeReelPopup(e) {
         </div>
       `;
     }
+    reelPlaylist = [];
+    reelPlaylistIndex = -1;
   }, 350);
 }
 
 document.addEventListener('keydown', (e) => {
+  const reelOverlay = document.getElementById('reelPopupOverlay');
+  const lightboxEl  = document.getElementById('lightbox');
+  const reelOpen      = reelOverlay && reelOverlay.classList.contains('active');
+  const lightboxOpen  = lightboxEl && lightboxEl.classList.contains('active');
+
   if (e.key === 'Escape') {
-    closeLightbox();
-    // Close reel popup too
-    const overlay = document.getElementById('reelPopupOverlay');
-    if (overlay && overlay.classList.contains('active')) {
-      closeReelPopup();
+    if (lightboxOpen) closeLightbox();
+    if (reelOpen) closeReelPopup();
+    return;
+  }
+
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    const direction = e.key === 'ArrowRight' ? 1 : -1;
+    if (reelOpen) {
+      e.preventDefault();
+      navigateReel(direction);
+    } else if (lightboxOpen) {
+      e.preventDefault();
+      navigateLightbox(direction);
     }
   }
 });
+
+// Swipe navigation on touch devices inside the popup overlay & lightbox
+(function enableSwipeNavigation() {
+  let startX = 0;
+  let startY = 0;
+  let tracking = false;
+  let target = null;  // 'reel' | 'lightbox'
+
+  document.addEventListener('touchstart', (e) => {
+    const reelOverlay = document.getElementById('reelPopupOverlay');
+    const lightboxEl = document.getElementById('lightbox');
+
+    if (reelOverlay && reelOverlay.classList.contains('active') && reelOverlay.contains(e.target)) {
+      // Ignore swipes starting inside the embed iframe/body (let native scroll work)
+      const body = document.getElementById('reelPopupBody');
+      if (body && body.contains(e.target)) return;
+      target = 'reel';
+    } else if (lightboxEl && lightboxEl.classList.contains('active') && lightboxEl.contains(e.target)) {
+      target = 'lightbox';
+    } else {
+      return;
+    }
+
+    tracking = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    if (!tracking) return;
+    tracking = false;
+
+    const endTouch = e.changedTouches[0];
+    const dx = endTouch.clientX - startX;
+    const dy = endTouch.clientY - startY;
+
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) {
+      const direction = dx < 0 ? 1 : -1;
+      if (target === 'reel') navigateReel(direction);
+      else if (target === 'lightbox') navigateLightbox(direction);
+    }
+  });
+})();
 
