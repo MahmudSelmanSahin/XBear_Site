@@ -548,10 +548,7 @@ function renderReel(index, firstOpen) {
   }
 
   body.innerHTML = `
-    <div class="reel-popup-loading">
-      <div class="reel-loading-spinner"></div>
-      <span>Yükleniyor...</span>
-    </div>
+    ${reelLoadingSkeleton()}
     <blockquote class="instagram-media"
       data-instgrm-captioned
       data-instgrm-permalink="${item.url}?utm_source=ig_embed"
@@ -601,17 +598,34 @@ function closeReelPopup(e) {
 
   setTimeout(() => {
     const body = document.getElementById('reelPopupBody');
-    if (body) {
-      body.innerHTML = `
-        <div class="reel-popup-loading">
-          <div class="reel-loading-spinner"></div>
-          <span>Yükleniyor...</span>
-        </div>
-      `;
-    }
+    if (body) body.innerHTML = reelLoadingSkeleton();
     reelPlaylist = [];
     reelPlaylistIndex = -1;
   }, 350);
+}
+
+function reelLoadingSkeleton() {
+  return `
+    <div class="reel-popup-loading" aria-label="Yükleniyor">
+      <div class="reel-skeleton">
+        <div class="reel-skeleton-header">
+          <div class="reel-skeleton-avatar"></div>
+          <div class="reel-skeleton-text">
+            <div class="reel-skeleton-line is-short"></div>
+            <div class="reel-skeleton-line is-shorter"></div>
+          </div>
+        </div>
+        <div class="reel-skeleton-media"></div>
+        <div class="reel-skeleton-actions">
+          <div class="reel-skeleton-icon"></div>
+          <div class="reel-skeleton-icon"></div>
+          <div class="reel-skeleton-icon"></div>
+        </div>
+        <div class="reel-skeleton-line is-medium"></div>
+        <div class="reel-skeleton-line"></div>
+      </div>
+    </div>
+  `;
 }
 
 document.addEventListener('keydown', (e) => {

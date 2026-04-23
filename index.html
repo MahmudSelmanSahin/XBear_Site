@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
 
   <!-- Critical Gallery Scroll Styles (inline for reliability) -->
   <style>
@@ -752,9 +752,24 @@
         </div>
       </div>
       <div class="reel-popup-body" id="reelPopupBody">
-        <div class="reel-popup-loading">
-          <div class="reel-loading-spinner"></div>
-          <span>Yükleniyor...</span>
+        <div class="reel-popup-loading" aria-label="Yükleniyor">
+          <div class="reel-skeleton">
+            <div class="reel-skeleton-header">
+              <div class="reel-skeleton-avatar"></div>
+              <div class="reel-skeleton-text">
+                <div class="reel-skeleton-line is-short"></div>
+                <div class="reel-skeleton-line is-shorter"></div>
+              </div>
+            </div>
+            <div class="reel-skeleton-media"></div>
+            <div class="reel-skeleton-actions">
+              <div class="reel-skeleton-icon"></div>
+              <div class="reel-skeleton-icon"></div>
+              <div class="reel-skeleton-icon"></div>
+            </div>
+            <div class="reel-skeleton-line is-medium"></div>
+            <div class="reel-skeleton-line"></div>
+          </div>
         </div>
       </div>
       <div class="reel-popup-footer">
@@ -771,7 +786,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/main.js?v=4"></script>
+  <script src="js/main.js?v=5"></script>
   <script async src="//www.instagram.com/embed.js"></script>
 </body>
 
