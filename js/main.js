@@ -223,46 +223,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== DRAG TO SCROLL (Gallery) =====
   document.querySelectorAll('.gallery-scroll').forEach(container => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-    let moved = false;
+    let isPointerDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let dragDistance = 0;
 
-    container.addEventListener('mousedown', (e) => {
-      isDown = true;
-      moved = false;
-      container.classList.add('dragging');
-      startX = e.pageX - container.offsetLeft;
+    const stopDragging = () => {
+      isPointerDown = false;
+      container.classList.remove('dragging');
+    };
+
+    container.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+      isPointerDown = true;
+      dragDistance = 0;
+      startX = e.clientX;
       scrollLeft = container.scrollLeft;
+      container.classList.add('dragging');
     });
 
-    container.addEventListener('mouseleave', () => {
-      isDown = false;
-      container.classList.remove('dragging');
-    });
+    container.addEventListener('pointermove', (e) => {
+      if (!isPointerDown) return;
 
-    container.addEventListener('mouseup', () => {
-      isDown = false;
-      container.classList.remove('dragging');
-    });
+      const walk = (e.clientX - startX) * 1.5;
+      dragDistance = Math.max(dragDistance, Math.abs(walk));
 
-    container.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      if (Math.abs(walk) > 5) moved = true;
+      if (dragDistance > 4) {
+        e.preventDefault();
+      }
+
       container.scrollLeft = scrollLeft - walk;
     });
 
-    // Prevent click when dragging
+    container.addEventListener('pointerup', stopDragging);
+    container.addEventListener('pointercancel', stopDragging);
+    container.addEventListener('mouseleave', () => {
+      if (isPointerDown) stopDragging();
+    });
+
+    // Swallow only the click that belongs to a drag gesture.
     container.addEventListener('click', (e) => {
-      if (moved) {
+      if (dragDistance > 6) {
         e.stopPropagation();
         e.preventDefault();
-        moved = false;
+        dragDistance = 0;
       }
     }, true);
+  });
+
+  document.querySelectorAll('[data-lightbox="true"]').forEach(item => {
+    item.addEventListener('click', () => {
+      openLightbox(item);
+    });
+  });
+
+  document.querySelectorAll('.reel-card[data-reel-url]').forEach(card => {
+    card.addEventListener('click', () => {
+      openReelPopup(card.dataset.reelUrl, card.dataset.reelAccount);
+    });
   });
 
 });
