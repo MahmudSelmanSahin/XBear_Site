@@ -181,11 +181,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== CONTACT FORM =====
   const contactForm = document.getElementById('contactForm');
 
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const submitBtn = contactForm.querySelector('.form-submit');
     const originalText = submitBtn.innerHTML;
+    const recipientEmail = (contactForm.dataset.recipientEmail || '').trim();
+
+    if (!recipientEmail || !recipientEmail.includes('@')) {
+      alert("Form gönderimi için önce form üzerindeki data-recipient-email alanına hedef e-posta adresini yazın.");
+      return;
+    }
 
     submitBtn.innerHTML = `
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 0.8s linear infinite;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
@@ -194,7 +200,23 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
 
-    setTimeout(() => {
+    try {
+      const formData = new FormData(contactForm);
+      formData.append('_subject', 'XBear Site - Yeni Teklif Formu');
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
+
+      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: formData,
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || 'Mail gönderilemedi');
+      }
+
       submitBtn.innerHTML = `
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Başarıyla Gönderildi
@@ -210,7 +232,23 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = false;
         contactForm.reset();
       }, 2500);
-    }, 1200);
+    } catch (err) {
+      submitBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Gönderilemedi
+      `;
+      submitBtn.style.background = '#ef4444';
+      submitBtn.style.borderColor = '#ef4444';
+      submitBtn.style.opacity = '1';
+
+      setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.style.background = '';
+        submitBtn.style.borderColor = '';
+        submitBtn.disabled = false;
+      }, 2800);
+      console.error('[contact-form]', err);
+    }
   });
 
 
