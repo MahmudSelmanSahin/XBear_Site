@@ -220,6 +220,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
+
+  // ===== DRAG TO SCROLL (Gallery) =====
+  document.querySelectorAll('.gallery-scroll').forEach(container => {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let moved = false;
+
+    container.addEventListener('mousedown', (e) => {
+      isDown = true;
+      moved = false;
+      container.classList.add('dragging');
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    });
+
+    container.addEventListener('mouseleave', () => {
+      isDown = false;
+      container.classList.remove('dragging');
+    });
+
+    container.addEventListener('mouseup', () => {
+      isDown = false;
+      container.classList.remove('dragging');
+    });
+
+    container.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      if (Math.abs(walk) > 5) moved = true;
+      container.scrollLeft = scrollLeft - walk;
+    });
+
+    // Prevent click when dragging
+    container.addEventListener('click', (e) => {
+      if (moved) {
+        e.stopPropagation();
+        e.preventDefault();
+        moved = false;
+      }
+    }, true);
+  });
+
 });
 
 
@@ -240,8 +285,90 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
+// ===== REEL POPUP =====
+function openReelPopup(reelUrl, account, title) {
+  const overlay    = document.getElementById('reelPopupOverlay');
+  const accountEl  = document.getElementById('reelAccountName');
+  const igLink     = document.getElementById('reelOpenInstagram');
+  const igLoginBtn = document.getElementById('reelIgLoginBtn');
+  const body       = document.getElementById('reelPopupBody');
+
+  // Update header info
+  accountEl.textContent = account;
+  igLink.href = reelUrl;
+  igLoginBtn.href = reelUrl;
+
+  // Clear previous embed content and create fresh blockquote
+  body.innerHTML = `
+    <div class="reel-popup-loading">
+      <div class="reel-loading-spinner"></div>
+      <span>Yükleniyor...</span>
+    </div>
+    <blockquote class="instagram-media"
+      data-instgrm-captioned
+      data-instgrm-permalink="${reelUrl}?utm_source=ig_embed"
+      data-instgrm-version="14"
+      style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; min-width:326px; padding:0; width:100%; max-width:540px;">
+    </blockquote>
+  `;
+
+  // Show overlay
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Process Instagram embed
+  setTimeout(() => {
+    if (window.instgrm && window.instgrm.Embeds) {
+      window.instgrm.Embeds.process();
+    }
+    // Hide loading spinner once iframe is rendered
+    const checkEmbed = setInterval(() => {
+      const iframe = body.querySelector('iframe');
+      if (iframe) {
+        const loadingEl = body.querySelector('.reel-popup-loading');
+        if (loadingEl) loadingEl.style.display = 'none';
+        clearInterval(checkEmbed);
+      }
+    }, 300);
+    // Timeout fallback: hide loading after 5 seconds regardless
+    setTimeout(() => {
+      clearInterval(checkEmbed);
+      const loadingEl = body.querySelector('.reel-popup-loading');
+      if (loadingEl) loadingEl.style.display = 'none';
+    }, 5000);
+  }, 100);
+}
+
+function closeReelPopup(e) {
+  // Allow close from overlay background click or close button (no event / button click)
+  if (e && e.target && e.target !== document.getElementById('reelPopupOverlay')) return;
+  
+  const overlay = document.getElementById('reelPopupOverlay');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+
+  // Reset body after close animation
+  setTimeout(() => {
+    const body = document.getElementById('reelPopupBody');
+    if (body) {
+      body.innerHTML = `
+        <div class="reel-popup-loading">
+          <div class="reel-loading-spinner"></div>
+          <span>Yükleniyor...</span>
+        </div>
+      `;
+    }
+  }, 350);
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeLightbox();
+    // Close reel popup too
+    const overlay = document.getElementById('reelPopupOverlay');
+    if (overlay && overlay.classList.contains('active')) {
+      closeReelPopup();
+    }
   }
 });
+

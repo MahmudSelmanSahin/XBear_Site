@@ -12,7 +12,7 @@
   <!-- Open Graph -->
   <meta property="og:title" content="XBear Event-Media | Konya'nın Organizasyon Gücü">
   <meta property="og:description"
-    content="Konya'da yat partisi bile verdik. Konser, festival, kurumsal etkinlik ve özel gün organizasyonları.">
+    content="Konya'da gazetelere bile çıktık. Konser, festival, kurumsal etkinlik ve özel gün organizasyonları.">
   <meta property="og:image" content="assets/images/hero-bg.png">
   <meta property="og:type" content="website">
 
@@ -31,7 +31,32 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=2">
+
+  <!-- Critical Gallery Scroll Styles (inline for reliability) -->
+  <style>
+    .gallery-scroll {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x proximity;
+    }
+
+    .gallery-scroll-item {
+      flex: 0 0 320px !important;
+      width: 320px !important;
+      min-width: 320px !important;
+      height: 220px !important;
+    }
+
+    .reel-card {
+      flex: 0 0 150px !important;
+      width: 150px !important;
+      min-width: 150px !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -69,10 +94,6 @@
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        Konya'nın #1 Organizasyon Firması
-      </div>
       <h1 class="hero-title">
         Etkinliği Biz<br><span>Yaşatırız</span>
       </h1>
@@ -255,42 +276,180 @@
         <h2 class="section-title">Etkinliklerimizden Kareler</h2>
         <p class="section-subtitle">Her etkinlik bir anı, her kare bir hikaye. İşte XBear farkı.</p>
       </div>
-      <div class="gallery-grid">
-        <div class="gallery-item reveal" onclick="openLightbox(this)">
-          <img src="assets/images/gallery/concert.png" alt="XBear Konser Organizasyonu" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Konser Gecesi</h4>
-            <span>Canlı Performans</span>
-          </div>
+    </div>
+
+    <!-- ── Fotoğraflar ── -->
+    <div class="gallery-row">
+      <div class="gallery-row-label">
+        <i class="ph ph-images"></i>
+        <span>Fotoğraflar</span>
+        <div class="gallery-row-hint"><i class="ph ph-arrows-horizontal"></i> Kaydır</div>
+      </div>
+      <div class="gallery-scroll" id="photoScroll">
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/gallery/concert.png" alt="Konser Gecesi">
+          <div class="gallery-scroll-overlay"><span>Konser Gecesi</span></div>
         </div>
-        <div class="gallery-item reveal reveal-delay-1" onclick="openLightbox(this)">
-          <img src="assets/images/gallery/festival.png" alt="XBear Festival Organizasyonu" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Festival Coşkusu</h4>
-            <span>Açık Hava Festivali</span>
-          </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/gallery/festival.png" alt="Festival Coşkusu">
+          <div class="gallery-scroll-overlay"><span>Festival Coşkusu</span></div>
         </div>
-        <div class="gallery-item reveal reveal-delay-2" onclick="openLightbox(this)">
-          <img src="assets/images/gallery/yacht-party.png" alt="XBear Yat Partisi" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Yat Partisi</h4>
-            <span>Özel Etkinlik</span>
-          </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/gallery/yacht-party.png" alt="Yat Partisi">
+          <div class="gallery-scroll-overlay"><span>Yat Partisi</span></div>
         </div>
-        <div class="gallery-item reveal reveal-delay-3" onclick="openLightbox(this)">
-          <img src="assets/images/gallery/corporate.png" alt="XBear Kurumsal Etkinlik" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Kurumsal Gala</h4>
-            <span>Kurumsal Etkinlik</span>
-          </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/gallery/corporate.png" alt="Kurumsal Gala">
+          <div class="gallery-scroll-overlay"><span>Kurumsal Gala</span></div>
         </div>
-        <div class="gallery-item reveal reveal-delay-4" onclick="openLightbox(this)">
-          <img src="assets/images/gallery/halloween.png" alt="XBear Halloween Partisi" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Halloween Gecesi</h4>
-            <span>Konsept Parti</span>
-          </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/gallery/halloween.png" alt="Halloween Gecesi">
+          <div class="gallery-scroll-overlay"><span>Halloween Gecesi</span></div>
         </div>
+        <!-- Instagram Photo Posts -->
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/reels/xbearevent_DWwbf6rjOgr.jpg" alt="Sahne Anı">
+          <div class="gallery-scroll-overlay"><span>Sahne Anı</span></div>
+        </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/reels/xbearevent_DWpE2V1jUT4.jpg" alt="Gripin Konseri">
+          <div class="gallery-scroll-overlay"><span>Gripin Konseri</span></div>
+        </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/reels/xbearevent_DWow791jKIl.jpg" alt="redd Konseri">
+          <div class="gallery-scroll-overlay"><span>redd Konseri</span></div>
+        </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/reels/xbearevent_DWosLeTDO8p.jpg" alt="Pinhani Konseri">
+          <div class="gallery-scroll-overlay"><span>Pinhani Konseri</span></div>
+        </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/reels/xbearevent_DXW_MG1DEz0.jpg" alt="Konser Sahnesi">
+          <div class="gallery-scroll-overlay"><span>Konser Sahnesi</span></div>
+        </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/reels/xbearevent_DWa9nh0jKDu.jpg" alt="Açık Hava Sinema">
+          <div class="gallery-scroll-overlay"><span>Açık Hava Sinema</span></div>
+        </div>
+        <div class="gallery-scroll-item" onclick="openLightbox(this)">
+          <img src="assets/images/reels/xbearmedia_DSKK9GyD2V0.jpg" alt="Can Ozan Konseri">
+          <div class="gallery-scroll-overlay"><span>Can Ozan Konseri</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Reels ── -->
+    <div class="gallery-row" style="margin-top: 32px;">
+      <div class="gallery-row-label gallery-row-label--reels">
+        <i class="ph ph-instagram-logo"></i>
+        <span>Reels</span>
+        <div class="gallery-row-hint"><i class="ph ph-arrows-horizontal"></i> Kaydır</div>
+      </div>
+      <div class="gallery-scroll gallery-scroll--reels" id="reelsScroll">
+        <!-- @xbearevent reels -->
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DXZfBz-jLeR/', '@xbearevent')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearevent_DXZfBz-jLeR.jpg" alt="Açık Hava Sinema">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge"><i class="ph ph-instagram-logo"></i> @xbearevent</div>
+          </div>
+          <div class="reel-title">Açık Hava Sinema 🎬</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DWmChYdDMjk/', '@xbearevent')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearevent_DWmChYdDMjk.jpg" alt="Halloween Gecesi">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge"><i class="ph ph-instagram-logo"></i> @xbearevent</div>
+          </div>
+          <div class="reel-title">Halloween Gecesi 🎃</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DWlypfyDEgh/', '@xbearevent')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearevent_DWlypfyDEgh.jpg" alt="Kalben Konseri">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge"><i class="ph ph-instagram-logo"></i> @xbearevent</div>
+          </div>
+          <div class="reel-title">Kalben Konseri ✨</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DWpYK6RDLd8/', '@xbearevent')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearevent_DWpYK6RDLd8.jpg" alt="Pentagon PSM">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge"><i class="ph ph-instagram-logo"></i> @xbearevent</div>
+          </div>
+          <div class="reel-title">Pentagon PSM 🚀</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DXG2rdBjZe1/', '@xbearevent')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearevent_DXG2rdBjZe1.jpg" alt="Ekip Büyüyor">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge"><i class="ph ph-instagram-logo"></i> @xbearevent</div>
+          </div>
+          <div class="reel-title">Ekip Büyüyor 💪</div>
+        </div>
+
+        <!-- @xbearmedia reels -->
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DXILGmHNEwN/', '@xbearmedia')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearmedia_DXILGmHNEwN.jpg" alt="Master Chicken">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge reel-badge--media"><i class="ph ph-instagram-logo"></i> @xbearmedia</div>
+          </div>
+          <div class="reel-title">Master Chicken 🍗</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DXILAUAN1Tt/', '@xbearmedia')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearmedia_DXILAUAN1Tt.jpg" alt="Tanıtım Filmi">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge reel-badge--media"><i class="ph ph-instagram-logo"></i> @xbearmedia</div>
+          </div>
+          <div class="reel-title">Tanıtım Filmi 🎥</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DXIKLa8talT/', '@xbearmedia')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearmedia_DXIKLa8talT.jpg" alt="Parma Pizza">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge reel-badge--media"><i class="ph ph-instagram-logo"></i> @xbearmedia</div>
+          </div>
+          <div class="reel-title">Parma Pizza 🍕</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DXIIn_ONWUn/', '@xbearmedia')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearmedia_DXIIn_ONWUn.jpg" alt="Mackbear">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge reel-badge--media"><i class="ph ph-instagram-logo"></i> @xbearmedia</div>
+          </div>
+          <div class="reel-title">Mackbear ☕</div>
+        </div>
+
+        <div class="reel-card" onclick="openReelPopup('https://www.instagram.com/reel/DXIIfgqNSGF/', '@xbearmedia')">
+          <div class="reel-thumb">
+            <img src="assets/images/reels/xbearmedia_DXIIfgqNSGF.jpg" alt="Marka Prodüksiyon">
+            <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
+            <div class="reel-badge reel-badge--media"><i class="ph ph-instagram-logo"></i> @xbearmedia</div>
+          </div>
+          <div class="reel-title">Marka Prodüksiyon 🎬</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instagram CTA -->
+    <div class="container">
+      <div class="gallery-instagram-cta reveal">
+        <a href="https://www.instagram.com/xbearevent" target="_blank" rel="noopener" class="gallery-ig-btn">
+          <i class="ph ph-instagram-logo"></i> @xbearevent
+        </a>
+        <a href="https://www.instagram.com/xbearmedia" target="_blank" rel="noopener"
+          class="gallery-ig-btn gallery-ig-btn--media">
+          <i class="ph ph-instagram-logo"></i> @xbearmedia
+        </a>
       </div>
     </div>
   </section>
@@ -439,7 +598,6 @@
               <div class="contact-item-text">
                 <h4>Telefon</h4>
                 <p>
-                  <a href="tel:+905467291002">0546 729 10 02</a><br>
                   <a href="tel:+905064781490">0506 478 14 90</a>
                 </p>
               </div>
@@ -460,6 +618,7 @@
               <div class="contact-item-text">
                 <h4>Instagram</h4>
                 <a href="https://instagram.com/xbearevent" target="_blank" rel="noopener">@xbearevent</a>
+                <a href="https://instagram.com/xbearmedia" target="_blank" rel="noopener">@xbearmedia</a>
               </div>
             </div>
           </div>
@@ -597,8 +756,43 @@
     <img src="" alt="Gallery Image" id="lightboxImg">
   </div>
 
+  <!-- ===== REEL POPUP ===== -->
+  <div class="reel-popup-overlay" id="reelPopupOverlay" onclick="closeReelPopup(event)">
+    <div class="reel-popup" id="reelPopup">
+      <div class="reel-popup-header">
+        <div class="reel-popup-account" id="reelPopupAccount">
+          <i class="ph ph-instagram-logo"></i>
+          <span id="reelAccountName">@xbearevent</span>
+        </div>
+        <div class="reel-popup-actions">
+          <a href="#" id="reelOpenInstagram" target="_blank" rel="noopener" class="reel-popup-ig-link">
+            <i class="ph ph-arrow-square-out"></i>
+            Instagram'da Aç
+          </a>
+          <button class="reel-popup-close" onclick="closeReelPopup()">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+      </div>
+      <div class="reel-popup-body" id="reelPopupBody">
+        <div class="reel-popup-loading">
+          <div class="reel-loading-spinner"></div>
+          <span>Yükleniyor...</span>
+        </div>
+      </div>
+      <div class="reel-popup-footer">
+        <p>Instagram'a giriş yaparak beğenebilir, yorum yapabilir ve kaydedebilirsiniz.</p>
+        <a href="https://www.instagram.com/accounts/login/" target="_blank" rel="noopener" class="reel-ig-login-btn"
+          id="reelIgLoginBtn">
+          <i class="ph ph-instagram-logo"></i> Instagram'da Görüntüle & Etkileş
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/main.js"></script>
+  <script async src="//www.instagram.com/embed.js"></script>
 </body>
 
 </html>
