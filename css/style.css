@@ -581,18 +581,26 @@ ul {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
+  background: #000;
 }
 
-.about-image img {
+.about-image img,
+.about-image video {
   width: 100%;
   height: 480px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: var(--radius-lg);
   transition: transform 0.7s var(--ease-out);
 }
 
-.about-image:hover img {
+.about-image:hover img,
+.about-image:hover video {
   transform: scale(1.02);
+}
+
+.about-video {
+  display: block;
+  background: #000;
 }
 
 .about-image-badge {
@@ -1132,6 +1140,7 @@ ul {
   width: 100%;
   aspect-ratio: 9/16;
   overflow: hidden;
+  background: #000;
 }
 
 /* Thumbnail yoksa / yüklenemediyse Instagram gradient placeholder */
@@ -1155,7 +1164,9 @@ ul {
   pointer-events: none;
 }
 
-.reel-thumb img {
+.reel-thumb img,
+.reel-thumb video {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1163,7 +1174,8 @@ ul {
   pointer-events: none;
 }
 
-.reel-card:hover .reel-thumb img {
+.reel-card:hover .reel-thumb img,
+.reel-card:hover .reel-thumb video {
   transform: scale(1.08);
 }
 
@@ -1472,6 +1484,28 @@ ul {
   background: #fff;
   min-height: 300px;
   position: relative;
+}
+
+.reel-popup-body.is-video {
+  padding: 0;
+  background: #000;
+  align-items: center;
+}
+
+.reel-popup-video {
+  width: 100%;
+  max-width: 540px;
+  max-height: 75vh;
+  border-radius: 12px;
+  background: #000;
+  object-fit: contain;
+}
+
+.reel-popup-body.is-video .reel-popup-video {
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+  border-radius: 0;
 }
 
 .reel-popup-loading {
