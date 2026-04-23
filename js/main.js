@@ -286,7 +286,7 @@ function closeLightbox() {
 }
 
 // ===== REEL POPUP =====
-function openReelPopup(reelUrl, account, title) {
+function openReelPopup(reelUrl, account) {
   const overlay    = document.getElementById('reelPopupOverlay');
   const accountEl  = document.getElementById('reelAccountName');
   const igLink     = document.getElementById('reelOpenInstagram');
