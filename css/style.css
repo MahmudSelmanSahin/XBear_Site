@@ -749,6 +749,21 @@ ul {
   gap: 16px;
 }
 
+/* 7 kartlı düzende alt sıradaki 3 kartı ortala (desktop) */
+@media (min-width: 1025px) {
+  .services-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .services-grid > .service-card {
+    grid-column: span 3;
+  }
+
+  .services-grid > .service-card:nth-child(5) { grid-column: 2 / span 3; }
+  .services-grid > .service-card:nth-child(6) { grid-column: 5 / span 3; }
+  .services-grid > .service-card:nth-child(7) { grid-column: 8 / span 3; }
+}
+
 .service-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
