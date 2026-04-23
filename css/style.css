@@ -902,6 +902,39 @@ ul {
   padding-bottom: 80px;
 }
 
+/* ── Gallery Category Separation ── */
+.gallery-category {
+  position: relative;
+}
+
+.gallery-category-header {
+  margin-top: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.gallery-category-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.gallery-category-header h3 i {
+  font-size: 1.55rem;
+}
+
+.gallery-category-header p {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
 /* ── Gallery Row (common wrapper) ── */
 .gallery-row {
   margin-top: 40px;
