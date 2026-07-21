@@ -2,9 +2,7 @@
  * XBear Ekip Başvuru Formu & Google Sheets Entegrasyon Scripti
  */
 
-// IMPORTANT: Google Sheets Webhook URL'inizi buraya yapıştırın.
-// Örnek: 'https://script.google.com/macros/s/AKfycb.../exec'
-const GOOGLE_SHEETS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_YOUR_SCRIPT_ID_HERE/exec';
+const GOOGLE_SHEETS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoMM5A3wk2vGavZTm2z2AnVkoJuQnSg_GNtrdSGpDk8IlToX7x54n0rbpdsdmyjBH6/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
   const applicationForm = document.getElementById('applicationForm');
