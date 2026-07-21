@@ -11,27 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const appSubmitBtn = document.getElementById('appSubmitBtn');
   const appSuccessCard = document.getElementById('appSuccessCard');
   const submitAnotherBtn = document.getElementById('submitAnotherBtn');
+  const sendCopyCheckbox = document.getElementById('sendCopyCheckbox');
 
   if (!applicationForm) return;
-
-  const sendCopyCheckbox = document.getElementById('sendCopyCheckbox');
-  const emailInputWrapper = document.getElementById('emailInputWrapper');
-  const applicantEmailInput = document.getElementById('applicantEmail');
-
-  // Toggle Email Input when Checkbox is Checked
-  if (sendCopyCheckbox && emailInputWrapper && applicantEmailInput) {
-    sendCopyCheckbox.addEventListener('change', () => {
-      if (sendCopyCheckbox.checked) {
-        emailInputWrapper.classList.remove('hidden');
-        applicantEmailInput.required = true;
-        applicantEmailInput.focus();
-      } else {
-        emailInputWrapper.classList.add('hidden');
-        applicantEmailInput.required = false;
-        applicantEmailInput.value = '';
-      }
-    });
-  }
 
   // Mobile menu toggle
   const hamburger = document.getElementById('hamburger');
@@ -73,14 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
       timestamp: formattedDate,
       fullName: formData.get('fullName')?.toString().trim() || '',
       birthDate: formData.get('birthDate')?.toString().trim() || '',
+      applicantEmail: formData.get('applicantEmail')?.toString().trim() || '',
       educationInfo: formData.get('educationInfo')?.toString().trim() || '',
       socialLinks: formData.get('socialLinks')?.toString().trim() || '',
       hobbies: formData.get('hobbies')?.toString().trim() || '',
       expectations: formData.get('expectations')?.toString().trim() || '',
       contributions: formData.get('contributions')?.toString().trim() || '',
       phoneNumber: formData.get('phoneNumber')?.toString().trim() || '',
-      sendCopy: sendCopyCheckbox ? sendCopyCheckbox.checked : false,
-      applicantEmail: formData.get('applicantEmail')?.toString().trim() || ''
+      sendCopy: sendCopyCheckbox ? sendCopyCheckbox.checked : false
     };
 
     try {
@@ -101,9 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Show Success State
       applicationForm.reset();
-      if (emailInputWrapper) emailInputWrapper.classList.add('hidden');
-      if (applicantEmailInput) applicantEmailInput.required = false;
-
       applicationForm.style.display = 'none';
       appSuccessCard.classList.remove('hidden');
 
@@ -120,20 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Reset Button Event
-  applicationForm.addEventListener('reset', () => {
-    if (emailInputWrapper) emailInputWrapper.classList.add('hidden');
-    if (applicantEmailInput) applicantEmailInput.required = false;
-  });
-
   // Submit Another Response
   if (submitAnotherBtn) {
     submitAnotherBtn.addEventListener('click', () => {
       appSuccessCard.classList.add('hidden');
       applicationForm.style.display = 'block';
       applicationForm.reset();
-      if (emailInputWrapper) emailInputWrapper.classList.add('hidden');
-      if (applicantEmailInput) applicantEmailInput.required = false;
       window.scrollTo({ top: 120, behavior: 'smooth' });
     });
   }

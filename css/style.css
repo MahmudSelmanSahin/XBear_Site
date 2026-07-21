@@ -2503,7 +2503,7 @@ ul {
   }
 }
 
-/* === EKİP BAŞVURU FORMU STYLES === */
+/* === EKİP BAŞVURU FORMU STYLES (EYE-FRIENDLY HIGH READABILITY) === */
 .nav-btn-highlight {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
   color: white !important;
@@ -2523,13 +2523,14 @@ ul {
 }
 
 .navbar-solid {
-  background: rgba(15, 15, 18, 0.95);
+  background: rgba(18, 19, 24, 0.96);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .application-body {
-  background: #0b0b0e;
+  background: #0d0e12;
+  color: #e4e4e7;
   min-height: 100vh;
 }
 
@@ -2542,71 +2543,70 @@ ul {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  color: #a1a1aa;
+  font-size: 0.95rem;
   font-weight: 500;
   margin-bottom: 24px;
   transition: color 0.3s var(--ease);
 }
 
 .back-link:hover {
-  color: var(--primary-light);
+  color: #f4f4f5;
 }
 
 .app-form-wrapper {
-  max-width: 780px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .app-header-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-top: 5px solid var(--primary);
-  border-radius: var(--radius-lg);
-  padding: 36px 32px;
+  background: #15161c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 4px solid var(--primary);
+  border-radius: 16px;
+  padding: 38px 36px;
   margin-bottom: 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 .app-header-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 12px;
-  background: rgba(212, 43, 62, 0.1);
-  border: 1px solid rgba(212, 43, 62, 0.2);
+  padding: 5px 14px;
+  background: rgba(212, 43, 62, 0.12);
+  border: 1px solid rgba(212, 43, 62, 0.25);
   border-radius: 20px;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: var(--primary-light);
-  margin-bottom: 16px;
+  color: #f87171;
+  margin-bottom: 18px;
 }
 
 .badge-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--primary);
   display: inline-block;
-  box-shadow: 0 0 8px var(--primary);
 }
 
 .app-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-size: clamp(1.8rem, 3.5vw, 2.3rem);
   font-weight: 800;
-  color: var(--text-heading);
-  line-height: 1.25;
+  color: #ffffff;
+  line-height: 1.3;
   margin-bottom: 20px;
 }
 
 .app-intro {
-  color: var(--text-body);
-  font-size: 0.95rem;
-  line-height: 1.7;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 20px;
-  margin-bottom: 16px;
+  color: #d4d4d8;
+  font-size: 1rem;
+  line-height: 1.75;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .app-intro p {
@@ -2615,145 +2615,187 @@ ul {
 
 .intro-subtitle {
   font-weight: 700;
-  color: var(--text-heading);
-  margin-top: 16px;
-  margin-bottom: 8px !important;
+  color: #ffffff;
+  margin-top: 18px;
+  margin-bottom: 10px !important;
 }
 
 .intro-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 16px 0;
+  margin: 0 0 18px 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .intro-list li {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  font-size: 0.92rem;
+  gap: 12px;
+  font-size: 0.96rem;
+  color: #e4e4e7;
 }
 
 .intro-list li i {
-  color: var(--primary-light);
-  font-size: 1.1rem;
+  color: #f87171;
+  font-size: 1.2rem;
   margin-top: 2px;
   flex-shrink: 0;
 }
 
 .intro-footer-text {
-  font-size: 1.05rem;
-  color: var(--primary-light);
-  margin-top: 12px;
+  font-size: 1.08rem;
+  color: #f4f4f5;
+  margin-top: 14px;
   margin-bottom: 0 !important;
 }
 
 .app-required-note {
-  font-size: 0.82rem;
-  color: #ef4444;
+  font-size: 0.85rem;
+  color: #f87171;
   font-weight: 500;
 }
 
 .required-star {
-  color: #ef4444;
-  margin-left: 2px;
+  color: #f87171;
+  margin-left: 3px;
+  font-weight: 700;
 }
 
 .app-section-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 32px;
+  background: #15161c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 36px;
   margin-bottom: 28px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
 }
 
 .app-section-header {
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 18px;
   margin-bottom: 28px;
 }
 
 .app-section-header h2 {
   font-family: var(--font-heading);
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: var(--text-heading);
+  color: #ffffff;
   margin-bottom: 6px;
 }
 
 .section-subtext {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  font-style: italic;
+  font-size: 0.92rem;
+  color: #a1a1aa;
 }
 
 .form-card-field {
   margin-bottom: 28px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  transition: all 0.3s var(--ease);
+  background: #1a1b22;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 22px;
+  transition: all 0.25s ease;
 }
 
 .form-card-field:focus-within {
-  border-color: rgba(212, 43, 62, 0.4);
-  background: rgba(212, 43, 62, 0.02);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border-color: rgba(212, 43, 62, 0.5);
+  background: #1c1d25;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .field-label {
   display: block;
   font-family: var(--font-heading);
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   font-weight: 600;
-  color: var(--text-heading);
-  margin-bottom: 6px;
-  line-height: 1.45;
+  color: #f4f4f5;
+  margin-bottom: 8px;
+  line-height: 1.5;
 }
 
 .field-subtitle {
   font-weight: 400;
-  color: var(--text-muted);
-  font-size: 0.88rem;
+  color: #a1a1aa;
+  font-size: 0.92rem;
 }
 
 .field-caption {
   display: block;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-bottom: 12px;
-  line-height: 1.4;
+  font-size: 0.88rem;
+  color: #a1a1aa;
+  margin-bottom: 14px;
+  line-height: 1.5;
 }
 
 .form-card-field input[type="text"],
 .form-card-field input[type="tel"],
+.form-card-field input[type="email"],
 .form-card-field textarea {
   width: 100%;
-  padding: 12px 16px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  color: var(--text-heading);
+  padding: 14px 18px;
+  background: #111216;
+  border: 1px solid #2e303c;
+  border-radius: 10px;
+  color: #ffffff;
   font-family: var(--font-body);
-  font-size: 0.92rem;
-  transition: all 0.25s var(--ease);
+  font-size: 0.98rem;
+  transition: all 0.25s ease;
   outline: none;
+}
+
+.form-card-field input::placeholder,
+.form-card-field textarea::placeholder {
+  color: #71717a;
 }
 
 .form-card-field input:focus,
 .form-card-field textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: #13141a;
+  box-shadow: 0 0 0 3px rgba(212, 43, 62, 0.25);
 }
 
 .form-card-field textarea {
   resize: vertical;
-  min-height: 90px;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.send-copy-field {
+  background: #1a1b22 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.96rem;
+  color: #f4f4f5;
+  font-weight: 500;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.checkbox-label-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-label-text i {
+  color: #f87171;
+  font-size: 1.25rem;
 }
 
 .app-actions-card {
@@ -2765,32 +2807,33 @@ ul {
 }
 
 .app-submit-btn {
-  padding: 14px 32px;
-  font-size: 1rem;
+  padding: 15px 36px;
+  font-size: 1.05rem;
+  border-radius: 12px;
 }
 
 .app-clear-btn {
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  color: #a1a1aa;
+  font-size: 0.95rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 10px 16px;
+  padding: 10px 18px;
   transition: color 0.3s var(--ease);
 }
 
 .app-clear-btn:hover {
-  color: #ef4444;
+  color: #f87171;
 }
 
 .app-success-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: #15161c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 5px solid #22c55e;
-  border-radius: var(--radius-lg);
-  padding: 48px 32px;
+  border-radius: 16px;
+  padding: 52px 36px;
   text-align: center;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
 }
 
 .app-success-card.hidden {
@@ -2798,8 +2841,8 @@ ul {
 }
 
 .success-icon-wrapper {
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   background: rgba(34, 197, 94, 0.15);
   border-radius: 50%;
   display: flex;
@@ -2809,24 +2852,24 @@ ul {
 }
 
 .success-icon-wrapper i {
-  font-size: 2.8rem;
+  font-size: 3rem;
   color: #22c55e;
 }
 
 .app-success-card h2 {
   font-family: var(--font-heading);
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   font-weight: 800;
-  color: var(--text-heading);
-  margin-bottom: 12px;
+  color: #ffffff;
+  margin-bottom: 14px;
 }
 
 .app-success-card p {
-  color: var(--text-body);
-  font-size: 1rem;
-  max-width: 520px;
-  margin: 0 auto 32px auto;
-  line-height: 1.6;
+  color: #d4d4d8;
+  font-size: 1.05rem;
+  max-width: 540px;
+  margin: 0 auto 34px auto;
+  line-height: 1.65;
 }
 
 .success-actions {
@@ -2840,11 +2883,11 @@ ul {
 @media (max-width: 640px) {
   .app-header-card,
   .app-section-card {
-    padding: 24px 18px;
+    padding: 26px 20px;
   }
 
   .form-card-field {
-    padding: 14px;
+    padding: 16px;
   }
 
   .app-actions-card {
@@ -2856,56 +2899,6 @@ ul {
     width: 100%;
     justify-content: center;
   }
-}
-
-/* === CHECKBOX & SEND COPY STYLES === */
-.send-copy-field {
-  background: rgba(212, 43, 62, 0.03) !important;
-  border: 1px solid rgba(212, 43, 62, 0.15) !important;
-}
-
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 0.92rem;
-  color: var(--text-heading);
-  font-weight: 500;
-}
-
-.checkbox-container input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--primary);
-  cursor: pointer;
-}
-
-.checkbox-label-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.checkbox-label-text i {
-  color: var(--primary-light);
-  font-size: 1.15rem;
-}
-
-.email-input-wrapper {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.08);
-  transition: all 0.3s var(--ease);
-}
-
-.email-input-wrapper.hidden {
-  display: none !important;
-}
-
-.mt-3 {
-  margin-top: 12px !important;
 }
 
 @media (max-width: 480px) {

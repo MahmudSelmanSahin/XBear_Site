@@ -114,7 +114,16 @@
               <input type="text" id="birthDate" name="birthDate" placeholder="Yanıtınız (Örn: 15.04.2002)" required>
             </div>
 
-            <!-- Q3: Üniversite / Bölüm / Sınıf -->
+            <!-- Q3: E-posta Adresi -->
+            <div class="form-card-field">
+              <label for="applicantEmail" class="field-label">
+                E-posta Adresin <span class="required-star">*</span>
+              </label>
+              <span class="field-caption">başvuru durumun ve bilgilendirmeler için kullanılacaktır</span>
+              <input type="email" id="applicantEmail" name="applicantEmail" placeholder="ornek@gmail.com" required>
+            </div>
+
+            <!-- Q4: Üniversite / Bölüm / Sınıf -->
             <div class="form-card-field">
               <label for="educationInfo" class="field-label">
                 Üniversiteni, Bölümünü ve Kaçıncı Sınıf olduğunu da yazabilir misin? (öğrenci değilsen nokta bırakıp formu doldurmaya devam edebilirsin) <span class="required-star">*</span>
@@ -123,7 +132,7 @@
               <textarea id="educationInfo" name="educationInfo" rows="3" placeholder="Yanıtınız" required></textarea>
             </div>
 
-            <!-- Q4: Sosyal Medya Linkleri -->
+            <!-- Q5: Sosyal Medya Linkleri -->
             <div class="form-card-field">
               <label for="socialLinks" class="field-label">
                 Sosyal Medya Hesaplarının Linkleri <span class="required-star">*</span>
@@ -132,7 +141,7 @@
               <input type="text" id="socialLinks" name="socialLinks" placeholder="Yanıtınız (Örn: @kullaniciadi veya link)" required>
             </div>
 
-            <!-- Q5: Hobiler & Fobiler -->
+            <!-- Q6: Hobiler & Fobiler -->
             <div class="form-card-field">
               <label for="hobbies" class="field-label">
                 Günlük hayatında neler yapmaktan hoşlanırsın? Hobilerin (ve fobilerin) neler? <span class="required-star">*</span>
@@ -149,7 +158,7 @@
               <p class="section-subtext">kurumsalız evet (bazen cevap olarak 👍🏼 emojisini kullanıyoruz)</p>
             </div>
 
-            <!-- Q6: XBear Beklentileri -->
+            <!-- Q7: XBear Beklentileri -->
             <div class="form-card-field">
               <label for="expectations" class="field-label">
                 XBear'dan beklentilerin nelerdir? <span class="required-star">*</span>
@@ -157,7 +166,7 @@
               <textarea id="expectations" name="expectations" rows="4" placeholder="Yanıtınız" required></textarea>
             </div>
 
-            <!-- Q7: Ekibe Katkılar -->
+            <!-- Q8: Ekibe Katkılar -->
             <div class="form-card-field">
               <label for="contributions" class="field-label">
                 Peki XBear'a ve ekibimize neler katabilirsin? <span class="field-subtitle">(o harika enerjin ve aktifliğin haricinde😉)</span> <span class="required-star">*</span>
@@ -165,7 +174,7 @@
               <textarea id="contributions" name="contributions" rows="4" placeholder="Yanıtınız" required></textarea>
             </div>
 
-            <!-- Q8: Telefon Numarası -->
+            <!-- Q9: Telefon Numarası -->
             <div class="form-card-field">
               <label for="phoneNumber" class="field-label">
                 Son olarak seninle iletişime geçebilmemiz için telefon numaranı alabilir miyiz? <span class="field-subtitle">(patron arkadaş whatsapp profil fotoğraflarına göre seçim yapabiliyor, o yüzden dikkat😜)</span> <span class="required-star">*</span>
@@ -177,15 +186,8 @@
             <div class="form-card-field send-copy-field">
               <label class="checkbox-container">
                 <input type="checkbox" id="sendCopyCheckbox" name="sendCopy">
-                <span class="checkmark"></span>
                 <span class="checkbox-label-text"><i class="ph ph-envelope-simple-open"></i> Yanıtlarımın bir kopyasını e-posta adresime gönder</span>
               </label>
-              <div id="emailInputWrapper" class="email-input-wrapper hidden">
-                <label for="applicantEmail" class="field-label mt-3">
-                  E-posta Adresiniz <span class="required-star">*</span>
-                </label>
-                <input type="email" id="applicantEmail" name="applicantEmail" placeholder="ornek@gmail.com">
-              </div>
             </div>
 
           </div>
