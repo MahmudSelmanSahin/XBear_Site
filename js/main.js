@@ -3,7 +3,16 @@
    v2.0 — Professional & Refined
    ============================================ */
 
+// ===== IMMEDIATE THEME INIT =====
+(function initTheme() {
+  const savedTheme = localStorage.getItem('xbear_theme') || 'slate';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ===== THEME SWITCHER =====
+  setupThemeSwitcher();
 
   // ===== REELS (js/reels-data.js) =====
   // window.XBEAR_REELS üzerinden reel listesini doldurup etkileşimleri bağlar.
@@ -877,4 +886,78 @@ document.addEventListener('keydown', (e) => {
     }
   });
 })();
+
+// ===== THEME SWITCHER LOGIC =====
+function setupThemeSwitcher() {
+  const themeSwitcherBtns = document.querySelectorAll('[data-set-theme]');
+  const themeSwitcherContainers = document.querySelectorAll('.theme-switcher-dropdown');
+  const floatingThemeBtn = document.getElementById('floatingThemeBtn');
+
+  const currentTheme = localStorage.getItem('xbear_theme') || 'slate';
+  updateActiveThemeUI(currentTheme);
+
+  // Bind dropdown toggles
+  document.querySelectorAll('.theme-switcher-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parent = btn.closest('.theme-switcher-dropdown');
+      if (parent) parent.classList.toggle('active');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    themeSwitcherContainers.forEach(container => {
+      if (!container.contains(e.target)) {
+        container.classList.remove('active');
+      }
+    });
+  });
+
+  // Floating Theme Switcher Quick Toggle
+  const themesList = ['slate', 'light', 'cream', 'midnight'];
+  if (floatingThemeBtn) {
+    floatingThemeBtn.addEventListener('click', () => {
+      const activeTheme = localStorage.getItem('xbear_theme') || 'slate';
+      const nextIdx = (themesList.indexOf(activeTheme) + 1) % themesList.length;
+      const nextTheme = themesList[nextIdx];
+      
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('xbear_theme', nextTheme);
+      updateActiveThemeUI(nextTheme);
+    });
+  }
+
+  // Theme Option Clicks
+  themeSwitcherBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.getAttribute('data-set-theme');
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('xbear_theme', theme);
+      updateActiveThemeUI(theme);
+      themeSwitcherContainers.forEach(c => c.classList.remove('active'));
+    });
+  });
+}
+
+function updateActiveThemeUI(theme) {
+  const themeSwitcherBtns = document.querySelectorAll('[data-set-theme]');
+  themeSwitcherBtns.forEach(btn => {
+    if (btn.getAttribute('data-set-theme') === theme) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  const names = {
+    slate: 'Füme Koyu',
+    light: 'Aydınlık',
+    cream: 'Sıcak Krem',
+    midnight: 'Derin Gece'
+  };
+
+  document.querySelectorAll('.theme-btn-label').forEach(label => {
+    label.textContent = names[theme] || 'Tema';
+  });
+}
 

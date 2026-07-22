@@ -6,55 +6,104 @@
 /* === IMPORTS === */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
-/* === CSS VARIABLES === */
-:root {
-  /* Brand — refined, not neon */
+/* === CSS VARIABLES & THEMES === */
+
+/* 1. Default & Slate Theme (Sakin Füme Koyu Tema - Gözü yormayan yumuşak tonlar) */
+:root,
+html[data-theme="slate"] {
   --primary: #D42B3E;
   --primary-dark: #A01E2D;
   --primary-light: #E8495A;
   --primary-glow: rgba(212, 43, 62, 0.25);
-  --primary-subtle: rgba(212, 43, 62, 0.08);
+  --primary-subtle: rgba(212, 43, 62, 0.1);
 
-  /* Neutrals — warm tones, not pure black */
-  --bg-dark: #09090B;
-  --bg-surface: #0F0F12;
-  --bg-card: #141418;
-  --bg-card-hover: #1A1A1F;
-  --bg-elevated: #1E1E24;
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-light: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.12);
+  --bg-dark: #14161B;
+  --bg-surface: #1B1E24;
+  --bg-card: #21252D;
+  --bg-card-hover: #292E38;
+  --bg-elevated: #303642;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.12);
+  --border-medium: rgba(255, 255, 255, 0.18);
 
-  /* Text — proper hierarchy */
-  --text-heading: #EDEDF0;
-  --text-body: #94949E;
-  --text-muted: #5A5A66;
-  --text-white: #FAFAFA;
+  --text-heading: #F3F4F6;
+  --text-body: #A0A7B5;
+  --text-muted: #6C727F;
+  --text-white: #FFFFFF;
+  --nav-bg: rgba(20, 22, 27, 0.92);
 
-  /* Accent */
   --accent-warm: #E8C47C;
   --accent-cool: #6E8FD6;
-
-  /* Typography */
   --font-heading: 'Sora', sans-serif;
   --font-body: 'DM Sans', sans-serif;
 
-  /* Spacing */
   --section-padding: 120px 0;
   --container-width: 1180px;
   --gap: 2rem;
 
-  /* Transitions */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Border Radius */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 28px;
   --radius-full: 9999px;
+}
+
+/* 2. Aydınlık & Ferah Tema (Clean Light Theme) */
+html[data-theme="light"] {
+  --bg-dark: #F4F6F9;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #EDF1F7;
+  --bg-elevated: #E2E8F0;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-light: rgba(0, 0, 0, 0.12);
+  --border-medium: rgba(0, 0, 0, 0.18);
+
+  --text-heading: #111827;
+  --text-body: #4B5563;
+  --text-muted: #9CA3AF;
+  --text-white: #111827;
+  --nav-bg: rgba(255, 255, 255, 0.94);
+}
+
+/* 3. Sıcak Krem Tema (Warm Cream Theme) */
+html[data-theme="cream"] {
+  --bg-dark: #F5F2EB;
+  --bg-surface: #FAF8F5;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #EFECE6;
+  --bg-elevated: #E5E0D8;
+  --border-subtle: rgba(60, 50, 40, 0.08);
+  --border-light: rgba(60, 50, 40, 0.12);
+  --border-medium: rgba(60, 50, 40, 0.18);
+
+  --text-heading: #2C2420;
+  --text-body: #5A5049;
+  --text-muted: #8C827A;
+  --text-white: #1A1412;
+  --nav-bg: rgba(245, 242, 235, 0.94);
+}
+
+/* 4. Derin Gece Tema (Midnight OLED Theme) */
+html[data-theme="midnight"] {
+  --bg-dark: #090A0F;
+  --bg-surface: #0E1017;
+  --bg-card: #131622;
+  --bg-card-hover: #1A1E2E;
+  --bg-elevated: #202538;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-light: rgba(255, 255, 255, 0.09);
+  --border-medium: rgba(255, 255, 255, 0.14);
+
+  --text-heading: #EDEDF5;
+  --text-body: #8A91A8;
+  --text-muted: #52586B;
+  --text-white: #FAFAFA;
+  --nav-bg: rgba(9, 10, 15, 0.92);
 }
 
 /* === RESET & BASE === */
@@ -80,6 +129,14 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-heading);
+}
+
+p {
+  color: var(--text-body);
 }
 
 a {
@@ -160,7 +217,7 @@ ul {
 }
 
 .navbar.scrolled {
-  background: rgba(9, 9, 11, 0.88);
+  background: var(--nav-bg);
   backdrop-filter: blur(24px) saturate(1.4);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   padding: 12px 0;
@@ -2523,14 +2580,14 @@ ul {
 }
 
 .navbar-solid {
-  background: rgba(18, 19, 24, 0.96);
+  background: var(--nav-bg);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .application-body {
-  background: #0d0e12;
-  color: #e4e4e7;
+  background: var(--bg-dark);
+  color: var(--text-body);
   min-height: 100vh;
 }
 
@@ -2950,4 +3007,429 @@ ul {
   .contact-form {
     padding: 24px 18px;
   }
+}
+
+/* ============================================
+   CORPORATE & MODERN VIZYON, MISYON & DEĞERLER
+   ============================================ */
+.vm-body {
+  background: var(--bg-dark);
+  color: var(--text-body);
+  min-height: 100vh;
+}
+
+.vm-container {
+  padding-top: 130px;
+  padding-bottom: 100px;
+}
+
+.vm-header-minimal {
+  margin-bottom: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 36px;
+}
+
+.vm-section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary-light);
+  margin-bottom: 12px;
+}
+
+.tag-line {
+  width: 24px;
+  height: 2px;
+  background: var(--primary);
+  display: inline-block;
+}
+
+.vm-page-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.vm-page-lead {
+  font-size: 1.15rem;
+  color: var(--text-body);
+  max-width: 780px;
+  line-height: 1.7;
+}
+
+/* Split Grid for Vizyon & Misyon */
+.vm-content-section {
+  margin-bottom: 70px;
+}
+
+.vm-split-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
+}
+
+@media (max-width: 992px) {
+  .vm-split-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.vm-corporate-block {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 24px;
+  border-left: 2px solid rgba(212, 43, 62, 0.4);
+  transition: border-color 0.3s ease;
+}
+
+.vm-corporate-block:hover {
+  border-left-color: var(--primary-light);
+}
+
+.vm-block-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--primary-light);
+  margin-bottom: 12px;
+}
+
+.vm-block-badge i {
+  font-size: 1.3rem;
+}
+
+.vm-block-title {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.vm-block-text {
+  font-size: 1.02rem;
+  color: var(--text-body);
+  line-height: 1.85;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vm-block-text .lead-text {
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: var(--text-heading);
+}
+
+.vm-corporate-quote {
+  margin-top: 10px;
+  padding: 18px 22px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--text-heading);
+  font-size: 1.02rem;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.vm-corporate-quote i {
+  color: var(--primary-light);
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.vm-section-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 60px 0;
+}
+
+/* Temel Değerler Corporate Grid */
+.vm-values-section {
+  margin-bottom: 80px;
+}
+
+.vm-section-header {
+  margin-bottom: 45px;
+}
+
+.vm-section-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 12px;
+}
+
+.vm-section-subtext {
+  font-size: 1.05rem;
+  color: var(--text-body);
+  max-width: 720px;
+  line-height: 1.7;
+}
+
+.vm-values-corporate-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .vm-values-corporate-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vm-val-card {
+  display: flex;
+  gap: 20px;
+  padding: 24px 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.vm-val-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(212, 43, 62, 0.4);
+  transform: translateY(-2px);
+}
+
+.vm-val-card-full {
+  grid-column: 1 / -1;
+}
+
+.vm-val-num {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary-light);
+  opacity: 0.9;
+  flex-shrink: 0;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.vm-val-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.vm-val-desc {
+  font-size: 0.96rem;
+  color: var(--text-body);
+  line-height: 1.65;
+}
+
+/* Minimalist CTA */
+.vm-corporate-cta {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 44px 40px;
+  margin-top: 40px;
+}
+
+.vm-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.vm-cta-text h2 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.vm-cta-text p {
+  color: var(--text-body);
+  font-size: 1rem;
+}
+
+.vm-cta-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   THEME SWITCHER WIDGET STYLES
+   ============================================ */
+.theme-switcher-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.theme-switcher-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  color: var(--text-heading);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-full);
+  padding: 7px 14px;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.theme-switcher-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.theme-switcher-btn i {
+  font-size: 1.05rem;
+  color: var(--primary-light);
+}
+
+.theme-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 220px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s var(--ease);
+  z-index: 2500;
+}
+
+.theme-switcher-dropdown.active .theme-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.theme-dropdown-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 10px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 6px;
+}
+
+.theme-option-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  text-align: left;
+}
+
+.theme-option-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-heading);
+}
+
+.theme-option-btn.active {
+  background: var(--primary-subtle);
+  color: var(--primary-light);
+  font-weight: 700;
+}
+
+.theme-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.theme-dot-slate { background: #1B1E24; }
+.theme-dot-light { background: #F8FAFC; border-color: #CBD5E1; }
+.theme-dot-cream { background: #F5F2EB; border-color: #D6CEC2; }
+.theme-dot-midnight { background: #090A0F; }
+
+.theme-badge {
+  margin-left: auto;
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--border-subtle);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Floating Quick Theme Toggle Button */
+.floating-theme-toggle {
+  position: fixed;
+  bottom: 95px;
+  right: 24px;
+  z-index: 999;
+}
+
+.floating-theme-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--text-heading);
+  border: 1px solid var(--border-medium);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.3s var(--ease);
+}
+
+.floating-theme-btn:hover {
+  transform: scale(1.08);
+  border-color: var(--primary);
+  color: var(--primary-light);
 }

@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=25">
+  <link rel="stylesheet" href="css/style.css?v=35">
 </head>
 
 <body class="application-body">
@@ -35,10 +35,43 @@
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html#about">Hakkımızda</a></li>
+        <li><a href="vizyon-misyon.html">Vizyon & Misyon</a></li>
         <li><a href="index.html#services">Hizmetler</a></li>
         <li><a href="index.html#gallery">Galeri</a></li>
         <li><a href="index.html#testimonials">Yorumlar</a></li>
         <li><a href="index.html#contact">İletişim</a></li>
+        <li class="theme-nav-item">
+          <div class="theme-switcher-dropdown" id="themeSwitcher">
+            <button class="theme-switcher-btn" id="themeSwitcherBtn" aria-label="Tema Seç" title="Tema Değiştir">
+              <i class="ph-bold ph-palette"></i>
+              <span class="theme-btn-label">Füme Koyu</span>
+              <i class="ph ph-caret-down"></i>
+            </button>
+            <div class="theme-dropdown-menu" id="themeDropdownMenu">
+              <div class="theme-dropdown-title">Tema Seçenekleri</div>
+              <button class="theme-option-btn" data-set-theme="slate">
+                <span class="theme-dot theme-dot-slate"></span>
+                <span class="theme-name">Füme Koyu</span>
+                <span class="theme-badge">Sakin</span>
+              </button>
+              <button class="theme-option-btn" data-set-theme="light">
+                <span class="theme-dot theme-dot-light"></span>
+                <span class="theme-name">Aydınlık</span>
+                <span class="theme-badge">Ferah</span>
+              </button>
+              <button class="theme-option-btn" data-set-theme="cream">
+                <span class="theme-dot theme-dot-cream"></span>
+                <span class="theme-name">Sıcak Krem</span>
+                <span class="theme-badge">Soft</span>
+              </button>
+              <button class="theme-option-btn" data-set-theme="midnight">
+                <span class="theme-dot theme-dot-midnight"></span>
+                <span class="theme-name">Derin Gece</span>
+                <span class="theme-badge">OLED</span>
+              </button>
+            </div>
+          </div>
+        </li>
         <li><a href="basvuru.html" class="btn btn-primary nav-btn-highlight"><i class="ph ph-note-pencil"></i> Ekip Başvuru Formu</a></li>
       </ul>
       <div class="hamburger" id="hamburger">
@@ -231,6 +264,7 @@
           <h4>Hızlı Menü</h4>
           <ul>
             <li><a href="index.html#about">Hakkımızda</a></li>
+            <li><a href="vizyon-misyon.html">Vizyon & Misyon</a></li>
             <li><a href="index.html#services">Hizmetler</a></li>
             <li><a href="index.html#gallery">Galeri</a></li>
             <li><a href="index.html#testimonials">Yorumlar</a></li>
@@ -253,7 +287,15 @@
     </div>
   </footer>
 
+  <!-- ===== FLOATING THEME TOGGLE ===== -->
+  <div class="floating-theme-toggle" id="floatingThemeToggle">
+    <button class="floating-theme-btn" id="floatingThemeBtn" aria-label="Tema Değiştir" title="Hızlı Tema Değiştir">
+      <i class="ph-bold ph-palette"></i>
+    </button>
+  </div>
+
   <!-- Scripts -->
+  <script src="js/main.js?v=29"></script>
   <script src="js/basvuru.js?v=1"></script>
 </body>
 
