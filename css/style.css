@@ -544,11 +544,6 @@ html[data-theme="midnight"] .book { --cover: #2c313d; }
 .reel-thumb img, .reel-thumb video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; user-select: none; -webkit-user-drag: none; pointer-events: none; }
 .reel-card:hover .reel-thumb img, .reel-card:hover .reel-thumb video { transform: scale(1.04); }
 .reel-thumb--placeholder { display: grid; place-items: center; }
-.reel-thumb::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(8, 9, 12, 0.55), transparent 40%);
-  pointer-events: none;
-}
 .reel-play-icon {
   position: absolute; top: 10px; right: 10px;
   width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
@@ -558,12 +553,15 @@ html[data-theme="midnight"] .book { --cover: #2c313d; }
 }
 .reel-card:hover .reel-play-icon { background: var(--accent); border-color: var(--accent); }
 .reel-badge {
-  position: absolute; bottom: 8px; left: 8px; z-index: 2;
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 10.5px; font-weight: 600; color: rgba(255, 255, 255, 0.92);
-  background: rgba(10, 11, 14, 0.55); backdrop-filter: blur(4px);
-  padding: 4px 8px; border-radius: 0;
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+  display: flex; align-items: center; gap: 4px;
+  padding: 28px 10px 8px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.9);
 }
+.reel-badge i { font-size: 12px; }
+.reel-badge--media { background: linear-gradient(transparent, rgba(100, 0, 50, 0.85)); }
 .reel-title { margin-top: 9px; font-size: 13px; font-weight: 600; color: var(--ink-2); line-height: 1.35; }
 .reel-card:hover .reel-title { color: var(--ink); }
 
