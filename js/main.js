@@ -3,7 +3,16 @@
    v2.0 — Professional & Refined
    ============================================ */
 
+// ===== IMMEDIATE THEME INIT =====
+(function initTheme() {
+  const savedTheme = localStorage.getItem('xbear_theme') || 'slate';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ===== THEME SWITCHER =====
+  setupThemeSwitcher();
 
   // ===== REELS (js/reels-data.js) =====
   // window.XBEAR_REELS üzerinden reel listesini doldurup etkileşimleri bağlar.
@@ -29,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== NAVBAR =====
   const navbar = document.getElementById('navbar');
   const backToTop = document.getElementById('backToTop');
+  const mobileApplyBtn = document.querySelector('.mobile-floating-apply-btn');
   let lastScrollY = 0;
   let ticking = false;
 
@@ -42,10 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
     backToTop.classList.toggle('visible', scrollY > 500);
 
     // Hide/show navbar on scroll
-    if (scrollY > lastScrollY && scrollY > 200) {
+    const scrollingDown = scrollY > lastScrollY && scrollY > 200;
+    if (scrollingDown) {
       navbar.style.transform = 'translateY(-100%)';
     } else {
       navbar.style.transform = 'translateY(0)';
+    }
+
+    // Hide the floating apply CTA while scrolling down so it doesn't sit on top
+    // of body content; reappear on scroll-up so it stays reachable.
+    if (mobileApplyBtn) {
+      mobileApplyBtn.classList.toggle('is-hidden', scrollingDown);
     }
 
     lastScrollY = scrollY;
@@ -181,75 +198,77 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== CONTACT FORM =====
   const contactForm = document.getElementById('contactForm');
 
-  contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    const submitBtn = contactForm.querySelector('.form-submit');
-    const originalText = submitBtn.innerHTML;
-    const recipientEmail = (contactForm.dataset.recipientEmail || '').trim();
+      const submitBtn = contactForm.querySelector('.form-submit');
+      const originalText = submitBtn.innerHTML;
+      const recipientEmail = (contactForm.dataset.recipientEmail || '').trim();
 
-    if (!recipientEmail || !recipientEmail.includes('@')) {
-      alert("Form gönderimi için önce form üzerindeki data-recipient-email alanına hedef e-posta adresini yazın.");
-      return;
-    }
-
-    submitBtn.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 0.8s linear infinite;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-      Gönderiliyor...
-    `;
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = '0.7';
-
-    try {
-      const formData = new FormData(contactForm);
-      formData.append('_subject', 'XBear Site - Yeni Teklif Formu');
-      formData.append('_captcha', 'false');
-      formData.append('_template', 'table');
-
-      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: formData,
-      });
-
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || result.success === false) {
-        throw new Error(result.message || 'Mail gönderilemedi');
+      if (!recipientEmail || !recipientEmail.includes('@')) {
+        alert("Form gönderimi için önce form üzerindeki data-recipient-email alanına hedef e-posta adresini yazın.");
+        return;
       }
 
       submitBtn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Başarıyla Gönderildi
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 0.8s linear infinite;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+        Gönderiliyor...
       `;
-      submitBtn.style.background = '#22c55e';
-      submitBtn.style.borderColor = '#22c55e';
-      submitBtn.style.opacity = '1';
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.7';
 
-      setTimeout(() => {
-        submitBtn.innerHTML = originalText;
-        submitBtn.style.background = '';
-        submitBtn.style.borderColor = '';
-        submitBtn.disabled = false;
-        contactForm.reset();
-      }, 2500);
-    } catch (err) {
-      submitBtn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Gönderilemedi
-      `;
-      submitBtn.style.background = '#ef4444';
-      submitBtn.style.borderColor = '#ef4444';
-      submitBtn.style.opacity = '1';
+      try {
+        const formData = new FormData(contactForm);
+        formData.append('_subject', 'XBear Site - Yeni Teklif Formu');
+        formData.append('_captcha', 'false');
+        formData.append('_template', 'table');
 
-      setTimeout(() => {
-        submitBtn.innerHTML = originalText;
-        submitBtn.style.background = '';
-        submitBtn.style.borderColor = '';
-        submitBtn.disabled = false;
-      }, 2800);
-      console.error('[contact-form]', err);
-    }
-  });
+        const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: formData,
+        });
+
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.success === false) {
+          throw new Error(result.message || 'Mail gönderilemedi');
+        }
+
+        submitBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Başarıyla Gönderildi
+        `;
+        submitBtn.style.background = '#22c55e';
+        submitBtn.style.borderColor = '#22c55e';
+        submitBtn.style.opacity = '1';
+
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+          submitBtn.style.background = '';
+          submitBtn.style.borderColor = '';
+          submitBtn.disabled = false;
+          contactForm.reset();
+        }, 2500);
+      } catch (err) {
+        submitBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Gönderilemedi
+        `;
+        submitBtn.style.background = '#ef4444';
+        submitBtn.style.borderColor = '#ef4444';
+        submitBtn.style.opacity = '1';
+
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+          submitBtn.style.background = '';
+          submitBtn.style.borderColor = '';
+          submitBtn.disabled = false;
+        }, 2800);
+        console.error('[contact-form]', err);
+      }
+    });
+  }
 
 
   // ===== PARALLAX =====
@@ -317,6 +336,7 @@ function initGalleryInteractions() {
       container.classList.remove('dragging');
     };
 
+    let pointerId = null;
     container.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
 
@@ -324,6 +344,7 @@ function initGalleryInteractions() {
       dragDistance = 0;
       startX = e.clientX;
       scrollLeft = container.scrollLeft;
+      pointerId = e.pointerId;
       container.classList.add('dragging');
     });
 
@@ -333,7 +354,13 @@ function initGalleryInteractions() {
       const walk = (e.clientX - startX) * 1.5;
       dragDistance = Math.max(dragDistance, Math.abs(walk));
 
-      if (dragDistance > 4) e.preventDefault();
+      if (dragDistance > 4) {
+        e.preventDefault();
+        // Kartın click'ini bozmadan sürüklemeyi kilitle: sadece gerçek sürüklemede capture et.
+        if (pointerId !== null && !container.hasPointerCapture(pointerId)) {
+          try { container.setPointerCapture(pointerId); } catch (err) {}
+        }
+      }
       container.scrollLeft = scrollLeft - walk;
     });
 
@@ -693,6 +720,23 @@ function renderReel(index, firstOpen) {
     `;
     const popupVideo = body.querySelector('.reel-popup-video');
     if (popupVideo) {
+      // Bazı sunucular Range isteğini desteklemediğinde video ilerletilemez;
+      // yerel videoyu blob'a çevirerek zaman çubuğunu her ortamda çalışır yap.
+      if (videoSrc && !/^https?:\/\//i.test(item.src || '')) {
+        fetch(videoSrc)
+          .then((r) => (r.ok ? r.blob() : Promise.reject(new Error('fetch failed'))))
+          .then((blob) => {
+            if (!popupVideo.isConnected) return;
+            const t = popupVideo.currentTime;
+            const wasPaused = popupVideo.paused;
+            popupVideo.src = URL.createObjectURL(blob);
+            popupVideo.addEventListener('loadedmetadata', () => {
+              try { popupVideo.currentTime = t; } catch (_) {}
+              if (!wasPaused) popupVideo.play().catch(() => {});
+            }, { once: true });
+          })
+          .catch(() => {});
+      }
       const popupPreviewAt = Number(item.previewAt || 0);
       if (Number.isFinite(popupPreviewAt) && popupPreviewAt > 0) {
         popupVideo.addEventListener('loadedmetadata', () => {
@@ -702,6 +746,9 @@ function renderReel(index, firstOpen) {
           } catch (_) {}
         }, { once: true });
       }
+      popupVideo.addEventListener('click', function () {
+        if (popupVideo.paused) popupVideo.play().catch(function () {}); else popupVideo.pause();
+      });
       popupVideo.muted = false;
       popupVideo.volume = 1;
       const playPromise = popupVideo.play();
@@ -876,3 +923,122 @@ document.addEventListener('keydown', (e) => {
   });
 })();
 
+// ===== THEME SWITCHER LOGIC =====
+function setupThemeSwitcher() {
+  const themeSwitcherBtns = document.querySelectorAll('[data-set-theme]');
+  const themeSwitcherContainers = document.querySelectorAll('.theme-switcher-dropdown');
+  const floatingThemeBtn = document.getElementById('floatingThemeBtn');
+
+  const currentTheme = localStorage.getItem('xbear_theme') || 'slate';
+  updateActiveThemeUI(currentTheme);
+
+  // Bind dropdown toggles
+  document.querySelectorAll('.theme-switcher-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parent = btn.closest('.theme-switcher-dropdown');
+      if (parent) parent.classList.toggle('active');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    themeSwitcherContainers.forEach(container => {
+      if (!container.contains(e.target)) {
+        container.classList.remove('active');
+      }
+    });
+  });
+
+  // Floating Theme Switcher Quick Toggle
+  const themesList = ['slate', 'light', 'cream', 'midnight'];
+  if (floatingThemeBtn) {
+    floatingThemeBtn.addEventListener('click', () => {
+      const activeTheme = localStorage.getItem('xbear_theme') || 'slate';
+      const nextIdx = (themesList.indexOf(activeTheme) + 1) % themesList.length;
+      const nextTheme = themesList[nextIdx];
+      
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('xbear_theme', nextTheme);
+      updateActiveThemeUI(nextTheme);
+
+      // Rotate animation on click
+      floatingThemeBtn.style.transform = 'rotate(360deg) scale(1.1)';
+      setTimeout(() => {
+        floatingThemeBtn.style.transform = '';
+      }, 350);
+    });
+  }
+
+  // Theme Option Clicks
+  themeSwitcherBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.getAttribute('data-set-theme');
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('xbear_theme', theme);
+      updateActiveThemeUI(theme);
+      themeSwitcherContainers.forEach(c => c.classList.remove('active'));
+    });
+  });
+}
+
+function updateActiveThemeUI(theme) {
+  const themeSwitcherBtns = document.querySelectorAll('[data-set-theme]');
+  themeSwitcherBtns.forEach(btn => {
+    if (btn.getAttribute('data-set-theme') === theme) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  const themeMeta = {
+    slate: { name: 'Füme Koyu', icon: 'ph-moon-stars' },
+    light: { name: 'Aydınlık', icon: 'ph-sun-dim' },
+    cream: { name: 'Sıcak Krem', icon: 'ph-coffee' },
+    midnight: { name: 'Derin Gece', icon: 'ph-sparkle' }
+  };
+
+  const meta = themeMeta[theme] || themeMeta['slate'];
+
+  document.querySelectorAll('.theme-btn-label').forEach(label => {
+    label.textContent = meta.name;
+  });
+
+  document.querySelectorAll('.theme-switcher-btn .theme-current-icon').forEach(iconEl => {
+    iconEl.className = `theme-current-icon ph-bold ${meta.icon}`;
+  });
+
+  const floatingBtn = document.getElementById('floatingThemeBtn');
+  if (floatingBtn) {
+    const floatIcon = floatingBtn.querySelector('i');
+    if (floatIcon) {
+      floatIcon.className = `ph-bold ${meta.icon}`;
+    }
+  }
+}
+
+
+// ===== ABOUT VIDEO: Range desteksiz sunucularda ilerletmeyi mümkün kıl =====
+(function () {
+  function init() {
+    var av = document.getElementById('aboutVideo');
+    if (!av || !av.getAttribute('src')) return;
+    av.addEventListener('click', function () {
+      if (av.paused) av.play().catch(function () {}); else av.pause();
+    });
+    fetch(av.getAttribute('src'))
+      .then(function (r) { return r.ok ? r.blob() : Promise.reject(new Error('fetch failed')); })
+      .then(function (blob) {
+        var t = av.currentTime;
+        var wasPaused = av.paused;
+        av.src = URL.createObjectURL(blob);
+        av.addEventListener('loadedmetadata', function () {
+          try { av.currentTime = t; } catch (_) {}
+          if (!wasPaused) av.play().catch(function () {});
+        }, { once: true });
+      })
+      .catch(function () {});
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();

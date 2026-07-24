@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bearGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D42B3E" />
+      <stop offset="100%" stop-color="#8A1826" />
+    </linearGradient>
+  </defs>
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#D42B3E" fill-opacity="0.08" stroke="#D42B3E" stroke-opacity="0.2" stroke-width="2"/>
+  
+  <!-- Bear Ears -->
+  <circle cx="55" cy="50" r="22" fill="url(#bearGrad5)" />
+  <circle cx="55" cy="50" r="12" fill="#E8495A" />
+  <circle cx="145" cy="50" r="22" fill="url(#bearGrad5)" />
+  <circle cx="145" cy="50" r="12" fill="#E8495A" />
+  
+  <!-- Bear Head -->
+  <circle cx="100" cy="95" r="55" fill="url(#bearGrad5)" />
+  
+  <!-- Muzzle -->
+  <ellipse cx="100" cy="110" rx="26" ry="20" fill="#FAFAFA" />
+  <ellipse cx="100" cy="100" rx="10" ry="7" fill="#14161B" />
+  <path d="M 100,107 Q 95,116 88,114 M 100,107 Q 105,116 112,114" stroke="#14161B" stroke-width="3" stroke-linecap="round" fill="none"/>
+  
+  <!-- Happy Starry Eyes -->
+  <circle cx="80" cy="88" r="6" fill="#FAFAFA" />
+  <circle cx="81" cy="87" r="3" fill="#14161B" />
+  <circle cx="120" cy="88" r="6" fill="#FAFAFA" />
+  <circle cx="119" cy="87" r="3" fill="#14161B" />
+  
+  <!-- Rocket Icon Badge -->
+  <circle cx="145" cy="135" r="24" fill="#1B1E24" stroke="#D42B3E" stroke-width="3"/>
+  <path d="M 145,121 C 150,126 151,133 148,138 L 140,146 L 138,142 L 142,135 C 137,132 140,126 145,121 Z" fill="#D42B3E"/>
+  <path d="M 136,144 L 132,148 L 136,146 Z" fill="#E8C47C"/>
+</svg>
