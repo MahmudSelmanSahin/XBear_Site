@@ -8,56 +8,21 @@
     content="XBear Event-Media — Konya merkezli profesyonel etkinlik ve organizasyon firması. Konser, festival, kurumsal etkinlik ve özel gün organizasyonları.">
   <meta name="keywords" content="XBear, organizasyon, etkinlik, konser, festival, Konya, event, medya, prodüksiyon">
   <meta name="author" content="XBear Event-Media">
-
-  <!-- Open Graph -->
   <meta property="og:title" content="XBear Event-Media | Konya'nın Organizasyon Gücü">
   <meta property="og:description"
-    content="Konya'da gazetelere bile çıktık. Konser, festival, kurumsal etkinlik ve özel gün organizasyonları.">
+    content="Konser, festival, kurumsal etkinlik ve özel gün organizasyonları. Alışılmışın dışına çıkıyoruz.">
   <meta property="og:image" content="assets/images/hero-bg.jpg">
   <meta property="og:type" content="website">
-
   <title>XBear Event-Media | Konya'nın Organizasyon Gücü</title>
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon.png">
   <link rel="apple-touch-icon" href="assets/images/favicon.png">
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Phosphor Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;640;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,550;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=35">
-
-  <!-- Critical Gallery Scroll Styles (inline for reliability) -->
-  <style>
-    .gallery-scroll {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x proximity;
-    }
-
-    .gallery-scroll-item {
-      flex: 0 0 320px !important;
-      width: 320px !important;
-      min-width: 320px !important;
-      height: 220px !important;
-    }
-
-    .reel-card {
-      flex: 0 0 150px !important;
-      width: 150px !important;
-      min-width: 150px !important;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 
 <body>
@@ -67,6 +32,126 @@
     <img src="assets/images/logo.png" alt="XBear" class="preloader-logo">
   </div>
 
+  <!-- ===== SVG DEFS (paw + bear pictograms) ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="paw" viewBox="0 0 20 20">
+        <ellipse cx="10" cy="13.4" rx="4.7" ry="3.7"></ellipse>
+        <ellipse cx="4.2" cy="8.4" rx="1.9" ry="2.5"></ellipse>
+        <ellipse cx="8" cy="5.4" rx="1.9" ry="2.5"></ellipse>
+        <ellipse cx="12.2" cy="5.4" rx="1.9" ry="2.5"></ellipse>
+        <ellipse cx="15.8" cy="8.4" rx="1.9" ry="2.5"></ellipse>
+      </symbol>
+      <!-- dalgalı patika ayı izi koşusu (soldan sağa) -->
+      <g id="paw-run">
+        <use href="#paw" width="30" height="30" transform="translate(24 49) rotate(127)" opacity="0.25"></use>
+        <use href="#paw" width="30" height="30" transform="translate(64 78) rotate(124)" opacity="0.5"></use>
+        <use href="#paw" width="30" height="30" transform="translate(104 101) rotate(115)" opacity="0.55"></use>
+        <use href="#paw" width="30" height="30" transform="translate(144 115) rotate(103)" opacity="0.5"></use>
+        <use href="#paw" width="30" height="30" transform="translate(184 120) rotate(91)" opacity="0.55"></use>
+        <use href="#paw" width="30" height="30" transform="translate(224 119) rotate(84)" opacity="0.5"></use>
+        <use href="#paw" width="30" height="30" transform="translate(264 114) rotate(85)" opacity="0.55"></use>
+        <use href="#paw" width="30" height="30" transform="translate(304 113) rotate(93)" opacity="0.5"></use>
+        <use href="#paw" width="30" height="30" transform="translate(344 120) rotate(106)" opacity="0.55"></use>
+        <use href="#paw" width="30" height="30" transform="translate(384 136) rotate(118)" opacity="0.5"></use>
+        <use href="#paw" width="30" height="30" transform="translate(424 161) rotate(125)" opacity="0.55"></use>
+        <use href="#paw" width="30" height="30" transform="translate(464 190) rotate(127)" opacity="0.5"></use>
+        <use href="#paw" width="30" height="30" transform="translate(504 219) rotate(124)" opacity="0.28"></use>
+      </g>
+      <symbol id="deco-pines" viewBox="0 0 170 90">
+        <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 70 L25 40 L36 70 M19 57 L31 57 M25 70 L25 80" opacity="0.3"></path>
+          <path d="M46 74 L54 52 L62 74 M54 74 L54 82" opacity="0.2"></path>
+          <path d="M74 70 L81 50 L88 70 M81 70 L81 77" opacity="0.25"></path>
+          <path d="M100 76 L106 60 L112 76 M106 76 L106 82" opacity="0.15"></path>
+          <path d="M124 72 L130 56 L136 72 M130 72 L130 78" opacity="0.22"></path>
+          <path d="M148 78 L153 64 L158 78 M153 78 L153 83" opacity="0.13"></path>
+        </g>
+      </symbol>
+      <symbol id="deco-trees" viewBox="0 0 120 70">
+        <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <circle cx="30" cy="26" r="14" opacity="0.28"></circle>
+          <path d="M30 40 L30 62" opacity="0.28"></path>
+          <circle cx="64" cy="34" r="10" opacity="0.18"></circle>
+          <path d="M64 44 L64 60" opacity="0.18"></path>
+          <circle cx="92" cy="24" r="8" opacity="0.13"></circle>
+          <path d="M92 32 L92 46" opacity="0.13"></path>
+        </g>
+      </symbol>
+      <symbol id="deco-stream" viewBox="0 0 200 70">
+        <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M8 22 q26 -10 52 0 t52 0 t52 0" opacity="0.12"></path>
+          <path d="M20 38 q26 -10 52 0 t52 0 t52 0" opacity="0.28"></path>
+          <path d="M34 54 q26 -10 52 0 t52 0" opacity="0.12"></path>
+        </g>
+      </symbol>
+      <symbol id="deco-grass" viewBox="0 0 60 44">
+        <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M18 40 q-2 -10 -7 -14 M18 40 q0 -12 2 -16 M18 40 q5 -9 9 -11" opacity="0.24"></path>
+          <path d="M40 42 q-2 -8 -5 -11 M40 42 q0 -10 2 -13 M40 42 q4 -7 7 -9" opacity="0.14"></path>
+        </g>
+      </symbol>
+      <symbol id="deco-flower" viewBox="0 0 44 60">
+        <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M22 56 L22 34 M22 34 l-8 -8 M22 34 l8 -8 M22 34 l0 -12" opacity="0.26"></path>
+          <path d="M36 58 L36 44 M36 44 l-5 -5 M36 44 l5 -5" opacity="0.15"></path>
+        </g>
+      </symbol>
+      <symbol id="deco-rock" viewBox="0 0 40 20">
+        <ellipse cx="20" cy="12" rx="12" ry="6" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.2"></ellipse>
+      </symbol>
+      <symbol id="deco-birds" viewBox="0 0 80 30">
+        <path d="M10 18 q8 -8 16 0 M40 12 q8 -8 16 0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.2"></path>
+      </symbol>
+      <!-- yürüyen ayı (yan profil, sağa bakar) -->
+      <g id="bear-walk" fill="currentColor" stroke="currentColor" stroke-linecap="round">
+        <ellipse cx="0" cy="0" rx="36" ry="23" stroke="none"></ellipse>
+        <circle cx="44" cy="-18" r="16" stroke="none"></circle>
+        <circle cx="36" cy="-31" r="5.5" stroke="none"></circle>
+        <circle cx="51" cy="-30" r="5.5" stroke="none"></circle>
+        <ellipse cx="57" cy="-14" rx="7" ry="5.5" stroke="none"></ellipse>
+        <circle cx="-36" cy="-6" r="6" stroke="none"></circle>
+        <line x1="-22" y1="14" x2="-26" y2="38" stroke-width="11"></line>
+        <line x1="-6" y1="18" x2="-6" y2="40" stroke-width="11"></line>
+        <line x1="14" y1="18" x2="17" y2="40" stroke-width="11"></line>
+        <line x1="28" y1="14" x2="34" y2="38" stroke-width="11"></line>
+      </g>
+      <!-- ayakta ayı, kollar aşağıda -->
+      <g id="bear-stand" fill="currentColor" stroke="currentColor" stroke-linecap="round">
+        <circle cx="0" cy="-50" r="17" stroke="none"></circle>
+        <circle cx="-11" cy="-64" r="5.5" stroke="none"></circle>
+        <circle cx="11" cy="-64" r="5.5" stroke="none"></circle>
+        <ellipse cx="0" cy="0" rx="25" ry="29" stroke="none"></ellipse>
+        <line x1="-17" y1="-14" x2="-32" y2="8" stroke-width="11"></line>
+        <line x1="17" y1="-14" x2="32" y2="8" stroke-width="11"></line>
+        <line x1="-11" y1="26" x2="-12" y2="44" stroke-width="12"></line>
+        <line x1="11" y1="26" x2="12" y2="44" stroke-width="12"></line>
+      </g>
+      <!-- ayakta ayı, tek kol havada (bayrak tutar) -->
+      <g id="bear-flag" fill="currentColor" stroke="currentColor" stroke-linecap="round">
+        <circle cx="0" cy="-50" r="17" stroke="none"></circle>
+        <circle cx="-11" cy="-64" r="5.5" stroke="none"></circle>
+        <circle cx="11" cy="-64" r="5.5" stroke="none"></circle>
+        <ellipse cx="0" cy="0" rx="25" ry="29" stroke="none"></ellipse>
+        <line x1="-17" y1="-14" x2="-32" y2="8" stroke-width="11"></line>
+        <line x1="17" y1="-18" x2="32" y2="-42" stroke-width="11"></line>
+        <line x1="-11" y1="26" x2="-12" y2="44" stroke-width="12"></line>
+        <line x1="11" y1="26" x2="12" y2="44" stroke-width="12"></line>
+      </g>
+      <!-- iki kolu havada ayı (zirve) -->
+      <g id="bear-cheer" fill="currentColor" stroke="currentColor" stroke-linecap="round">
+        <circle cx="0" cy="-50" r="17" stroke="none"></circle>
+        <circle cx="-11" cy="-64" r="5.5" stroke="none"></circle>
+        <circle cx="11" cy="-64" r="5.5" stroke="none"></circle>
+        <ellipse cx="0" cy="0" rx="25" ry="29" stroke="none"></ellipse>
+        <line x1="-16" y1="-20" x2="-32" y2="-44" stroke-width="11"></line>
+        <line x1="16" y1="-20" x2="32" y2="-44" stroke-width="11"></line>
+        <line x1="-11" y1="26" x2="-12" y2="44" stroke-width="12"></line>
+        <line x1="11" y1="26" x2="12" y2="44" stroke-width="12"></line>
+      </g>
+    </defs>
+  </svg>
+
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar" id="navbar">
     <div class="container">
@@ -75,7 +160,7 @@
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#about">Hakkımızda</a></li>
-        <li><a href="vizyon-misyon.html">Vizyon & Misyon</a></li>
+        <li><a href="vizyon-misyon.html">Vizyon &amp; Misyon</a></li>
         <li><a href="#services">Hizmetler</a></li>
         <li><a href="#gallery">Galeri</a></li>
         <li><a href="#testimonials">Yorumlar</a></li>
@@ -83,36 +168,55 @@
         <li class="theme-nav-item">
           <div class="theme-switcher-dropdown" id="themeSwitcher">
             <button class="theme-switcher-btn" id="themeSwitcherBtn" aria-label="Tema Seç" title="Tema Değiştir">
-              <i class="ph-bold ph-palette"></i>
-              <span class="theme-btn-label">Füme Koyu</span>
-              <i class="ph ph-caret-down"></i>
+              <span class="theme-btn-inner">
+                <i class="theme-current-icon ph-bold ph-moon-stars"></i>
+                <span class="theme-btn-label">Füme Koyu</span>
+              </span>
+              <i class="ph ph-caret-down theme-arrow"></i>
             </button>
             <div class="theme-dropdown-menu" id="themeDropdownMenu">
-              <div class="theme-dropdown-title">Tema Seçenekleri</div>
-              <button class="theme-option-btn" data-set-theme="slate">
-                <span class="theme-dot theme-dot-slate"></span>
-                <span class="theme-name">Füme Koyu</span>
-                <span class="theme-badge">Sakin</span>
-              </button>
-              <button class="theme-option-btn" data-set-theme="light">
-                <span class="theme-dot theme-dot-light"></span>
-                <span class="theme-name">Aydınlık</span>
-                <span class="theme-badge">Ferah</span>
-              </button>
-              <button class="theme-option-btn" data-set-theme="cream">
-                <span class="theme-dot theme-dot-cream"></span>
-                <span class="theme-name">Sıcak Krem</span>
-                <span class="theme-badge">Soft</span>
-              </button>
-              <button class="theme-option-btn" data-set-theme="midnight">
-                <span class="theme-dot theme-dot-midnight"></span>
-                <span class="theme-name">Derin Gece</span>
-                <span class="theme-badge">OLED</span>
-              </button>
+              <div class="theme-dropdown-header">
+                <i class="ph-bold ph-palette"></i>
+                <span>Tema Tercihi</span>
+              </div>
+              <div class="theme-options-list">
+                <button class="theme-option-btn" data-set-theme="slate">
+                  <span class="theme-option-icon"><i class="ph-bold ph-moon-stars"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Füme Koyu</span>
+                    <span class="theme-desc">Sakin &amp; gözü yormayan koyu</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+                <button class="theme-option-btn" data-set-theme="light">
+                  <span class="theme-option-icon"><i class="ph-bold ph-sun-dim"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Aydınlık</span>
+                    <span class="theme-desc">Ferah &amp; net açık tema</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+                <button class="theme-option-btn" data-set-theme="cream">
+                  <span class="theme-option-icon"><i class="ph-bold ph-coffee"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Sıcak Krem</span>
+                    <span class="theme-desc">Yumuşak &amp; doğal pastel</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+                <button class="theme-option-btn" data-set-theme="midnight">
+                  <span class="theme-option-icon"><i class="ph-bold ph-sparkle"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Derin Gece</span>
+                    <span class="theme-desc">Yüksek kontrast OLED</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+              </div>
             </div>
           </div>
         </li>
-        <li><a href="basvuru.html" class="nav-btn-highlight"><i class="ph ph-note-pencil"></i> Ekip Başvuru Formu</a></li>
+        <li><a href="basvuru.html" class="nav-btn-highlight"><i class="ph ph-note-pencil"></i> Ekip Başvurusu</a></li>
       </ul>
       <div class="hamburger" id="hamburger">
         <span></span>
@@ -123,19 +227,19 @@
   </nav>
 
   <!-- ===== HERO ===== -->
-  <section class="hero" id="hero">
+  <section class="hero" id="hero" data-screen-label="Hero">
     <div class="hero-bg">
       <img src="assets/images/hero-bg.jpg" alt="XBear Event" loading="eager">
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 class="hero-title">
-        Etkinliği Biz<br><span>Yaşatırız</span>
+        XBEAR<br><span>Fırsat Yaratır</span>
       </h1>
       <p class="hero-slogan">
-        Konser, festival,Şehir Dışı Turları ve Çeşitli Eventler; markanıza ve hedef kitlenize özel, <em>unutulmaz
-          deneyimler</em> tasarlıyoruz.
-        Medya Kanalımızla Şehrin yaşam Tarzını Belirliyoruz. — <em> #alışılmışın dışına çıkıyoruz.</em>
+        Konser, festival, şehir dışı turları ve konsept etkinlikler — markanıza ve kitlenize özel,
+        <em>unutulmaz deneyimler</em> tasarlıyoruz. Medya kanalımızla şehrin yaşam tarzını belirliyoruz.
+        <em>#alışılmışındışınaçıkıyoruz</em>
       </p>
       <div class="hero-buttons">
         <a href="#contact" class="btn btn-primary">
@@ -154,7 +258,7 @@
   </section>
 
   <!-- ===== ABOUT ===== -->
-  <section class="section about" id="about">
+  <section class="section about" id="about" data-screen-label="Hakkımızda">
     <div class="container">
       <div class="about-grid">
         <div class="about-image about-image--video reveal">
@@ -170,102 +274,314 @@
             geniş bir yelpazede hizmet veriyoruz.
           </p>
           <p>
-            Biz sadece etkinlik düzenlemiyoruz — <strong>deneyim yaratıyoruz.</strong>
-            Her projede profesyonel teknik altyapı, yaratıcı konseptler ve kusursuz
-            organizasyonla fark yaratıyoruz. Konya'da yat partisinden Halloween gecesine,
-            dev konserlerden samimi buluşmalara kadar her şeyi gerçeğe dönüştürdük.
+            Biz sadece etkinlik düzenlemiyoruz — <strong>deneyim tasarlıyoruz.</strong>
+            Her projede profesyonel teknik altyapı, yaratıcı konseptler ve kusursuz bir
+            organizasyon anlayışıyla çalışıyoruz. Dev konserlerden samimi buluşmalara,
+            tematik gecelerden şehir dışı turlara kadar hepsini gerçeğe dönüştürdük.
           </p>
           <span class="about-hashtag">#alışılmışındışınaçıkıyoruz</span>
-          <div class="about-stats">
-            <div class="stat-item">
-              <div class="stat-number"><span class="counter" data-target="150">0</span><span>+</span></div>
-              <div class="stat-label">Etkinlik</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number"><span class="counter" data-target="50">0</span><span>K+</span></div>
-              <div class="stat-label">Katılımcı</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number"><span>%</span><span class="counter" data-target="97">0</span></div>
-              <div class="stat-label">Memnuniyet</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ===== 5 İÇGÜDÜ — PATİKA ===== -->
+  <section class="section instincts" id="instincts" data-screen-label="5 İçgüdü">
+    <div class="container">
+      <div class="section-header text-center reveal">
+        <div class="section-tag">XBear'ın Ruhu</div>
+        <h2 class="section-title">5 İçgüdümüz</h2>
+        <p class="section-subtitle">
+          Bir ayının doğasından ilham alan, organizasyonlarımıza ve topluluğumuza yön veren beş temel rota.
+          İzleri takip edin.
+        </p>
+        <p class="instincts-motto">İzini Kendin Belirle.</p>
+      </div>
+
+      <div class="trail">
+
+        <!-- 01 KEŞFET -->
+        <article class="trail-node trail-node--left reveal">
+          <div class="trail-scene" aria-hidden="true">
+            <svg viewBox="0 0 300 190" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="52" cy="44" r="13" opacity="0.7"></circle>
+              <path d="M20 96 Q60 74 104 90 T190 84" opacity="0.35"></path>
+              <line x1="30" y1="160" x2="272" y2="160" opacity="0.55"></line>
+              <line x1="250" y1="160" x2="250" y2="106" opacity="0.8"></line>
+              <path class="scene-accent" d="M250 106 L276 114 L250 122 Z" fill="currentColor" stroke="none"></path>
+              <use href="#bear-walk" x="0" y="0" transform="translate(140 118)" stroke="none" opacity="0.85"></use>
+            </svg>
+          </div>
+          <div class="trail-copy">
+            <span class="trail-num">İÇGÜDÜ 01</span>
+            <h3 class="trail-title">KEŞFET</h3>
+            <span class="trail-sub">Sınırların Ötesine Yolculuk</span>
+            <p class="trail-desc">
+              Yeni mekânlar, yenilikçi fikirler ve henüz yaşanmamış deneyimlerin peşindeyiz.
+              Konya'dan başlayıp tüm şehirlere uzanan keşif ruhumuz, her rotada yeni bir iz bırakır.
+            </p>
+          </div>
+        </article>
+
+        <div class="trail-seg" aria-hidden="true">
+          <svg class="deco" style="left:17%;top:0;width:62%" viewBox="0 0 560 260" fill="currentColor"><use href="#paw-run"></use></svg>
+          <svg class="deco" style="right:2%;top:6%;width:17%" viewBox="0 0 170 90"><use href="#deco-pines"></use></svg>
+          <svg class="deco" style="left:3%;bottom:12%;width:16%" viewBox="0 0 200 70"><use href="#deco-stream"></use></svg>
+          <svg class="deco" style="left:36%;bottom:4%;width:5%" viewBox="0 0 44 60"><use href="#deco-flower"></use></svg>
+          <svg class="deco" style="right:26%;bottom:10%;width:4.5%" viewBox="0 0 40 20"><use href="#deco-rock"></use></svg>
+          <svg class="deco" style="left:24%;top:8%;width:7%" viewBox="0 0 80 30"><use href="#deco-birds"></use></svg>
+        </div>
+
+        <!-- 02 ÜRET -->
+        <article class="trail-node trail-node--right reveal">
+          <div class="trail-scene" aria-hidden="true">
+            <svg viewBox="0 0 300 190" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="28" y1="160" x2="272" y2="160" opacity="0.55"></line>
+              <rect x="42" y="146" width="110" height="14" rx="3" opacity="0.8"></rect>
+              <line x1="56" y1="146" x2="56" y2="76" opacity="0.8"></line>
+              <line x1="138" y1="146" x2="138" y2="76" opacity="0.8"></line>
+              <line x1="48" y1="76" x2="146" y2="76" opacity="0.8"></line>
+              <path d="M70 78 L92 142 M124 78 L102 142" opacity="0.28"></path>
+              <path class="scene-accent" d="M162 52 v14 M155 59 h14 M230 34 v10 M225 39 h10" opacity="0.9"></path>
+              <use href="#bear-stand" transform="translate(212 112)" stroke="none" opacity="0.85"></use>
+            </svg>
+          </div>
+          <div class="trail-copy">
+            <span class="trail-num">İÇGÜDÜ 02</span>
+            <h3 class="trail-title">ÜRET</h3>
+            <span class="trail-sub">Fikirden Sahneye</span>
+            <p class="trail-desc">
+              Konserlerden tematik gecelere, atölyelerden dev organizasyonlara — tutkuyla üretir,
+              hayalleri sahnede gerçeğe dönüştürürüz.
+            </p>
+          </div>
+        </article>
+
+        <div class="trail-seg" aria-hidden="true">
+          <svg class="deco" style="left:21%;top:0;width:62%" viewBox="0 0 560 260" fill="currentColor"><g transform="translate(560 0) scale(-1 1)"><use href="#paw-run"></use></g></svg>
+          <svg class="deco" style="left:3%;top:8%;width:14%" viewBox="0 0 120 70"><use href="#deco-trees"></use></svg>
+          <svg class="deco" style="right:4%;bottom:8%;width:15%" viewBox="0 0 200 70"><use href="#deco-stream"></use></svg>
+          <svg class="deco" style="left:40%;top:10%;width:6.5%" viewBox="0 0 80 30"><use href="#deco-birds"></use></svg>
+          <svg class="deco" style="left:30%;bottom:6%;width:6%" viewBox="0 0 60 44"><use href="#deco-grass"></use></svg>
+          <svg class="deco" style="right:30%;bottom:16%;width:4.5%" viewBox="0 0 40 20"><use href="#deco-rock"></use></svg>
+        </div>
+
+        <!-- 03 KORU -->
+        <article class="trail-node trail-node--left reveal">
+          <div class="trail-scene" aria-hidden="true">
+            <svg viewBox="0 0 300 190" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="26" y1="160" x2="274" y2="160" opacity="0.55"></line>
+              <path d="M58 160 A92 92 0 0 1 242 160" opacity="0.8"></path>
+              <path d="M92 160 A58 58 0 0 1 208 160" opacity="0.3"></path>
+              <path d="M252 122 Q264 112 260 98 M48 132 Q36 124 38 110" opacity="0.25"></path>
+              <use href="#bear-stand" transform="translate(150 124) scale(0.82)" stroke="none" opacity="0.85"></use>
+            </svg>
+          </div>
+          <div class="trail-copy">
+            <span class="trail-num">İÇGÜDÜ 03</span>
+            <h3 class="trail-title">KORU</h3>
+            <span class="trail-sub">Güvenli ve Kapsayıcı Ekosistem</span>
+            <p class="trail-desc">
+              Katılımcılarımızın kendini özgür, güvende ve ait hissettiği ortamı korur;
+              topluluğumuzun değerlerine ve dostluk bağlarına mağarasını bekleyen bir ayı gibi sahip çıkarız.
+            </p>
+          </div>
+        </article>
+
+        <div class="trail-seg" aria-hidden="true">
+          <svg class="deco" style="left:17%;top:0;width:62%" viewBox="0 0 560 260" fill="currentColor"><use href="#paw-run"></use></svg>
+          <svg class="deco" style="left:3%;bottom:6%;width:17%" viewBox="0 0 170 90"><use href="#deco-pines"></use></svg>
+          <svg class="deco" style="right:3%;top:8%;width:15%" viewBox="0 0 200 70"><use href="#deco-stream"></use></svg>
+          <svg class="deco" style="left:40%;top:6%;width:7%" viewBox="0 0 80 30"><use href="#deco-birds"></use></svg>
+          <svg class="deco" style="right:32%;bottom:8%;width:5%" viewBox="0 0 44 60"><use href="#deco-flower"></use></svg>
+          <svg class="deco" style="left:28%;bottom:12%;width:4.5%" viewBox="0 0 40 20"><use href="#deco-rock"></use></svg>
+        </div>
+
+        <!-- 04 TEMSİL ET -->
+        <article class="trail-node trail-node--right reveal">
+          <div class="trail-scene" aria-hidden="true">
+            <svg viewBox="0 0 300 190" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="30" y1="160" x2="270" y2="160" opacity="0.55"></line>
+              <rect x="106" y="130" width="88" height="30" rx="3" opacity="0.8"></rect>
+              <line x1="182" y1="86" x2="182" y2="30" opacity="0.8"></line>
+              <path class="scene-accent" d="M182 30 L214 39 L182 48 Z" fill="currentColor" stroke="none"></path>
+              <path d="M64 118 Q56 104 64 92 M76 124 Q70 112 76 102" opacity="0.25"></path>
+              <use href="#bear-flag" transform="translate(150 84) scale(0.92)" stroke="none" opacity="0.85"></use>
+            </svg>
+          </div>
+          <div class="trail-copy">
+            <span class="trail-num">İÇGÜDÜ 04</span>
+            <h3 class="trail-title">TEMSİL ET</h3>
+            <span class="trail-sub">Gençliğin ve Kalitenin Sesi</span>
+            <p class="trail-desc">
+              Yeni neslin enerjisini, dinamizmini ve duruşunu en yüksek standartlarda temsil eder;
+              her etkinlikte XBear kalitesini gururla taşırız.
+            </p>
+          </div>
+        </article>
+
+        <div class="trail-seg" aria-hidden="true">
+          <svg class="deco" style="left:21%;top:0;width:62%" viewBox="0 0 560 260" fill="currentColor"><g transform="translate(560 0) scale(-1 1)"><use href="#paw-run"></use></g></svg>
+          <svg class="deco" style="right:3%;bottom:5%;width:16%" viewBox="0 0 170 90"><use href="#deco-pines"></use></svg>
+          <svg class="deco" style="left:4%;top:10%;width:13%" viewBox="0 0 120 70"><use href="#deco-trees"></use></svg>
+          <svg class="deco" style="left:34%;bottom:6%;width:6%" viewBox="0 0 60 44"><use href="#deco-grass"></use></svg>
+          <svg class="deco" style="right:38%;bottom:14%;width:5%" viewBox="0 0 44 60"><use href="#deco-flower"></use></svg>
+          <svg class="deco" style="left:44%;top:8%;width:6.5%" viewBox="0 0 80 30"><use href="#deco-birds"></use></svg>
+        </div>
+
+        <!-- 05 YÜKSELT -->
+        <article class="trail-node trail-node--left reveal">
+          <div class="trail-scene" aria-hidden="true">
+            <svg viewBox="0 -25 300 215" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 168 L98 84 L138 118 L204 40 L282 168" opacity="0.8"></path>
+              <path d="M188 59 L204 40 L219 58" opacity="0.35"></path>
+              <path d="M84 99 L98 84 L111 97" opacity="0.3"></path>
+              <use href="#bear-cheer" transform="translate(204 16) scale(0.52)" stroke="none" opacity="0.9"></use>
+            </svg>
+          </div>
+          <div class="trail-copy">
+            <span class="trail-num">İÇGÜDÜ 05</span>
+            <h3 class="trail-title">YÜKSELT</h3>
+            <span class="trail-sub">Her Adımda Daha İleriye</span>
+            <p class="trail-desc">
+              Katılımcılarımızın, ekibimizin ve şehrimizin kültür standartlarını daha yukarı taşır;
+              doğru zamanda yaşatılan doğru deneyimle hayatlarda kalıcı iz bırakırız.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ===== SERVICES ===== -->
-  <section class="section services" id="services">
+  <section class="section services" id="services" data-screen-label="Hizmetler">
     <div class="container">
       <div class="section-header reveal">
         <div class="section-tag">Hizmetlerimiz</div>
         <h2 class="section-title">Ne Yapıyoruz?</h2>
-        <p class="section-subtitle">Her etkinlik bir hikaye. Biz o hikayeyi en iyi şekilde sahneye koyuyoruz.</p>
+        <p class="section-subtitle">Her etkinlik bir hikâye. Biz o hikâyeyi en iyi şekilde sahneye koyuyoruz.</p>
       </div>
-      <div class="services-grid">
-        <!-- Service 1 -->
-        <div class="service-card reveal reveal-delay-1">
-          <div class="service-icon">
-            <i class="ph ph-music-notes"></i>
+      <div class="book-wrap reveal">
+        <div class="book is-closed" id="servicesBook">
+          <div class="book-base book-base--left">
+            <div class="page-inner page-inner--plain">
+              <h3 class="page-title">Yedi başlıkta XBear</h3>
+              <p class="page-desc">Her sayfada bir hizmet, her hizmette yüzlerce anı. Sağ sayfaya tıklayarak katalogda ilerleyin.</p>
+              <span class="page-foot">XBear Event-Media</span>
+            </div>
           </div>
-          <h3>Konser & Canlı Performans</h3>
-          <p>Profesyonel ses, ışık ve sahne sistemleriyle unutulmaz konser deneyimleri yaratıyoruz.</p>
+          <div class="book-base book-base--right">
+            <div class="page-inner page-inner--plain">
+              <span class="page-num">Katalog Sonu</span>
+              <h3 class="page-title">#alışılmışındışınaçıkıyoruz</h3>
+              <p class="page-desc">Aklınızdaki etkinlik bu sayfalarda yoksa, birlikte yeni bir sayfa yazarız.</p>
+              <span class="page-foot">XBear Event-Media</span>
+            </div>
+          </div>
+          <div class="book-sheet book-sheet--cover">
+            <div class="page-face page-front cover-face">
+              <div class="cover-inner">
+                <img src="assets/images/logo.png" alt="XBear" class="cover-logo">
+                <div class="cover-rule"></div>
+                <h3 class="cover-title">XBEAR Fırsat Yaratır</h3>
+                <span class="cover-motto">İzini Kendin Belirle.</span>
+              </div>
+            </div>
+            <div class="page-face page-back">
+              <div class="page-inner page-inner--plain">
+                <span class="page-num">Hizmet Kataloğu</span>
+                <h3 class="page-title">Yedi başlıkta XBear</h3>
+                <p class="page-desc">Her sayfada bir hizmet, her hizmette yüzlerce anı. Sağ sayfaya tıklayarak katalogda ilerleyin.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+          </div>
+          <div class="book-sheet">
+            <div class="page-face page-front">
+              <div class="page-inner">
+                <span class="page-num">01 / 07</span>
+                <h3 class="page-title">Konser &amp; Canlı Performans</h3>
+                <p class="page-desc">Profesyonel ses, ışık ve sahne sistemleriyle unutulmaz konser deneyimleri.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+            <div class="page-face page-back">
+              <div class="page-inner">
+                <span class="page-num">02 / 07</span>
+                <h3 class="page-title">Festival Organizasyonu</h3>
+                <p class="page-desc">Büyük ölçekli açık hava festivalleri ve çok sahneli etkinliklerin eksiksiz yönetimi.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+          </div>
+          <div class="book-sheet">
+            <div class="page-face page-front">
+              <div class="page-inner">
+                <span class="page-num">03 / 07</span>
+                <h3 class="page-title">Kurumsal Etkinlik</h3>
+                <p class="page-desc">Gala geceleri, ödül törenleri, lansmanlar ve kurumsal toplantılar.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+            <div class="page-face page-back">
+              <div class="page-inner">
+                <span class="page-num">04 / 07</span>
+                <h3 class="page-title">Medya &amp; Prodüksiyon</h3>
+                <p class="page-desc">Etkinlik çekimi, tanıtım filmi, sosyal medya içerikleri ve canlı yayın hizmetleri.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+          </div>
+          <div class="book-sheet">
+            <div class="page-face page-front">
+              <div class="page-inner">
+                <span class="page-num">05 / 07</span>
+                <h3 class="page-title">Konsept Parti</h3>
+                <p class="page-desc">Halloween, film geceleri ve tematik partiler — sıra dışı konseptlerle.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+            <div class="page-face page-back">
+              <div class="page-inner">
+                <span class="page-num">06 / 07</span>
+                <h3 class="page-title">Özel Gün Organizasyonu</h3>
+                <p class="page-desc">Doğum günü, mezuniyet, nişan ve daha fazlası — özel anlarınızı özel kılıyoruz.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+          </div>
+          <div class="book-sheet">
+            <div class="page-face page-front">
+              <div class="page-inner">
+                <span class="page-num">07 / 07</span>
+                <h3 class="page-title">Tur &amp; Gezi</h3>
+                <p class="page-desc">Konya çıkışlı tur programları ve deneyim odaklı gezi organizasyonları.</p>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+            <div class="page-face page-back">
+              <div class="page-inner">
+                <span class="page-num">Sırada Ne Var?</span>
+                <h3 class="page-title">Hayalinizdeki etkinliği konuşalım</h3>
+                <p class="page-desc">Türünü, tarihini ve beklentinizi paylaşın; gerisini biz halledelim.</p>
+                <a href="#contact" class="btn btn-primary page-cta">Bize Ulaşın</a>
+                <span class="page-foot">XBear Event-Media</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- Service 2 -->
-        <div class="service-card reveal reveal-delay-2">
-          <div class="service-icon">
-            <i class="ph ph-map-trifold"></i>
-          </div>
-          <h3>Festival Organizasyonu</h3>
-          <p>Büyük ölçekli açık hava festivalleri ve çok sahneli etkinliklerin eksiksiz organizasyonu.</p>
-        </div>
-        <!-- Service 3 -->
-        <div class="service-card reveal reveal-delay-3">
-          <div class="service-icon">
-            <i class="ph ph-buildings"></i>
-          </div>
-          <h3>Kurumsal Etkinlik</h3>
-          <p>Gala geceleri, ödül törenleri, lansman etkinlikleri ve kurumsal toplantılar.</p>
-        </div>
-        <!-- Service 4 -->
-        <div class="service-card reveal reveal-delay-4">
-          <div class="service-icon">
-            <i class="ph ph-video-camera"></i>
-          </div>
-          <h3>Medya & Prodüksiyon</h3>
-          <p>Etkinlik çekimi, tanıtım filmi, sosyal medya içerik üretimi ve canlı yayın hizmetleri.</p>
-        </div>
-        <!-- Service 5 -->
-        <div class="service-card reveal reveal-delay-1">
-          <div class="service-icon">
-            <i class="ph ph-sparkle"></i>
-          </div>
-          <h3>Konsept Parti</h3>
-          <p>Halloween, film geceleri, tematik partiler — sıradışı konseptlerle eğlenceyi doruğa taşıyoruz.</p>
-        </div>
-        <!-- Service 6 -->
-        <div class="service-card reveal reveal-delay-2">
-          <div class="service-icon">
-            <i class="ph ph-gift"></i>
-          </div>
-          <h3>Özel Gün Organizasyonu</h3>
-          <p>Doğum günü, mezuniyet, nişan ve daha fazlası — özel anlarınızı özel kılıyoruz.</p>
-        </div>
-        <!-- Service 7 -->
-        <div class="service-card reveal reveal-delay-3">
-          <div class="service-icon">
-            <i class="ph ph-globe"></i>
-          </div>
-          <h3>Tur & Gezi</h3>
-          <p>Konya çıkışlı tur programları ve deneyim odaklı gezi organizasyonları.</p>
+        <div class="book-controls">
+          <button class="book-nav" id="bookPrev" aria-label="Önceki sayfa"><i class="ph ph-caret-left"></i></button>
+          <span class="book-indicator" id="bookIndicator">Kapak</span>
+          <button class="book-nav" id="bookNext" aria-label="Sonraki sayfa"><i class="ph ph-caret-right"></i></button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===== NUMBERS ===== -->
-  <section class="section numbers" id="numbers">
+  <section class="numbers" id="numbers" data-screen-label="Sayılar">
     <div class="container">
       <div class="numbers-grid">
         <div class="number-card reveal reveal-delay-1">
@@ -281,7 +597,7 @@
           <div class="number-label">Sanatçı İş Birliği</div>
         </div>
         <div class="number-card reveal reveal-delay-4">
-          <div class="number-value"><span class="counter" data-target="100">0</span><span class="accent">%</span></div>
+          <div class="number-value"><span class="counter" data-target="94">0</span><span class="accent">%</span></div>
           <div class="number-label">Müşteri Memnuniyeti</div>
         </div>
       </div>
@@ -289,78 +605,63 @@
   </section>
 
   <!-- ===== GALLERY ===== -->
-  <section class="section gallery" id="gallery">
-    <!-- ── XBEAR EVENT KARELERİ ── -->
+  <section class="section gallery" id="gallery" data-screen-label="Galeri">
     <div class="gallery-category">
       <div class="container">
-        <div class="gallery-category-header gallery-category-header--event">
+        <div class="gallery-category-header gallery-category-header--event reveal">
           <span class="gallery-category-eyebrow">01 — Event</span>
           <h3 class="gallery-category-title">Etkinlik &amp; Organizasyon</h3>
-          <p>Her etkinlik bir anı, her kare bir hikaye. İşte XBear farkı</p>
+          <p>Her etkinlik bir anı, her kare bir hikâye. İşte XBear farkı.</p>
         </div>
       </div>
 
-      <!-- Event Fotoğraflar -->
-      <div class="gallery-row" style="margin-top: 20px;">
+      <div class="gallery-row">
         <div class="gallery-row-label">
           <i class="ph ph-images"></i>
           <span>Fotoğraflar</span>
           <div class="gallery-row-hint"><i class="ph ph-arrows-horizontal"></i> Kaydır</div>
         </div>
         <div class="gallery-scroll" id="photoScrollEvent">
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear7.jpg"
-              alt="MAVIGRI KONSER" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear7.jpg" alt="MAVIGRI KONSER" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>MAVIGRI KONSER</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear8.jpg"
-              alt="MAVIGRI KONSER #2" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear8.jpg" alt="MAVIGRI KONSER #2" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>MAVIGRI KONSER #2</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear4.jpeg"
-              alt="MAVİGRİ KONSER #3" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear4.jpeg" alt="MAVİGRİ KONSER #3" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>MAVİGRİ KONSER #3</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear0.jpeg"
-              alt="ANKARA TUR" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear0.jpeg" alt="ANKARA TUR" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>ANKARA TUR</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear1.jpeg"
-              alt="AFROBEAR" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear1.jpeg" alt="AFROBEAR" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>AFROBEAR</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear2.jpeg"
-              alt="WEGH KONSER" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear2.jpeg" alt="WEGH KONSER" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>WEGH KONSER</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear3.jpeg"
-              alt="WEGH KONSER" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear3.jpeg" alt="WEGH KONSER #2" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>WEGH KONSER #2</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear5.jpeg"
-              alt="XBear GAZETE'DE" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear5.jpeg" alt="XBear GAZETE'DE" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>XBEAR GAZETE'DE</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear6.jpeg"
-              alt="TEDX SELCUKUNI" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear6.jpeg" alt="TEDX SELCUKUNI" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>TEDX SELCUKUNI</span></div>
           </div>
         </div>
       </div>
 
-      <!-- Event Reels -->
-      <div class="gallery-row" style="margin-top: 24px;">
+      <div class="gallery-row">
         <div class="gallery-row-label gallery-row-label--reels">
           <i class="ph ph-video"></i>
           <span>Reels Videoları</span>
           <div class="gallery-row-hint"><i class="ph ph-arrows-horizontal"></i> Kaydır</div>
         </div>
-        <div class="gallery-scroll gallery-scroll--reels" id="reelsScrollEvent">
-          <!-- js/reels-data.js içindeki XBEAR_REELS.xbearevent listesinden doldurulur -->
-        </div>
+        <div class="gallery-scroll gallery-scroll--reels" id="reelsScrollEvent"></div>
       </div>
     </div>
 
-    <!-- Instagram CTA -->
     <div class="container">
       <div class="gallery-instagram-cta reveal">
         <a href="https://www.instagram.com/xbearevent" target="_blank" rel="noopener" class="gallery-ig-btn">
@@ -369,109 +670,86 @@
       </div>
     </div>
 
-    <!-- ── XBEAR MEDIA KARELERİ ── -->
-    <div class="gallery-category" style="margin-top: 80px;">
+    <div class="gallery-category" style="margin-top: 88px;">
       <div class="container">
-        <div class="gallery-category-header gallery-category-header--media">
+        <div class="gallery-category-header gallery-category-header--media reveal">
           <span class="gallery-category-eyebrow">02 — Media</span>
           <h3 class="gallery-category-title">Prodüksiyon &amp; Medya</h3>
           <p>Marka tanıtımları, prodüksiyonlar ve medya çekimlerinden anlar.</p>
         </div>
       </div>
 
-      <!-- Media Fotoğraflar -->
-      <div class="gallery-row" style="margin-top: 20px;">
+      <div class="gallery-row">
         <div class="gallery-row-label">
           <i class="ph ph-images"></i>
           <span>Fotoğraflar</span>
           <div class="gallery-row-hint"><i class="ph ph-arrows-horizontal"></i> Kaydır</div>
         </div>
         <div class="gallery-scroll" id="photoScrollMedia">
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia0.jpg"
-              alt="MYPOINT" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia0.jpg" alt="MYPOINT" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>MYPOINT</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia1.jpg"
-              alt="MYPOINT #1" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia1.jpg" alt="MYPOINT #1" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>MYPOINT #1</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia2.jpg"
-              alt="MYPOINT #2" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia2.jpg" alt="MYPOINT #2" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>MYPOINT #2</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia3.jpg"
-              alt="Extrablatt #1" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia3.jpg" alt="Extrablatt #1" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Extrablatt #1</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia4.jpg"
-              alt="Extrablatt #2" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia4.jpg" alt="Extrablatt #2" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Extrablatt #2</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia5.jpg"
-              alt="Extrablatt #3" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia5.jpg" alt="Extrablatt #3" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Extrablatt #3</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia6.jpg"
-              alt="Extrablatt #4" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia6.jpg" alt="Extrablatt #4" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Extrablatt #4</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia7.jpg"
-              alt="Extrablatt #5" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia7.jpg" alt="Extrablatt #5" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Extrablatt #5</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia8.jpg"
-              alt="La Finkas" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia8.jpg" alt="La Finkas" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>La Finkas</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia9.jpg"
-              alt="Mackbear #1" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia9.jpg" alt="Mackbear #1" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Mackbear #1</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia10.jpg"
-              alt="Mackbear #2" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia10.jpg" alt="Mackbear #2" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Mackbear #2</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia11.jpg"
-              alt="Mackbear #3" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia11.jpg" alt="Mackbear #3" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>Mackbear #3</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia12.png"
-              alt="BLOK3 #1" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia12.png" alt="BLOK3 #1" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>BLOK3 #1</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia13.png"
-              alt="BLOK3 #2" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia13.png" alt="BLOK3 #2" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>BLOK3 #2</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia14.png"
-              alt="BLOK3 #3" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia14.png" alt="BLOK3 #3" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>BLOK3 #3</span></div>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia15.png"
-              alt="BLOK3 #4" loading="lazy" decoding="async">
+          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbearmedia15.png" alt="BLOK3 #4" loading="lazy" decoding="async">
             <div class="gallery-scroll-overlay"><span>BLOK3 #4</span></div>
           </div>
         </div>
       </div>
 
-      <!-- Media Reels -->
-      <div class="gallery-row" style="margin-top: 24px;">
+      <div class="gallery-row">
         <div class="gallery-row-label gallery-row-label--reels">
           <i class="ph ph-video"></i>
           <span>Reels Videoları</span>
           <div class="gallery-row-hint"><i class="ph ph-arrows-horizontal"></i> Kaydır</div>
         </div>
-        <div class="gallery-scroll gallery-scroll--reels" id="reelsScrollMedia">
-          <!-- js/reels-data.js içindeki XBEAR_REELS.xbearmedia listesinden doldurulur -->
-        </div>
+        <div class="gallery-scroll gallery-scroll--reels" id="reelsScrollMedia"></div>
       </div>
     </div>
 
-    <!-- Instagram CTA -->
     <div class="container">
       <div class="gallery-instagram-cta reveal">
-        <a href="https://www.instagram.com/xbearmedia" target="_blank" rel="noopener"
-          class="gallery-ig-btn gallery-ig-btn--media">
+        <a href="https://www.instagram.com/xbearmedia" target="_blank" rel="noopener" class="gallery-ig-btn gallery-ig-btn--media">
           <i class="ph ph-instagram-logo"></i> @xbearmedia
         </a>
       </div>
@@ -479,7 +757,7 @@
   </section>
 
   <!-- ===== TESTIMONIALS ===== -->
-  <section class="section testimonials" id="testimonials">
+  <section class="section testimonials" id="testimonials" data-screen-label="Yorumlar">
     <div class="container">
       <div class="section-header reveal">
         <div class="section-tag">Yorumlar</div>
@@ -487,29 +765,13 @@
         <p class="section-subtitle">Birlikte çalıştığımız insanların deneyimleri en büyük referansımız.</p>
       </div>
       <div class="testimonials-slider">
-        <!-- Testimonial 1 -->
         <div class="testimonial-card reveal reveal-delay-1">
           <div class="testimonial-stars">
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
           </div>
           <blockquote>
             Pentagondaki konserlerin galiba hepsini bu ekip düzenliyor. Bence tek sorun giriş ücreti ama onunda ekiple
@@ -522,29 +784,13 @@
             </div>
           </div>
         </div>
-        <!-- Testimonial 2 -->
         <div class="testimonial-card reveal reveal-delay-2">
           <div class="testimonial-stars">
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
           </div>
           <blockquote>
             Halloween partileri çok güzeldi. Partinin giriş introsu, atmosferi ve organizasyonu baya beğendim. Böyle bir
@@ -557,29 +803,13 @@
             </div>
           </div>
         </div>
-        <!-- Testimonial 3 -->
         <div class="testimonial-card reveal reveal-delay-3">
           <div class="testimonial-stars">
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <svg viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
           </div>
           <blockquote>
             BLOK3 konserine gittim ben. Konser o kadar kalabalıktı ki sanki tüm şehir konserdeydi. Bir arkadaşım konseri
@@ -597,30 +827,24 @@
   </section>
 
   <!-- ===== CONTACT ===== -->
-  <section class="section contact" id="contact">
+  <section class="section contact" id="contact" data-screen-label="İletişim">
     <div class="container">
       <div class="contact-info reveal">
-        <div class="section-tag" style="margin-bottom: 14px;">İletişim</div>
+        <div class="section-tag">İletişim</div>
         <h2>Hayalinizdeki Etkinliği Gerçeğe Dönüştürelim</h2>
         <p>
-          Etkinliğinizin türü, tarihi ve beklentilerinizi paylaşın — gerisini biz halledelim.
+          Etkinliğinizin türünü, tarihini ve beklentilerinizi paylaşın — gerisini biz halledelim.
         </p>
         <div class="contact-details">
           <div class="contact-item">
-            <div class="contact-item-icon">
-              <i class="ph ph-whatsapp-logo"></i>
-            </div>
+            <div class="contact-item-icon"><i class="ph ph-whatsapp-logo"></i></div>
             <div class="contact-item-text">
               <h4>WhatsApp</h4>
-              <p>
-                <a href="https://wa.me/905064781490" target="_blank" rel="noopener">0506 478 14 90</a>
-              </p>
+              <p><a href="https://wa.me/905064781490" target="_blank" rel="noopener">0506 478 14 90</a></p>
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-item-icon">
-              <i class="ph ph-instagram-logo"></i>
-            </div>
+            <div class="contact-item-icon"><i class="ph ph-instagram-logo"></i></div>
             <div class="contact-item-text">
               <h4>Instagram</h4>
               <a href="https://instagram.com/xbearevent" target="_blank" rel="noopener">@xbearevent</a>
@@ -628,9 +852,7 @@
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-item-icon">
-              <i class="ph ph-map-pin"></i>
-            </div>
+            <div class="contact-item-icon"><i class="ph ph-map-pin"></i></div>
             <div class="contact-item-text">
               <h4>Konum</h4>
               <p>Konya, Türkiye</p>
@@ -653,7 +875,7 @@
           <h4>Hızlı Menü</h4>
           <ul>
             <li><a href="#about">Hakkımızda</a></li>
-            <li><a href="vizyon-misyon.html">Vizyon & Misyon</a></li>
+            <li><a href="vizyon-misyon.html">Vizyon &amp; Misyon</a></li>
             <li><a href="#services">Hizmetler</a></li>
             <li><a href="#gallery">Galeri</a></li>
             <li><a href="#testimonials">Yorumlar</a></li>
@@ -668,7 +890,6 @@
             <li><a href="#services">Kurumsal Etkinlik</a></li>
             <li><a href="#services">Medya &amp; Prodüksiyon</a></li>
             <li><a href="#services">Konsept Parti</a></li>
-            <li><a href="#services">Özel Gün Organizasyonu</a></li>
             <li><a href="#services">Tur &amp; Gezi</a></li>
           </ul>
         </div>
@@ -693,13 +914,6 @@
     </div>
   </footer>
 
-  <!-- ===== FLOATING THEME TOGGLE ===== -->
-  <div class="floating-theme-toggle" id="floatingThemeToggle">
-    <button class="floating-theme-btn" id="floatingThemeBtn" aria-label="Tema Değiştir" title="Hızlı Tema Değiştir">
-      <i class="ph-bold ph-palette"></i>
-    </button>
-  </div>
-
   <!-- ===== BACK TO TOP ===== -->
   <button class="back-to-top" id="backToTop" aria-label="Yukarı dön">
     <i class="ph ph-caret-up"></i>
@@ -720,7 +934,7 @@
       <i class="ph ph-caret-left"></i>
     </button>
     <div class="lightbox-stage">
-      <img src="" alt="Gallery Image" id="lightboxImg">
+      <img alt="Gallery Image" id="lightboxImg">
       <div class="lightbox-caption">
         <span id="lightboxTitle"></span>
         <span class="lightbox-counter" id="lightboxCounter"></span>
@@ -778,7 +992,7 @@
         <p>Instagram'a giriş yaparak beğenebilir, yorum yapabilir ve kaydedebilirsiniz.</p>
         <a href="https://www.instagram.com/accounts/login/" target="_blank" rel="noopener" class="reel-ig-login-btn"
           id="reelIgLoginBtn">
-          <i class="ph ph-instagram-logo"></i> Instagram'da Görüntüle & Etkileş
+          <i class="ph ph-instagram-logo"></i> Instagram'da Görüntüle &amp; Etkileş
         </a>
       </div>
     </div>
@@ -787,9 +1001,15 @@
     </button>
   </div>
 
+  <!-- Floating Mobile Apply Button -->
+  <a href="basvuru.html" class="mobile-floating-apply-btn">
+    <i class="ph ph-note-pencil"></i> Ekip Başvuru Formu
+  </a>
+
   <!-- Scripts -->
   <script src="js/reels-data.js?v=14"></script>
-  <script src="js/main.js?v=29"></script>
+  <script src="js/main.js?v=33"></script>
+  <script src="js/book.js?v=8"></script>
   <script async src="//www.instagram.com/embed.js"></script>
 </body>
 

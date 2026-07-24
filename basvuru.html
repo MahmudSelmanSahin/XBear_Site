@@ -5,27 +5,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="XBear Event-Media Ekip Başvuru Formu — Ekibimize katıl, Konya'da eğlencenin ve organizasyonun parçası ol!">
-  <title>🧸 XBear Ekip Başvuru Formu 📬 | XBear Event-Media</title>
-
-  <!-- Favicon -->
+  <title>XBear Ekip Başvuru Formu | XBear Event-Media</title>
   <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon.png">
   <link rel="apple-touch-icon" href="assets/images/favicon.png">
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Phosphor Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;640;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,550;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=35">
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 
 <body class="application-body">
+
+  <!-- ===== PRELOADER ===== -->
+  <div class="preloader" id="preloader">
+    <img src="assets/images/logo.png" alt="XBear" class="preloader-logo">
+  </div>
 
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar navbar-solid" id="navbar">
@@ -35,7 +32,7 @@
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html#about">Hakkımızda</a></li>
-        <li><a href="vizyon-misyon.html">Vizyon & Misyon</a></li>
+        <li><a href="vizyon-misyon.html">Vizyon &amp; Misyon</a></li>
         <li><a href="index.html#services">Hizmetler</a></li>
         <li><a href="index.html#gallery">Galeri</a></li>
         <li><a href="index.html#testimonials">Yorumlar</a></li>
@@ -43,36 +40,55 @@
         <li class="theme-nav-item">
           <div class="theme-switcher-dropdown" id="themeSwitcher">
             <button class="theme-switcher-btn" id="themeSwitcherBtn" aria-label="Tema Seç" title="Tema Değiştir">
-              <i class="ph-bold ph-palette"></i>
-              <span class="theme-btn-label">Füme Koyu</span>
-              <i class="ph ph-caret-down"></i>
+              <span class="theme-btn-inner">
+                <i class="theme-current-icon ph-bold ph-moon-stars"></i>
+                <span class="theme-btn-label">Füme Koyu</span>
+              </span>
+              <i class="ph ph-caret-down theme-arrow"></i>
             </button>
             <div class="theme-dropdown-menu" id="themeDropdownMenu">
-              <div class="theme-dropdown-title">Tema Seçenekleri</div>
-              <button class="theme-option-btn" data-set-theme="slate">
-                <span class="theme-dot theme-dot-slate"></span>
-                <span class="theme-name">Füme Koyu</span>
-                <span class="theme-badge">Sakin</span>
-              </button>
-              <button class="theme-option-btn" data-set-theme="light">
-                <span class="theme-dot theme-dot-light"></span>
-                <span class="theme-name">Aydınlık</span>
-                <span class="theme-badge">Ferah</span>
-              </button>
-              <button class="theme-option-btn" data-set-theme="cream">
-                <span class="theme-dot theme-dot-cream"></span>
-                <span class="theme-name">Sıcak Krem</span>
-                <span class="theme-badge">Soft</span>
-              </button>
-              <button class="theme-option-btn" data-set-theme="midnight">
-                <span class="theme-dot theme-dot-midnight"></span>
-                <span class="theme-name">Derin Gece</span>
-                <span class="theme-badge">OLED</span>
-              </button>
+              <div class="theme-dropdown-header">
+                <i class="ph-bold ph-palette"></i>
+                <span>Tema Tercihi</span>
+              </div>
+              <div class="theme-options-list">
+                <button class="theme-option-btn" data-set-theme="slate">
+                  <span class="theme-option-icon"><i class="ph-bold ph-moon-stars"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Füme Koyu</span>
+                    <span class="theme-desc">Sakin &amp; gözü yormayan koyu</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+                <button class="theme-option-btn" data-set-theme="light">
+                  <span class="theme-option-icon"><i class="ph-bold ph-sun-dim"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Aydınlık</span>
+                    <span class="theme-desc">Ferah &amp; net açık tema</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+                <button class="theme-option-btn" data-set-theme="cream">
+                  <span class="theme-option-icon"><i class="ph-bold ph-coffee"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Sıcak Krem</span>
+                    <span class="theme-desc">Yumuşak &amp; doğal pastel</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+                <button class="theme-option-btn" data-set-theme="midnight">
+                  <span class="theme-option-icon"><i class="ph-bold ph-sparkle"></i></span>
+                  <span class="theme-info">
+                    <span class="theme-name">Derin Gece</span>
+                    <span class="theme-desc">Yüksek kontrast OLED</span>
+                  </span>
+                  <i class="ph-fill ph-check-circle theme-check-icon"></i>
+                </button>
+              </div>
             </div>
           </div>
         </li>
-        <li><a href="basvuru.html" class="btn btn-primary nav-btn-highlight"><i class="ph ph-note-pencil"></i> Ekip Başvuru Formu</a></li>
+        <li><a href="basvuru.html" class="nav-btn-highlight"><i class="ph ph-note-pencil"></i> Ekip Başvurusu</a></li>
       </ul>
       <div class="hamburger" id="hamburger">
         <span></span>
@@ -82,28 +98,25 @@
     </div>
   </nav>
 
-  <!-- ===== APPLICATION FORM HERO & CONTAINER ===== -->
+  <!-- ===== APPLICATION FORM ===== -->
   <main class="application-container">
     <div class="container">
 
-      <!-- Back Link -->
       <a href="index.html" class="back-link">
         <i class="ph ph-arrow-left"></i> Ana Sayfaya Dön
       </a>
 
-      <!-- Form Wrapper -->
       <div class="app-form-wrapper">
 
-        <!-- Banner / Header Card -->
         <div class="app-header-card">
           <div class="app-header-badge">
             <span class="badge-dot"></span> Ekibimize Katıl
           </div>
           <h1 class="app-title">🧸 XBear Ekip Başvuru Formu 📬</h1>
           <div class="app-intro">
-            <p><strong>Selam! Biz XBear ailesi.</strong></p>
+            <p><strong>Selam! Biz XBear ailesi.</strong> XBEAR fırsat yaratır — sıradaki fırsat senin olabilir.</p>
             <p>Düzenlediğimiz birbirinden eğlenceli ve çeşitli etkinlikle Konya'nın sıkıcı olduğu düşüncesini kırıyoruz. Turlar, geziler, partiler, konserler, sinema geceleri, atölyeler ve daha fazlası..!</p>
-            
+
             <p class="intro-subtitle">Eğer sen de;</p>
             <ul class="intro-list">
               <li><i class="ph-bold ph-check-circle"></i> <strong>18-28 yaş aralığındaysan,</strong></li>
@@ -120,17 +133,14 @@
           </div>
         </div>
 
-        <!-- APPLICATION FORM -->
         <form id="applicationForm" class="app-form">
 
-          <!-- SECTION 1 -->
           <div class="app-section-card">
             <div class="app-section-header">
               <h2>Öncelikle biraz tanışalım 🤝🏼</h2>
               <p class="section-subtext">Bu, yüzlerce başvuru içinden seni ayırt edebilmemiz için önemli bir adım.</p>
             </div>
 
-            <!-- Q1: İsim Soyisim -->
             <div class="form-card-field">
               <label for="fullName" class="field-label">
                 İsim - Soyisim <span class="required-star">*</span>
@@ -138,7 +148,6 @@
               <input type="text" id="fullName" name="fullName" placeholder="Yanıtınız" required>
             </div>
 
-            <!-- Q2: Doğum Tarihi -->
             <div class="form-card-field">
               <label for="birthDate" class="field-label">
                 Doğum Tarihin (Gün.Ay.Yıl) <span class="required-star">*</span>
@@ -147,7 +156,6 @@
               <input type="text" id="birthDate" name="birthDate" placeholder="Yanıtınız (Örn: 15.04.2002)" required>
             </div>
 
-            <!-- Q3: E-posta Adresi -->
             <div class="form-card-field">
               <label for="applicantEmail" class="field-label">
                 E-posta Adresin <span class="required-star">*</span>
@@ -156,7 +164,6 @@
               <input type="email" id="applicantEmail" name="applicantEmail" placeholder="ornek@gmail.com" required>
             </div>
 
-            <!-- Q4: Üniversite / Bölüm / Sınıf -->
             <div class="form-card-field">
               <label for="educationInfo" class="field-label">
                 Üniversiteni, Bölümünü ve Kaçıncı Sınıf olduğunu da yazabilir misin? (öğrenci değilsen nokta bırakıp formu doldurmaya devam edebilirsin) <span class="required-star">*</span>
@@ -165,7 +172,6 @@
               <textarea id="educationInfo" name="educationInfo" rows="3" placeholder="Yanıtınız" required></textarea>
             </div>
 
-            <!-- Q5: Sosyal Medya Linkleri -->
             <div class="form-card-field">
               <label for="socialLinks" class="field-label">
                 Sosyal Medya Hesaplarının Linkleri <span class="required-star">*</span>
@@ -174,7 +180,6 @@
               <input type="text" id="socialLinks" name="socialLinks" placeholder="Yanıtınız (Örn: @kullaniciadi veya link)" required>
             </div>
 
-            <!-- Q6: Hobiler & Fobiler -->
             <div class="form-card-field">
               <label for="hobbies" class="field-label">
                 Günlük hayatında neler yapmaktan hoşlanırsın? Hobilerin (ve fobilerin) neler? <span class="required-star">*</span>
@@ -184,14 +189,12 @@
 
           </div>
 
-          <!-- SECTION 2 -->
           <div class="app-section-card">
             <div class="app-section-header">
               <h2>Şimdii biraz iş konuşalım...</h2>
               <p class="section-subtext">kurumsalız evet (bazen cevap olarak 👍🏼 emojisini kullanıyoruz)</p>
             </div>
 
-            <!-- Q7: XBear Beklentileri -->
             <div class="form-card-field">
               <label for="expectations" class="field-label">
                 XBear'dan beklentilerin nelerdir? <span class="required-star">*</span>
@@ -199,7 +202,6 @@
               <textarea id="expectations" name="expectations" rows="4" placeholder="Yanıtınız" required></textarea>
             </div>
 
-            <!-- Q8: Ekibe Katkılar -->
             <div class="form-card-field">
               <label for="contributions" class="field-label">
                 Peki XBear'a ve ekibimize neler katabilirsin? <span class="field-subtitle">(o harika enerjin ve aktifliğin haricinde😉)</span> <span class="required-star">*</span>
@@ -207,7 +209,6 @@
               <textarea id="contributions" name="contributions" rows="4" placeholder="Yanıtınız" required></textarea>
             </div>
 
-            <!-- Q9: Telefon Numarası -->
             <div class="form-card-field">
               <label for="phoneNumber" class="field-label">
                 Son olarak seninle iletişime geçebilmemiz için telefon numaranı alabilir miyiz? <span class="field-subtitle">(patron arkadaş whatsapp profil fotoğraflarına göre seçim yapabiliyor, o yüzden dikkat😜)</span> <span class="required-star">*</span>
@@ -215,7 +216,6 @@
               <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="05XX XXX XX XX" required>
             </div>
 
-            <!-- Send Copy Checkbox -->
             <div class="form-card-field send-copy-field">
               <label class="checkbox-container">
                 <input type="checkbox" id="sendCopyCheckbox" name="sendCopy">
@@ -225,7 +225,6 @@
 
           </div>
 
-          <!-- FORM ACTIONS -->
           <div class="app-actions-card">
             <button type="submit" class="btn btn-primary app-submit-btn" id="appSubmitBtn">
               <i class="ph ph-paper-plane-tilt"></i> Gönder
@@ -235,12 +234,11 @@
 
         </form>
 
-        <!-- SUCCESS MESSAGE (Hidden by default) -->
         <div id="appSuccessCard" class="app-success-card hidden">
           <div class="success-icon-wrapper">
             <i class="ph-fill ph-check-circle"></i>
           </div>
-          <h2>Yanıtınız Kaydedildi! 🧸🎉</h2>
+          <h2>Yanıtınız Kaydedildi!</h2>
           <p>XBear Ekip Başvuru Formunu doldurduğun için teşekkür ederiz! Başvurunu inceleyip en kısa sürede seninle iletişime geçeceğiz.</p>
           <div class="success-actions">
             <a href="index.html" class="btn btn-primary"><i class="ph ph-house"></i> Ana Sayfaya Dön</a>
@@ -264,7 +262,7 @@
           <h4>Hızlı Menü</h4>
           <ul>
             <li><a href="index.html#about">Hakkımızda</a></li>
-            <li><a href="vizyon-misyon.html">Vizyon & Misyon</a></li>
+            <li><a href="vizyon-misyon.html">Vizyon &amp; Misyon</a></li>
             <li><a href="index.html#services">Hizmetler</a></li>
             <li><a href="index.html#gallery">Galeri</a></li>
             <li><a href="index.html#testimonials">Yorumlar</a></li>
@@ -287,15 +285,13 @@
     </div>
   </footer>
 
-  <!-- ===== FLOATING THEME TOGGLE ===== -->
-  <div class="floating-theme-toggle" id="floatingThemeToggle">
-    <button class="floating-theme-btn" id="floatingThemeBtn" aria-label="Tema Değiştir" title="Hızlı Tema Değiştir">
-      <i class="ph-bold ph-palette"></i>
-    </button>
-  </div>
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Yukarı dön">
+    <i class="ph ph-caret-up"></i>
+  </button>
 
   <!-- Scripts -->
-  <script src="js/main.js?v=29"></script>
+  <script src="js/main.js?v=33"></script>
   <script src="js/basvuru.js?v=1"></script>
 </body>
 

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bearGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D42B3E" />
+      <stop offset="100%" stop-color="#8A1826" />
+    </linearGradient>
+  </defs>
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#D42B3E" fill-opacity="0.08" stroke="#D42B3E" stroke-opacity="0.2" stroke-width="2"/>
+  
+  <!-- Bear Ears -->
+  <circle cx="55" cy="50" r="22" fill="url(#bearGrad2)" />
+  <circle cx="55" cy="50" r="12" fill="#E8495A" />
+  <circle cx="145" cy="50" r="22" fill="url(#bearGrad2)" />
+  <circle cx="145" cy="50" r="12" fill="#E8495A" />
+  
+  <!-- Headphones Band -->
+  <path d="M 45,75 A 60,60 0 0,1 155,75" stroke="#FAFAFA" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <rect x="35" y="70" width="18" height="30" rx="8" fill="#D42B3E"/>
+  <rect x="147" y="70" width="18" height="30" rx="8" fill="#D42B3E"/>
+
+  <!-- Bear Head -->
+  <circle cx="100" cy="95" r="55" fill="url(#bearGrad2)" />
+  
+  <!-- Muzzle -->
+  <ellipse cx="100" cy="110" rx="26" ry="20" fill="#FAFAFA" />
+  <ellipse cx="100" cy="100" rx="10" ry="7" fill="#14161B" />
+  <path d="M 100,107 Q 95,116 88,114 M 100,107 Q 105,116 112,114" stroke="#14161B" stroke-width="3" stroke-linecap="round" fill="none"/>
+  
+  <!-- Wink Eye -->
+  <path d="M 74,88 Q 80,82 86,88" stroke="#FAFAFA" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="120" cy="88" r="6" fill="#FAFAFA" />
+  <circle cx="119" cy="87" r="3" fill="#14161B" />
+  
+  <!-- Palette Icon Badge -->
+  <circle cx="145" cy="135" r="24" fill="#1B1E24" stroke="#D42B3E" stroke-width="3"/>
+  <circle cx="138" cy="130" r="3" fill="#E8495A"/>
+  <circle cx="148" cy="128" r="3" fill="#E8C47C"/>
+  <circle cx="152" cy="138" r="3" fill="#6E8FD6"/>
+</svg>
