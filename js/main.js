@@ -52,12 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     backToTop.classList.toggle('visible', scrollY > 500);
 
     // Hide/show navbar on scroll
+    // not an inline transform: any non-"none" transform value on .navbar (even
+    // translateY(0)) would make it the containing block for its position:fixed
+    // .nav-links child, breaking the fullscreen mobile menu overlay.
     const scrollingDown = scrollY > lastScrollY && scrollY > 200;
-    if (scrollingDown) {
-      navbar.style.transform = 'translateY(-100%)';
-    } else {
-      navbar.style.transform = 'translateY(0)';
-    }
+    navbar.classList.toggle('nav-hidden', scrollingDown);
 
     // Hide the floating apply CTA while scrolling down so it doesn't sit on top
     // of body content; reappear on scroll-up so it stays reachable.
