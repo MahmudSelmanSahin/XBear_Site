@@ -133,6 +133,10 @@ input, textarea, select { font-family: inherit; }
 }
 .vm-section-tag .tag-line { content: none; }
 .section-title { font-size: clamp(30px, 4vw, 44px); margin-bottom: 14px; }
+.title-claw {
+  width: 0.56em; height: 0.72em; margin-right: 0.24em; vertical-align: middle;
+  color: var(--accent-strong); transform: translateY(-0.04em); fill: currentColor;
+}
 .section-subtitle { color: var(--ink-2); max-width: 560px; font-size: 17px; }
 .section-header { margin-bottom: 56px; }
 .section-header.text-center, .text-center { text-align: center; }
@@ -163,7 +167,7 @@ input, textarea, select { font-family: inherit; }
   position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center;
   background: var(--bg); transition: opacity 0.5s ease, visibility 0.5s ease;
 }
-.preloader-logo { width: 230px; max-width: 60vw; animation: pulse 1.4s ease-in-out infinite; }
+.preloader-logo { width: 460px; max-width: 75vw; animation: pulse 1.4s ease-in-out infinite; }
 .preloader.hidden { opacity: 0; visibility: hidden; }
 @keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(0.97); } 50% { opacity: 1; transform: scale(1); } }
 
@@ -192,6 +196,10 @@ html[data-theme="light"] .preloader-logo, html[data-theme="cream"] .preloader-lo
   padding: 6px 0; position: relative; white-space: nowrap;
 }
 .nav-links > li > a:hover, .nav-links > li > a.active { color: var(--ink); }
+.nav-claw {
+  width: 11px; height: 14px; margin-right: 5px; vertical-align: -2px;
+  color: var(--accent-strong); fill: currentColor; opacity: 0.85;
+}
 /* şeffaf navbar hero üzerindeyken linkler beyaz kalsın */
 .navbar:not(.scrolled):not(.navbar-solid) .nav-links > li > a { color: rgba(255, 255, 255, 0.82); }
 .navbar:not(.scrolled):not(.navbar-solid) .nav-links > li > a:hover,
@@ -380,6 +388,11 @@ html[data-theme="midnight"] .book { --cover: #2c313d; }
   display: flex; flex-direction: column; align-items: flex-start; color: #f5f1e8;
 }
 .cover-logo { width: clamp(90px, 12vw, 140px); height: auto; }
+.cover-claw {
+  position: absolute; right: clamp(14px, 3.2vw, 30px); bottom: clamp(10px, 2.4vw, 22px);
+  width: clamp(64px, 9.6vw, 92px); height: auto; color: rgba(245, 241, 232, 0.4);
+  fill: currentColor; pointer-events: none;
+}
 .cover-rule { width: 40px; height: 2px; background: var(--accent-strong); margin-top: auto; margin-bottom: 18px; }
 .cover-title { font-size: clamp(22px, 2.8vw, 34px); color: #f5f1e8; margin-bottom: 10px; }
 .cover-motto { color: var(--accent-strong); font-weight: 600; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: auto; }
