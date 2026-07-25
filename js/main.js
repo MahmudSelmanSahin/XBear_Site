@@ -37,8 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== NAVBAR =====
   const navbar = document.getElementById('navbar');
-  const backToTop = document.getElementById('backToTop');
-  const mobileApplyBtn = document.querySelector('.mobile-floating-apply-btn');
   let lastScrollY = 0;
   let ticking = false;
 
@@ -48,21 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navbar background
     navbar.classList.toggle('scrolled', scrollY > 60);
 
-    // Back to top
-    backToTop.classList.toggle('visible', scrollY > 500);
-
     // Hide/show navbar on scroll
     // not an inline transform: any non-"none" transform value on .navbar (even
     // translateY(0)) would make it the containing block for its position:fixed
     // .nav-links child, breaking the fullscreen mobile menu overlay.
     const scrollingDown = scrollY > lastScrollY && scrollY > 200;
     navbar.classList.toggle('nav-hidden', scrollingDown);
-
-    // Hide the floating apply CTA while scrolling down so it doesn't sit on top
-    // of body content; reappear on scroll-up so it stays reachable.
-    if (mobileApplyBtn) {
-      mobileApplyBtn.classList.toggle('is-hidden', scrollingDown);
-    }
 
     lastScrollY = scrollY;
     updateActiveNavLink();
@@ -75,11 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ticking = true;
     }
   }, { passive: true });
-
-  // back to top
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
 
 
   // ===== HAMBURGER =====
