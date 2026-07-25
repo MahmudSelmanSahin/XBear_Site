@@ -933,7 +933,7 @@ function setupThemeSwitcher() {
   });
 
   // Floating Theme Switcher Quick Toggle
-  const themesList = ['slate', 'light', 'cream', 'midnight'];
+  const themesList = ['slate', 'light', 'cream', 'midnight', 'navy'];
   if (floatingThemeBtn) {
     floatingThemeBtn.addEventListener('click', () => {
       const activeTheme = localStorage.getItem('xbear_theme') || 'slate';
@@ -977,8 +977,9 @@ function updateActiveThemeUI(theme) {
   const themeMeta = {
     slate: { name: 'Füme Koyu', icon: 'ph-moon-stars' },
     light: { name: 'Aydınlık', icon: 'ph-sun-dim' },
-    cream: { name: 'Sıcak Krem', icon: 'ph-coffee' },
-    midnight: { name: 'Derin Gece', icon: 'ph-sparkle' }
+    cream: { name: 'Kor Alevi', icon: 'ph-fire' },
+    midnight: { name: 'Derin Gece', icon: 'ph-sparkle' },
+    navy: { name: 'Derin Okyanus', icon: 'ph-drop' }
   };
 
   const meta = themeMeta[theme] || themeMeta['slate'];
