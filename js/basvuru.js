@@ -24,15 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const contributionsInput = document.getElementById('contributions');
   const phoneInput = document.getElementById('phoneNumber');
 
-  // Mobile menu toggle
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      hamburger.classList.toggle('active');
-    });
-  }
+  // Mobile menü açma/kapama js/main.js'de zaten yönetiliyor; burada ikinci
+  // bir listener eklemek aynı tıklamada iki kez toggle'lanıp birbirini
+  // iptal ediyordu (menü hiç açılmıyormuş gibi görünüyordu).
 
   // ===== LIVE INPUT MASKING =====
 
