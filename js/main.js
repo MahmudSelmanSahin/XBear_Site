@@ -40,17 +40,24 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastScrollY = 0;
   let ticking = false;
 
+  const MOBILE_NAV_BREAKPOINT = 1080;
+
   function handleScroll() {
     const scrollY = window.scrollY;
 
     // Navbar background
     navbar.classList.toggle('scrolled', scrollY > 60);
 
-    // Hide/show navbar on scroll
-    // not an inline transform: any non-"none" transform value on .navbar (even
-    // translateY(0)) would make it the containing block for its position:fixed
-    // .nav-links child, breaking the fullscreen mobile menu overlay.
-    const scrollingDown = scrollY > lastScrollY && scrollY > 200;
+    // Hide/show navbar on scroll (desktop only). On mobile the hamburger
+    // lives inside .navbar, and any non-"none" transform on .navbar (even
+    // translateY(0)) makes it the containing block for its position:fixed
+    // .nav-links child, breaking the fullscreen mobile menu overlay — and
+    // while hidden the hamburger itself is scrolled off-screen and
+    // unreachable. So never auto-hide the bar below the mobile breakpoint,
+    // or while the mobile menu is open.
+    const isMobileNav = window.innerWidth <= MOBILE_NAV_BREAKPOINT;
+    const scrollingDown = !isMobileNav && !navLinks.classList.contains('open') &&
+      scrollY > lastScrollY && scrollY > 200;
     navbar.classList.toggle('nav-hidden', scrollingDown);
 
     lastScrollY = scrollY;
@@ -64,6 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ticking = true;
     }
   }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= MOBILE_NAV_BREAKPOINT) {
+      navbar.classList.remove('nav-hidden');
+    }
+  });
 
 
   // ===== HAMBURGER =====
@@ -475,6 +488,50 @@ function ensureAboutVideoPlayback() {
   }
 }
 
+// <video controls>'a tıklamak Chrome'da native bir "click to toggle
+// play/pause" default action'ı tetikler, ama bu JS listener'lardan SONRA
+// (dispatch bittikten sonra) çalışır. preventDefault() çağırmazsak: bizim
+// listener'ımız paused'ı değiştirir, hemen ardından native default action
+// AYNI tıklamayı native olarak tekrar toggle'lar — ikisi üst üste binip
+// birbirini iptal eder ve tıklamanın hiçbir görünür etkisi olmaz. Alttaki
+// ~48px'lik kontrol çubuğu şeridini hariç tutuyoruz ki oradaki ikonun
+// kendi native davranışına dokunmayalım.
+//
+// Dokunmatikte (mobil/DevTools cihaz modu) durum farklı: native video
+// touchend'i kendi içinde preventDefault ediyor ve bunun sonucunda
+// tarayıcı touch'tan senkron 'click' event'i hiç üretmiyor — yani bizim
+// 'click' listener'ımız dokunmatikte asla çalışmıyordu. Bu yüzden
+// touchend'i ayrıca dinliyoruz; iki event de tetiklenirse diye kısa bir
+// zaman penceresiyle çift toggle'ı da engelliyoruz.
+function attachFrameClickToggle(video) {
+  const CONTROLS_ZONE = 48;
+  let lastTouchToggle = 0;
+
+  function inControlsZone(clientY) {
+    const rect = video.getBoundingClientRect();
+    return clientY - rect.top > rect.height - CONTROLS_ZONE;
+  }
+
+  function toggle() {
+    if (video.paused) video.play().catch(() => {}); else video.pause();
+  }
+
+  video.addEventListener('touchend', (e) => {
+    const touch = e.changedTouches[0];
+    if (!touch || inControlsZone(touch.clientY)) return;
+    e.preventDefault();
+    lastTouchToggle = Date.now();
+    toggle();
+  });
+
+  video.addEventListener('click', (e) => {
+    if (Date.now() - lastTouchToggle < 500) return;
+    if (inControlsZone(e.clientY)) return;
+    e.preventDefault();
+    toggle();
+  });
+}
+
 function syncReelPreviewFrames() {
   document.querySelectorAll('.reel-card .reel-thumb video[data-preview-at]').forEach(video => {
     if (video.dataset.previewReady === 'true') return;
@@ -729,9 +786,7 @@ function renderReel(index, firstOpen) {
           } catch (_) {}
         }, { once: true });
       }
-      popupVideo.addEventListener('click', function () {
-        if (popupVideo.paused) popupVideo.play().catch(function () {}); else popupVideo.pause();
-      });
+      attachFrameClickToggle(popupVideo);
       popupVideo.muted = false;
       popupVideo.volume = 1;
       const playPromise = popupVideo.play();
@@ -1007,9 +1062,7 @@ function updateActiveThemeUI(theme) {
   function init() {
     var av = document.getElementById('aboutVideo');
     if (!av || !av.getAttribute('src')) return;
-    av.addEventListener('click', function () {
-      if (av.paused) av.play().catch(function () {}); else av.pause();
-    });
+    attachFrameClickToggle(av);
     fetch(av.getAttribute('src'))
       .then(function (r) { return r.ok ? r.blob() : Promise.reject(new Error('fetch failed')); })
       .then(function (blob) {

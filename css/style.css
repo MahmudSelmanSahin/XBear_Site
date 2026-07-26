@@ -195,16 +195,25 @@ input, textarea, select { font-family: inherit; }
 /* ---------- NAVBAR ---------- */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  padding: 22px 0; transition: transform 0.35s ease, padding 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  padding: 22px 0; transition: transform 0.35s ease, padding 0.3s ease, border-color 0.3s ease;
   border-bottom: 1px solid transparent;
 }
 .navbar.nav-hidden { transform: translateY(-100%); }
-.navbar .container { display: flex; align-items: center; justify-content: flex-start; gap: clamp(24px, 4vw, 56px); }
+.navbar .container { display: flex; align-items: center; justify-content: flex-start; gap: clamp(24px, 4vw, 56px); position: relative; z-index: 1; }
 .navbar .container > .nav-links { margin-left: 0; }
-.navbar.scrolled, .navbar-solid {
+/* backdrop-filter/background live on a ::before layer, not on .navbar itself:
+   a backdrop-filter (like a transform) turns its element into the containing
+   block for position:fixed descendants, which would confine the fullscreen
+   mobile .nav-links overlay to the navbar's own small box instead of the
+   viewport. Keeping .navbar itself filter-free avoids that trap. */
+.navbar::before {
+  content: ''; position: absolute; inset: 0;
   background: var(--nav-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border-bottom-color: var(--line); padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  opacity: 0; transition: opacity 0.3s ease;
 }
+.navbar.scrolled::before, .navbar-solid::before { opacity: 1; }
+.navbar.scrolled, .navbar-solid { padding: 12px 0; }
 .nav-logo { height: 54px; width: auto; transition: height 0.3s ease; }
 .navbar.scrolled .nav-logo, .navbar-solid .nav-logo { height: 44px; }
 html[data-theme="light"] .nav-logo,
@@ -829,6 +838,11 @@ html[data-theme="light"] .preloader-logo {
   .trail-node--left .trail-copy, .trail-node--right .trail-copy { justify-self: start; text-align: left; order: 2; }
   .trail-node--left .trail-scene, .trail-node--right .trail-scene { justify-self: start; order: 1; width: min(230px, 70%); }
   .mobile-floating-apply-btn { display: inline-flex; }
+  /* .mobile-floating-apply-btn ve .whatsapp-btn ekranın altında sabit
+     kalıyor; footer'ın son satırı (copyright/gizlilik linkleri) sayfanın
+     en sonuna kadar kaydırıldığında bu sabit barın arkasında kalıp hiç
+     görünmüyordu. Footer'a bu barları temizleyecek kadar boşluk ekliyoruz. */
+  .footer { padding-bottom: 96px; }
 }
 
 @media (max-width: 560px) {
