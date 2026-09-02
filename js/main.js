@@ -447,7 +447,7 @@ function initDotsNav() {
   const dots = document.querySelectorAll('.dots-nav-item');
   if (!dots.length) return;
 
-  const targets = Array.from(document.querySelectorAll('.case-block, #media-reels, #cinematic'))
+  const targets = Array.from(document.querySelectorAll('.case-block, #media-reels, #event-reels, #cinematic'))
     .filter(el => el.id);
 
   if (!targets.length) return;

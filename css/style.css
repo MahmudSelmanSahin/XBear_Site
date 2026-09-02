@@ -921,8 +921,10 @@ html[data-theme="light"] .preloader-logo {
 .work-teaser-card:hover { color: inherit; }
 
 @media (min-width: 1081px) {
-  .media-page .work-page-main { padding-left: 48px; }
-  .media-page .work-page-main--flush { padding-left: 0; }
+  .media-page .work-page-main,
+  .event-page .work-page-main { padding-left: 48px; }
+  .media-page .work-page-main--flush,
+  .event-page .work-page-main--flush { padding-left: 0; }
 }
 
 /* ============================================================
@@ -940,7 +942,7 @@ html[data-theme="light"] .preloader-logo {
 .work-hero-title { font-size: clamp(32px, 4.4vw, 52px); margin-bottom: 16px; }
 .work-hero-lead { color: var(--ink-2); font-size: 18px; }
 .work-gallery { padding: 28px 0 24px; scroll-margin-top: 108px; }
-#media-reels { scroll-margin-top: 108px; }
+#media-reels, #event-reels { scroll-margin-top: 108px; }
 .work-page .gallery-scroll-item { flex: 0 0 380px; width: 380px; height: 260px; }
 
 .media-showreel {
@@ -1074,6 +1076,12 @@ html[data-theme="light"] .preloader-logo {
   grid-template-columns: minmax(140px, 240px);
 }
 .case-visuals--video .case-stills--one .case-still { aspect-ratio: 9 / 16; }
+.case-visuals--video .case-stills--two {
+  grid-template-columns: repeat(2, 1fr);
+}
+.case-visuals--video .case-stills:has(.case-still:only-child) {
+  grid-template-columns: 1fr;
+}
 .case-visuals--solo {
   grid-template-columns: 1fr;
 }
@@ -1259,6 +1267,8 @@ html[data-theme="light"] .preloader-logo {
     height: auto; min-height: 0;
   }
   .case-visuals .case-still { aspect-ratio: 16 / 10; }
+  .case-visuals--video .case-stills--two { grid-template-columns: repeat(2, 1fr); }
+  .case-visuals--video .case-stills:has(.case-still:only-child) { grid-template-columns: 1fr; }
   .case-stage { height: 72svh; min-height: 420px; }
   .mackbear-boards {
     display: flex; overflow-x: auto; gap: 12px;

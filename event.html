@@ -20,10 +20,10 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="css/style.css?v=81">
+  <link rel="stylesheet" href="css/style.css?v=82">
 </head>
 
-<body class="work-page">
+<body class="work-page event-page">
 
   <div class="preloader" id="preloader">
     <img src="assets/images/logo.png" alt="XBear" class="preloader-logo">
@@ -124,68 +124,156 @@
     </div>
   </nav>
 
-  <main class="work-page-main">
-    <div class="container">
-      <header class="work-hero reveal">
-        <a href="index.html" class="back-link">
-          <i class="ph ph-arrow-left"></i> Ana Sayfaya Dön
-        </a>
-        <span class="work-hero-eyebrow">01 — Event</span>
-        <h1 class="work-hero-title">Etkinlik &amp; Organizasyon</h1>
-        <p class="work-hero-lead">
-          Her etkinlik bir anı, her kare bir hikâye. Konserden tura, konsept gecelerden sahneye — XBear farkı.
-        </p>
-      </header>
+  <nav class="dots-nav" id="dotsNav" aria-label="Etkinlik gezintisi">
+    <a href="#case-mavigri" class="dots-nav-item is-active" data-target="case-mavigri">
+      <span class="dots-nav-dot"></span>
+      <span class="dots-nav-label">Mavigri</span>
+    </a>
+    <a href="#case-ankara" class="dots-nav-item" data-target="case-ankara">
+      <span class="dots-nav-dot"></span>
+      <span class="dots-nav-label">Ankara</span>
+    </a>
+    <a href="#case-afrobear" class="dots-nav-item" data-target="case-afrobear">
+      <span class="dots-nav-dot"></span>
+      <span class="dots-nav-label">Afrobear</span>
+    </a>
+    <a href="#case-wegh" class="dots-nav-item" data-target="case-wegh">
+      <span class="dots-nav-dot"></span>
+      <span class="dots-nav-label">Wegh</span>
+    </a>
+    <a href="#case-gazete" class="dots-nav-item" data-target="case-gazete">
+      <span class="dots-nav-dot"></span>
+      <span class="dots-nav-label">Gazete</span>
+    </a>
+    <a href="#case-tedx" class="dots-nav-item" data-target="case-tedx">
+      <span class="dots-nav-dot"></span>
+      <span class="dots-nav-label">TEDx</span>
+    </a>
+    <a href="#event-reels" class="dots-nav-item" data-target="event-reels">
+      <span class="dots-nav-dot"></span>
+      <span class="dots-nav-label">Reels</span>
+    </a>
+  </nav>
+
+  <main class="work-page-main work-page-main--flush">
+    <div data-reel-group="event-open">
+    <section class="media-showreel">
+      <a href="index.html" class="back-link back-link--on-media media-showreel-back">
+        <i class="ph ph-arrow-left"></i> Ana Sayfaya Dön
+      </a>
+      <button type="button" class="media-showreel-stage" data-inview-video data-hover-video
+        data-reel-src="assets/videos/Xbearvideo7.mp4" data-reel-type="video"
+        data-reel-orientation="landscape" data-reel-preview-at="1"
+        data-reel-account="@xbearevent" data-reel-title="NO1 KONSER">
+        <video muted loop playsinline preload="auto" poster="assets/images/reels/thumbs/Xbearvideo7.jpg">
+          <source src="assets/videos/Xbearvideo7.mp4?v=3" type="video/mp4">
+        </video>
+        <span class="case-hero-play"><i class="ph-fill ph-play"></i></span>
+      </button>
+    </section>
     </div>
 
-    <section class="gallery work-gallery" id="event-gallery" data-screen-label="Event">
-      <div class="gallery-row">
-        <div class="gallery-row-label">
-          <i class="ph ph-images"></i>
-          <span>Fotoğraflar</span>
-          <div class="gallery-row-hint"><i class="ph ph-arrows-horizontal"></i> Kaydır</div>
-        </div>
-        <div class="gallery-scroll" id="photoScrollEvent">
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear7.jpg"
-              alt="MAVIGRI KONSER" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>MAVIGRI KONSER</span></div>
+    <section class="cases-stack">
+      <article class="case-block" id="case-mavigri" data-lightbox-group>
+        <div class="container case-block-inner">
+          <div class="case-copy">
+            <span class="case-eyebrow">01</span>
+            <h2>Mavigri Konser</h2>
+            <p>Sahne, kalabalık ve gece. Konserin ritmini kareye alan bir gece.</p>
           </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear8.jpg"
-              alt="MAVIGRI KONSER #2" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>MAVIGRI KONSER #2</span></div>
-          </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear4.jpeg"
-              alt="MAVİGRİ KONSER #3" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>MAVİGRİ KONSER #3</span></div>
-          </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear0.jpeg"
-              alt="ANKARA TUR" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>ANKARA TUR</span></div>
-          </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear1.jpeg"
-              alt="AFROBEAR" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>AFROBEAR</span></div>
-          </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear2.jpeg"
-              alt="WEGH KONSER" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>WEGH KONSER</span></div>
-          </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear3.jpeg"
-              alt="WEGH KONSER #2" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>WEGH KONSER #2</span></div>
-          </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear5.jpeg"
-              alt="XBear GAZETE'DE" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>XBEAR GAZETE'DE</span></div>
-          </div>
-          <div class="gallery-scroll-item" data-lightbox="true"><img src="assets/images/reels/Xbear6.jpeg"
-              alt="TEDX SELCUKUNI" loading="lazy" decoding="async">
-            <div class="gallery-scroll-overlay"><span>TEDX SELCUKUNI</span></div>
+          <div class="case-visuals case-visuals--video">
+            <button type="button" class="case-hero" data-lightbox="true">
+              <img src="assets/images/reels/Xbear7.jpg" alt="Mavigri Konser" loading="lazy" decoding="async">
+            </button>
+            <div class="case-stills case-stills--two">
+              <div class="case-still" data-lightbox="true"><img src="assets/images/reels/Xbear8.jpg" alt="Mavigri Konser #2" loading="lazy" decoding="async"></div>
+              <div class="case-still" data-lightbox="true"><img src="assets/images/reels/Xbear4.jpeg" alt="Mavigri Konser #3" loading="lazy" decoding="async"></div>
+            </div>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="gallery-row">
+      <article class="case-block" id="case-ankara" data-lightbox-group>
+        <div class="container case-block-inner">
+          <div class="case-copy">
+            <span class="case-eyebrow">02</span>
+            <h2>Ankara Tur</h2>
+            <p>Yolda, sahnede, birlikte. Turun temposundan bir kare.</p>
+          </div>
+          <div class="case-visuals case-visuals--video">
+            <button type="button" class="case-hero" data-lightbox="true">
+              <img src="assets/images/reels/Xbear0.jpeg" alt="Ankara Tur" loading="lazy" decoding="async">
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-block case-block--flip" id="case-afrobear" data-lightbox-group>
+        <div class="container case-block-inner">
+          <div class="case-copy">
+            <span class="case-eyebrow">03</span>
+            <h2>Afrobear</h2>
+            <p>Konsept gece. Müzik, ışık ve kalabalık aynı dilde.</p>
+          </div>
+          <div class="case-visuals case-visuals--video">
+            <button type="button" class="case-hero" data-lightbox="true">
+              <img src="assets/images/reels/Xbear1.jpeg" alt="Afrobear" loading="lazy" decoding="async">
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-block" id="case-wegh" data-lightbox-group>
+        <div class="container case-block-inner">
+          <div class="case-copy">
+            <span class="case-eyebrow">04</span>
+            <h2>Wegh Konser</h2>
+            <p>Sahne enerjisi ve izleyici. Konserin iki yüzü.</p>
+          </div>
+          <div class="case-visuals case-visuals--video">
+            <button type="button" class="case-hero" data-lightbox="true">
+              <img src="assets/images/reels/Xbear2.jpeg" alt="Wegh Konser" loading="lazy" decoding="async">
+            </button>
+            <div class="case-stills">
+              <div class="case-still" data-lightbox="true"><img src="assets/images/reels/Xbear3.jpeg" alt="Wegh Konser #2" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-block case-block--flip" id="case-gazete" data-lightbox-group>
+        <div class="container case-block-inner">
+          <div class="case-copy">
+            <span class="case-eyebrow">05</span>
+            <h2>XBear Gazete’de</h2>
+            <p>Basında XBear. İşin sahnedeki değil, sayfadaki hali.</p>
+          </div>
+          <div class="case-visuals case-visuals--video">
+            <button type="button" class="case-hero" data-lightbox="true">
+              <img src="assets/images/reels/Xbear5.jpeg" alt="XBear Gazete'de" loading="lazy" decoding="async">
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-block" id="case-tedx" data-lightbox-group>
+        <div class="container case-block-inner">
+          <div class="case-copy">
+            <span class="case-eyebrow">06</span>
+            <h2>TEDx Selcukuni</h2>
+            <p>Sahne, konuşma ve salondaki enerji. TEDx gecesinden bir kare.</p>
+          </div>
+          <div class="case-visuals case-visuals--video">
+            <button type="button" class="case-hero" data-lightbox="true">
+              <img src="assets/images/reels/Xbear6.jpeg" alt="TEDx Selcukuni" loading="lazy" decoding="async">
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="gallery work-gallery">
+      <div class="gallery-row" id="event-reels" data-screen-label="Reels">
         <div class="gallery-row-label gallery-row-label--reels">
           <i class="ph ph-video"></i>
           <span>Reels Videoları</span>
@@ -193,7 +281,6 @@
         </div>
         <div class="gallery-scroll gallery-scroll--reels" id="reelsScrollEvent"></div>
       </div>
-
       <div class="container">
         <div class="gallery-instagram-cta reveal">
           <a href="https://www.instagram.com/xbearevent" target="_blank" rel="noopener" class="gallery-ig-btn">
@@ -326,7 +413,7 @@
   </a>
 
   <script src="js/reels-data.js?v=19"></script>
-  <script src="js/main.js?v=59"></script>
+  <script src="js/main.js?v=60"></script>
   <script async src="//www.instagram.com/embed.js"></script>
 </body>
 
