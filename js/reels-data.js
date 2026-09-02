@@ -18,6 +18,10 @@
       }
 
    Listeye yeni reel eklemek için ilgili dizinin EN BAŞINA obje ekle.
+
+   Yüksek çözünürlük: Xbearmediavideo2, 3, 6 ve Xbearvideo2.
+   Hâlâ küçük orijinal: Xbearmediavideo1, 8, 9 ve Xbearvideo9, 10 — yeni mp4
+   koyunca thumbs/ altındaki kapağı da yenile.
    ============================================================ */
 
 window.XBEAR_REELS = {

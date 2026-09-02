@@ -444,7 +444,7 @@ function initHoverVideos() {
 }
 
 function initDotsNav() {
-  const dots = document.querySelectorAll('.dots-nav-item, .case-chip');
+  const dots = document.querySelectorAll('.dots-nav-item');
   if (!dots.length) return;
 
   const targets = Array.from(document.querySelectorAll('.case-block, #media-reels, #cinematic'))
