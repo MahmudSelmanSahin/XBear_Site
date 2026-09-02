@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
   hydrateReelsFromData();
   initGalleryInteractions();
   ensureAboutVideoPlayback();
+  initHoverVideos();
+  initDotsNav();
+  initReelPopupFill();
 
   // ===== PRELOADER =====
   const preloader = document.getElementById('preloader');
@@ -112,7 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     navItems.forEach(item => {
-      item.classList.toggle('active', item.getAttribute('href') === `#${currentSection}`);
+      const href = item.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      item.classList.toggle('active', href === `#${currentSection}`);
     });
   }
 
@@ -382,7 +387,7 @@ function initGalleryInteractions() {
     item.addEventListener('click', () => openLightbox(item));
   });
 
-  document.querySelectorAll('.reel-card[data-reel-url], .reel-card[data-reel-src]').forEach(card => {
+  document.querySelectorAll('[data-reel-url], [data-reel-src]').forEach(card => {
     if (card.dataset.clickReady === 'true') return;
     card.dataset.clickReady = 'true';
     card.addEventListener('click', () => openReelPopupFromCard(card));
@@ -391,9 +396,102 @@ function initGalleryInteractions() {
   syncReelPreviewFrames();
 }
 
+function initHoverVideos() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion) {
+    document.querySelectorAll('[data-hover-video]').forEach(el => {
+      const video = el.querySelector('video');
+      if (!video) return;
+      el.addEventListener('mouseenter', () => { video.play().catch(() => {}); });
+      el.addEventListener('mouseleave', () => {
+        if (!el.dataset.inviewPlaying) video.pause();
+      });
+    });
+  }
+
+  document.querySelectorAll('.media-showreel-stage[data-reel-matrix="90cw"]').forEach(stage => {
+    const video = stage.querySelector('video');
+    bindMatrix90cwRotation(video, {
+      onPortrait: () => {
+        stage.classList.remove('media-showreel-stage--rotate180');
+        stage.classList.add('media-showreel-stage--rotate90');
+      },
+      onApplied: () => {
+        stage.classList.remove('media-showreel-stage--rotate90', 'media-showreel-stage--rotate180');
+      },
+    });
+  });
+
+  const inviewEls = document.querySelectorAll('[data-inview-video]');
+  if (!inviewEls.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target.querySelector('video');
+      if (!video) return;
+      if (entry.isIntersecting && !reduceMotion) {
+        entry.target.dataset.inviewPlaying = '1';
+        video.play().catch(() => {});
+      } else {
+        delete entry.target.dataset.inviewPlaying;
+        video.pause();
+      }
+    });
+  }, { threshold: 0.45 });
+
+  inviewEls.forEach(el => observer.observe(el));
+}
+
+function initDotsNav() {
+  const dots = document.querySelectorAll('.dots-nav-item, .case-chip');
+  if (!dots.length) return;
+
+  const targets = Array.from(document.querySelectorAll('.case-block, #media-reels, #cinematic'))
+    .filter(el => el.id);
+
+  if (!targets.length) return;
+
+  const setActive = (id) => {
+    dots.forEach(dot => {
+      dot.classList.toggle('is-active', dot.dataset.target === id);
+    });
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible && visible.target.id) setActive(visible.target.id);
+  }, { rootMargin: '-20% 0px -45% 0px', threshold: [0.2, 0.4, 0.6] });
+
+  targets.forEach(section => observer.observe(section));
+}
+
 
 // ===== REELS DATA HYDRATION =====
 // js/reels-data.js içindeki window.XBEAR_REELS listesini DOM'a yazar.
+function isLandscapeReel(item) {
+  const deg = Number(item && item.rotate);
+  return Boolean(item && (item.orientation === 'landscape' || deg === 90 || deg === -90));
+}
+
+function reelRotateDeg(item) {
+  const deg = Number(item && item.rotate);
+  return deg === 90 || deg === -90 ? deg : 0;
+}
+
+function bindMatrix90cwRotation(video, { onPortrait, onApplied }) {
+  if (!video) return;
+  const apply = () => {
+    if (!video.videoWidth || !video.videoHeight) return;
+    if (video.videoWidth < video.videoHeight) onPortrait();
+    else onApplied();
+  };
+  if (video.readyState >= 1) apply();
+  else video.addEventListener('loadedmetadata', apply, { once: true });
+}
+
 function hydrateReelsFromData() {
   const data = window.XBEAR_REELS;
   if (!data) return;
@@ -407,21 +505,25 @@ function hydrateReelsFromData() {
     const list = Array.isArray(data[username]) ? data[username] : [];
     const el = document.getElementById(mapping.containerId);
     if (!el) return;
-    if (!list.length) {
-      el.innerHTML = '';
-      return;
-    }
-    el.innerHTML = list
-      .map(item => renderReelCard(item, username, mapping.badgeClass))
-      .join('');
+    el.innerHTML = list.length
+      ? list.map(item => renderReelCard(item, username, mapping.badgeClass)).join('')
+      : '';
   });
+}
+
+function cacheAssetUrl(url) {
+  if (!url) return '';
+  const [path, hash] = url.split('#');
+  const clean = path.split('?')[0];
+  const next = `${clean}?v=3`;
+  return hash ? `${next}#${hash}` : next;
 }
 
 function renderReelCard(item, username, badgeClass) {
   const isVideo = Boolean(item.src);
   const reelType = isVideo ? 'video' : 'instagram';
   const url = item.url || item.permalink || '';
-  const src = item.src || '';
+  const src = cacheAssetUrl(item.src || '');
   const shortcode = extractReelShortcode(url);
   const title = escapeHtml(item.title || 'Reel');
   const account = `@${username}`;
@@ -436,9 +538,9 @@ function renderReelCard(item, username, badgeClass) {
   const previewAt = Number.isFinite(previewSeconds) && previewSeconds > 0 ? previewSeconds : 0;
   const previewSrc = previewAt > 0 ? `${src}#t=${previewAt}` : src;
   const previewSrcAttr = escapeAttr(previewSrc);
-  const srcName = src ? src.split('/').pop() || '' : '';
+  const srcName = (item.src || '').split('/').pop() || '';
   const srcStem = srcName.endsWith('.mp4') ? srcName.slice(0, -4) : srcName;
-  const autoVideoThumb = srcStem ? `assets/images/reels/thumbs/${srcStem}.jpg` : '';
+  const autoVideoThumb = srcStem ? cacheAssetUrl(`assets/images/reels/thumbs/${srcStem}.jpg`) : '';
   const thumbSrc = isVideo
     ? (item.thumb || autoVideoThumb)
     : (item.thumb || (shortcode ? `assets/images/reels/${username}_${shortcode}.jpg` : ''));
@@ -451,14 +553,21 @@ function renderReelCard(item, username, badgeClass) {
       ? `<img src="${thumbAttr}" alt="${title}" loading="lazy" decoding="async" onerror="this.closest('.reel-thumb').classList.add('reel-thumb--placeholder'); this.remove();">`
       : '');
 
+  const landscape = isLandscapeReel(item);
+  const rotateDeg = reelRotateDeg(item);
+  const orientationAttr = landscape ? ' data-reel-orientation="landscape"' : '';
+  const rotateAttr = rotateDeg ? ` data-reel-rotate="${rotateDeg}"` : '';
+  const matrix = item.matrix === '90cw' ? '90cw' : '';
+  const matrixAttr = matrix ? ` data-reel-matrix="${matrix}"` : '';
   const cardDataAttrs = isVideo
-    ? `data-reel-src="${srcAttr}" data-reel-type="${reelType}" data-reel-popup-fit="${popupFit}" data-reel-popup-position="${popupPosition}" data-reel-popup-zoom="${popupZoom}" data-reel-preview-at="${previewAt}"`
-    : `data-reel-url="${permalink}" data-reel-type="${reelType}"`;
+    ? `data-reel-src="${srcAttr}" data-reel-type="${reelType}" data-reel-popup-fit="${popupFit}" data-reel-popup-position="${popupPosition}" data-reel-popup-zoom="${popupZoom}" data-reel-preview-at="${previewAt}"${orientationAttr}${rotateAttr}${matrixAttr}`
+    : `data-reel-url="${permalink}" data-reel-type="${reelType}"${orientationAttr}${rotateAttr}${matrixAttr}`;
 
   const badgeIconClass = isVideo ? 'ph ph-video-camera' : 'ph ph-instagram-logo';
+  const thumbRotateClass = rotateDeg ? ' reel-thumb--rotate90' : '';
 
   return `<div class="reel-card" ${cardDataAttrs} data-reel-account="${accountAttr}" data-reel-title="${title}">
-      <div class="reel-thumb${mediaMarkup ? '' : ' reel-thumb--placeholder'}">
+      <div class="reel-thumb${mediaMarkup ? '' : ' reel-thumb--placeholder'}${thumbRotateClass}">
         ${mediaMarkup}
         <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
         <div class="reel-badge ${badgeClass}">
@@ -473,6 +582,52 @@ function extractReelShortcode(url) {
   if (!url) return '';
   const match = String(url).match(/\/(?:reel|p|tv)\/([^/?#]+)/i);
   return match ? match[1] : '';
+}
+
+function formatReelTime(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function bindReelScrubber(video, seek, toggleBtn, timeEl) {
+  const sync = () => {
+    const duration = video.duration;
+    if (seek && Number.isFinite(duration) && duration > 0 && document.activeElement !== seek) {
+      seek.value = String(Math.round((video.currentTime / duration) * 1000));
+    }
+    if (timeEl) {
+      timeEl.textContent = Number.isFinite(duration) && duration > 0
+        ? `${formatReelTime(video.currentTime)} / ${formatReelTime(duration)}`
+        : '0:00';
+    }
+    if (toggleBtn) {
+      toggleBtn.innerHTML = video.paused
+        ? '<i class="ph-fill ph-play"></i>'
+        : '<i class="ph-fill ph-pause"></i>';
+      toggleBtn.setAttribute('aria-label', video.paused ? 'Oynat' : 'Duraklat');
+    }
+  };
+
+  video.addEventListener('timeupdate', sync);
+  video.addEventListener('play', sync);
+  video.addEventListener('pause', sync);
+  video.addEventListener('loadedmetadata', sync);
+
+  seek?.addEventListener('input', () => {
+    const duration = video.duration;
+    if (!Number.isFinite(duration) || duration <= 0) return;
+    video.currentTime = (Number(seek.value) / 1000) * duration;
+  });
+
+  toggleBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (video.paused) video.play().catch(() => {});
+    else video.pause();
+  });
+
+  sync();
 }
 
 function ensureAboutVideoPlayback() {
@@ -503,8 +658,8 @@ function ensureAboutVideoPlayback() {
 // 'click' listener'ımız dokunmatikte asla çalışmıyordu. Bu yüzden
 // touchend'i ayrıca dinliyoruz; iki event de tetiklenirse diye kısa bir
 // zaman penceresiyle çift toggle'ı da engelliyoruz.
-function attachFrameClickToggle(video) {
-  const CONTROLS_ZONE = 48;
+function attachFrameClickToggle(video, options = {}) {
+  const CONTROLS_ZONE = options.nativeControls === false ? 0 : 48;
   let lastTouchToggle = 0;
 
   function inControlsZone(clientY) {
@@ -581,14 +736,14 @@ let lightboxPlaylist = [];
 let lightboxIndex = -1;
 
 function openLightbox(item) {
-  const container = item.closest('.gallery-scroll');
+  const container = item.closest('[data-lightbox-group], .gallery-scroll, .cinematic-grid, .case-stills, .case-stills-row, .mackbear-boards');
   const items = container
     ? Array.from(container.querySelectorAll('[data-lightbox="true"]'))
     : [item];
 
   lightboxPlaylist = items.map(el => {
     const img = el.querySelector('img');
-    const overlayText = el.querySelector('.gallery-scroll-overlay span');
+    const overlayText = el.querySelector('.gallery-scroll-overlay span, .cin-label');
     const source = img ? img.src : '';
     const normalized = source.toLowerCase();
     const popupSource = normalized.includes('/xbear1.jpeg')
@@ -672,33 +827,39 @@ let reelPlaylist = [];
 let reelPlaylistIndex = -1;
 
 function openReelPopupFromCard(card) {
-  const container = card.closest('.gallery-scroll--reels');
-  const selector = '.reel-card[data-reel-url], .reel-card[data-reel-src]';
+  const container = card.closest('[data-reel-group], .gallery-scroll--reels');
+  const selector = '[data-reel-url], [data-reel-src]';
   reelPlaylist = container
     ? Array.from(container.querySelectorAll(selector)).map(el => ({
         type: el.dataset.reelType || (el.dataset.reelSrc ? 'video' : 'instagram'),
         url: el.dataset.reelUrl || '',
-        src: el.dataset.reelSrc || '',
+        src: cacheAssetUrl(el.dataset.reelSrc || ''),
         account: el.dataset.reelAccount || '',
         title: el.dataset.reelTitle || 'Reel',
         popupFit: el.dataset.reelPopupFit || '',
         popupPosition: el.dataset.reelPopupPosition || '',
         popupZoom: el.dataset.reelPopupZoom || '',
         previewAt: Number(el.dataset.reelPreviewAt || 0),
+        orientation: el.dataset.reelOrientation || '',
+        rotate: Number(el.dataset.reelRotate || 0),
+        matrix: el.dataset.reelMatrix || '',
       }))
     : [{
         type: card.dataset.reelType || (card.dataset.reelSrc ? 'video' : 'instagram'),
         url: card.dataset.reelUrl || '',
-        src: card.dataset.reelSrc || '',
+        src: cacheAssetUrl(card.dataset.reelSrc || ''),
         account: card.dataset.reelAccount || '',
         title: card.dataset.reelTitle || 'Reel',
         popupFit: card.dataset.reelPopupFit || '',
         popupPosition: card.dataset.reelPopupPosition || '',
         popupZoom: card.dataset.reelPopupZoom || '',
         previewAt: Number(card.dataset.reelPreviewAt || 0),
+        orientation: card.dataset.reelOrientation || '',
+        rotate: Number(card.dataset.reelRotate || 0),
+        matrix: card.dataset.reelMatrix || '',
       }];
 
-  const activeKey = card.dataset.reelSrc || card.dataset.reelUrl || '';
+  const activeKey = cacheAssetUrl(card.dataset.reelSrc || '') || card.dataset.reelUrl || '';
   reelPlaylistIndex = reelPlaylist.findIndex(item => (item.src || item.url) === activeKey);
   if (reelPlaylistIndex < 0) reelPlaylistIndex = 0;
 
@@ -728,8 +889,16 @@ function renderReel(index, firstOpen) {
   const nextBtn    = document.getElementById('reelPopupNext');
 
   const isVideo = item.type === 'video' && item.src;
-  if (popup) popup.classList.toggle('is-video', Boolean(isVideo));
+  const rotateDeg = reelRotateDeg(item);
+  const isLandscape = item.orientation === 'landscape' || rotateDeg !== 0;
+  if (popup) {
+    popup.classList.toggle('is-video', Boolean(isVideo));
+    popup.classList.toggle('is-landscape', Boolean(isLandscape));
+    popup.classList.toggle('is-rotate90', Boolean(rotateDeg));
+  }
   body.classList.toggle('is-video', Boolean(isVideo));
+  body.classList.toggle('is-landscape', Boolean(isVideo && isLandscape));
+  body.classList.toggle('is-rotate90', Boolean(rotateDeg));
   if (footer) footer.style.display = isVideo ? 'none' : '';
   accountEl.textContent = item.account || '@xbearevent';
   if (counterEl) {
@@ -750,15 +919,48 @@ function renderReel(index, firstOpen) {
     if (item.popupFit) styleParts.push(`object-fit:${item.popupFit}`);
     if (item.popupPosition) styleParts.push(`object-position:${item.popupPosition}`);
     const popupZoom = Number(item.popupZoom);
-    if (Number.isFinite(popupZoom) && popupZoom > 0 && popupZoom !== 1) {
+    if (!rotateDeg && Number.isFinite(popupZoom) && popupZoom > 0 && popupZoom !== 1) {
       styleParts.push(`transform:scale(${popupZoom})`);
       styleParts.push('transform-origin:left center');
     }
     const videoStyleAttr = styleParts.length ? ` style="${escapeAttr(styleParts.join(';'))}"` : '';
-    body.innerHTML = `
-      <video class="reel-popup-video" src="${videoSrc}" controls autoplay loop playsinline preload="metadata"${videoStyleAttr}></video>
-    `;
+    const videoClass = [
+      'reel-popup-video',
+      isLandscape ? 'reel-popup-video--landscape' : '',
+      rotateDeg ? 'reel-popup-video--rotate90' : '',
+    ].filter(Boolean).join(' ');
+    if (isLandscape) {
+      body.innerHTML = `
+        <div class="reel-popup-viewport">
+          <video class="${videoClass}" src="${videoSrc}" autoplay loop playsinline preload="metadata"${videoStyleAttr}></video>
+        </div>
+        <div class="reel-popup-scrub">
+          <button type="button" class="reel-popup-toggle" aria-label="Duraklat">
+            <i class="ph-fill ph-pause"></i>
+          </button>
+          <input type="range" class="reel-popup-seek" min="0" max="1000" value="0" step="1" aria-label="İlerlet">
+          <span class="reel-popup-time">0:00</span>
+        </div>
+      `;
+    } else {
+      body.innerHTML = `
+        <video class="${videoClass}" src="${videoSrc}" controls autoplay loop playsinline preload="metadata"${videoStyleAttr}></video>
+      `;
+    }
     const popupVideo = body.querySelector('.reel-popup-video');
+    if (popupVideo && item.matrix === '90cw' && !rotateDeg) {
+      bindMatrix90cwRotation(popupVideo, {
+        onPortrait: () => {
+          popupVideo.classList.remove('reel-popup-video--rotate180');
+          popupVideo.classList.add('reel-popup-video--rotate90');
+          if (popup) popup.classList.add('is-rotate90');
+          body.classList.add('is-rotate90');
+        },
+        onApplied: () => {
+          popupVideo.classList.remove('reel-popup-video--rotate90', 'reel-popup-video--rotate180');
+        },
+      });
+    }
     if (popupVideo) {
       // Bazı sunucular Range isteğini desteklemediğinde video ilerletilemez;
       // yerel videoyu blob'a çevirerek zaman çubuğunu her ortamda çalışır yap.
@@ -786,7 +988,15 @@ function renderReel(index, firstOpen) {
           } catch (_) {}
         }, { once: true });
       }
-      attachFrameClickToggle(popupVideo);
+      attachFrameClickToggle(popupVideo, { nativeControls: !isLandscape });
+      if (isLandscape) {
+        bindReelScrubber(
+          popupVideo,
+          body.querySelector('.reel-popup-seek'),
+          body.querySelector('.reel-popup-toggle'),
+          body.querySelector('.reel-popup-time')
+        );
+      }
       popupVideo.muted = false;
       popupVideo.volume = 1;
       const playPromise = popupVideo.play();
@@ -814,10 +1024,14 @@ function renderReel(index, firstOpen) {
     `;
   }
 
+  const fillBtn = document.getElementById('reelPopupFill');
+  if (fillBtn) fillBtn.hidden = !isVideo;
+
   if (firstOpen) {
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
+  syncReelImmersive();
 
   if (!isVideo) {
     setTimeout(() => {
@@ -852,6 +1066,7 @@ function closeReelPopup(e) {
   if (e && e.target && e.target !== document.getElementById('reelPopupOverlay')) return;
 
   const overlay = document.getElementById('reelPopupOverlay');
+  exitReelFill();
   overlay.classList.remove('active');
   document.body.style.overflow = '';
 
@@ -859,15 +1074,102 @@ function closeReelPopup(e) {
     const popup = document.getElementById('reelPopup');
     const body = document.getElementById('reelPopupBody');
     const footer = popup ? popup.querySelector('.reel-popup-footer') : null;
-    if (popup) popup.classList.remove('is-video');
+    if (popup) popup.classList.remove('is-video', 'is-landscape', 'is-rotate90');
     if (body) {
-      body.classList.remove('is-video');
+      body.classList.remove('is-video', 'is-landscape', 'is-rotate90');
       body.innerHTML = reelLoadingSkeleton();
     }
     if (footer) footer.style.display = '';
     reelPlaylist = [];
     reelPlaylistIndex = -1;
   }, 350);
+}
+
+function isReelMobileViewport() {
+  return window.matchMedia('(max-width: 880px)').matches
+    || window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+}
+
+function syncReelImmersive() {
+  const overlay = document.getElementById('reelPopupOverlay');
+  const popup = document.getElementById('reelPopup');
+  const fillBtn = document.getElementById('reelPopupFill');
+  if (!overlay || !popup) return;
+
+  const isVideo = popup.classList.contains('is-video');
+  const isLandscapeVideo = popup.classList.contains('is-landscape');
+  const deviceLandscape = window.matchMedia('(orientation: landscape)').matches;
+  const forced = overlay.classList.contains('is-fill');
+  const matched = isVideo && (
+    (isLandscapeVideo && deviceLandscape) ||
+    (!isLandscapeVideo && !deviceLandscape)
+  );
+  const immersive = overlay.classList.contains('active') && (
+    forced || (isReelMobileViewport() && matched)
+  );
+  overlay.classList.toggle('is-immersive', immersive);
+
+  if (fillBtn) {
+    const expanded = forced || Boolean(document.fullscreenElement);
+    fillBtn.setAttribute('aria-label', expanded ? 'Tam ekrandan çık' : 'Tam ekran');
+    fillBtn.innerHTML = expanded
+      ? '<i class="ph ph-corners-in"></i>'
+      : '<i class="ph ph-corners-out"></i>';
+  }
+}
+
+function toggleReelFill(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const overlay = document.getElementById('reelPopupOverlay');
+  if (!overlay || !overlay.classList.contains('active')) return;
+
+  const entering = !overlay.classList.contains('is-fill');
+  overlay.classList.toggle('is-fill', entering);
+  const video = overlay.querySelector('.reel-popup-video');
+
+  if (entering) {
+    const req = overlay.requestFullscreen || overlay.webkitRequestFullscreen;
+    if (req) {
+      Promise.resolve(req.call(overlay)).catch(() => {
+        if (video && typeof video.webkitEnterFullscreen === 'function') {
+          try { video.webkitEnterFullscreen(); } catch (_) {}
+        }
+      });
+    } else if (video && typeof video.webkitEnterFullscreen === 'function') {
+      try { video.webkitEnterFullscreen(); } catch (_) {}
+    }
+  } else {
+    const exitFs = document.exitFullscreen || document.webkitExitFullscreen;
+    if (document.fullscreenElement && exitFs) {
+      Promise.resolve(exitFs.call(document)).catch(() => {});
+    }
+  }
+  syncReelImmersive();
+}
+
+function exitReelFill() {
+  const overlay = document.getElementById('reelPopupOverlay');
+  overlay?.classList.remove('is-fill', 'is-immersive');
+  const exitFs = document.exitFullscreen || document.webkitExitFullscreen;
+  if (document.fullscreenElement && exitFs) {
+    Promise.resolve(exitFs.call(document)).catch(() => {});
+  }
+  const fillBtn = document.getElementById('reelPopupFill');
+  if (fillBtn) fillBtn.hidden = true;
+}
+
+function initReelPopupFill() {
+  if (!document.getElementById('reelPopupOverlay')) return;
+  window.addEventListener('orientationchange', syncReelImmersive);
+  window.addEventListener('resize', syncReelImmersive);
+  document.addEventListener('fullscreenchange', () => {
+    const overlay = document.getElementById('reelPopupOverlay');
+    if (!document.fullscreenElement) overlay?.classList.remove('is-fill');
+    syncReelImmersive();
+  });
 }
 
 function reelLoadingSkeleton() {

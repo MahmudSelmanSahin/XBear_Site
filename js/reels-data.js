@@ -23,12 +23,12 @@
 window.XBEAR_REELS = {
   xbearevent: [
     { src: 'assets/videos/Xbearvideo1.mp4',  title: 'XBear Tanıtım' },
-    { src: 'assets/videos/Xbearvideo2.mp4',  title: 'XBear Sinema Gecesi' },
+    { src: 'assets/videos/Xbearvideo2.mp4',  title: 'XBear Sinema Gecesi', orientation: 'landscape', matrix: '90cw' },
     { src: 'assets/videos/Xbearvideo3.mp4',  title: 'Üniversiteye Hoşgeldin Partisi' },
     { src: 'assets/videos/Xbearvideo4.mp4',  title: 'Üniversiteye Hoşgeldin Partisi #2' },
     { src: 'assets/videos/Xbearvideo5.mp4',  title: 'Hallowen Party' },
     { src: 'assets/videos/Xbearvideo6.mp4',  title: 'XBear Tanıtım #2' },
-    { src: 'assets/videos/Xbearvideo7.mp4',  title: 'NO1 KONSER', previewAt: 1 },
+    { src: 'assets/videos/Xbearvideo7.mp4',  title: 'NO1 KONSER', previewAt: 1, orientation: 'landscape' },
     { src: 'assets/videos/Xbearvideo8.mp4',  title: 'RÖPORTAJ', popupFit: 'cover', popupPosition: 'center top' },
     { src: 'assets/videos/Xbearvideo9.mp4',  title: 'RÖPORTAJ #2', popupFit: 'cover', popupPosition: 'center bottom' },
     { src: 'assets/videos/Xbearvideo10.mp4', title: 'TEDX SELCUKUNI', popupFit: 'cover', popupPosition: 'left 128%', popupZoom: 1.12 },
@@ -39,13 +39,13 @@ window.XBEAR_REELS = {
   xbearmedia: [
     { src: 'assets/videos/Xbearmediavideo0.mp4', title: 'KAMPANYA' },
     { src: 'assets/videos/Xbearmediavideo1.mp4', title: 'LUPEN' },
-    { src: 'assets/videos/Xbearmediavideo2.mp4', title: 'LUPEN SİNEMATİK' },
-    { src: 'assets/videos/Xbearmediavideo3.mp4', title: 'MYPOINT' },
-    { src: 'assets/videos/Xbearmediavideo4.mp4', title: 'MACKBEAR SİNEMATİK' },
+    { src: 'assets/videos/Xbearmediavideo2.mp4', title: 'LUPEN SİNEMATİK', orientation: 'landscape', rotate: -90 },
+    { src: 'assets/videos/Xbearmediavideo3.mp4', title: 'MYPOINT', orientation: 'landscape' },
+    { src: 'assets/videos/Xbearmediavideo4.mp4', title: 'MACKBEAR SİNEMATİK', orientation: 'landscape', rotate: -90 },
     { src: 'assets/videos/Xbearmediavideo5.mp4', title: 'MACKBEAR' },
-    { src: 'assets/videos/Xbearmediavideo6.mp4', title: 'EXTRABLATT SİNEMATİK' },
+    { src: 'assets/videos/Xbearmediavideo6.mp4', title: 'EXTRABLATT SİNEMATİK', orientation: 'landscape' },
     { src: 'assets/videos/Xbearmediavideo7.mp4', title: 'BACKSTAGE', previewAt: 1 },
     { src: 'assets/videos/Xbearmediavideo8.mp4', title: 'ÖZÜMÜZ' },
-    { src: 'assets/videos/Xbearmediavideo9.mp4', title: 'BACKSTAGE #2' },
+    { src: 'assets/videos/Xbearmediavideo9.mp4', title: 'BACKSTAGE #2', orientation: 'landscape' },
   ],
 };
