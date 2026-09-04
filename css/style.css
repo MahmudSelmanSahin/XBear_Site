@@ -892,7 +892,7 @@ html[data-theme="light"] .preloader-logo {
   display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
 }
 .work-teaser-card {
-  position: relative; display: block; min-height: 420px; overflow: hidden;
+  position: relative; display: block; min-height: min(72svh, 640px); overflow: hidden;
   border: 1px solid var(--line); color: inherit; background: var(--surface);
 }
 .work-teaser-card img {
@@ -901,16 +901,16 @@ html[data-theme="light"] .preloader-logo {
 }
 .work-teaser-card:hover img { transform: scale(1.05); }
 .work-teaser-overlay {
-  position: relative; z-index: 1; min-height: 420px;
+  position: relative; z-index: 1; min-height: min(72svh, 640px);
   display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 32px 28px;
+  padding: 36px 32px;
   background: linear-gradient(to top, rgba(8, 9, 12, 0.88) 0%, rgba(8, 9, 12, 0.28) 55%, transparent 100%);
 }
 .work-teaser-eyebrow {
   font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--accent-strong); margin-bottom: 10px;
 }
-.work-teaser-overlay h3 { color: #fff; font-size: clamp(22px, 2.4vw, 30px); margin-bottom: 8px; }
+.work-teaser-overlay h3 { color: #fff; font-size: clamp(26px, 3vw, 40px); margin-bottom: 10px; }
 .work-teaser-overlay p { color: rgba(255, 255, 255, 0.78); font-size: 15px; margin-bottom: 16px; max-width: 36ch; }
 .work-teaser-cta {
   display: inline-flex; align-items: center; gap: 8px;
@@ -1150,11 +1150,23 @@ html[data-theme="light"] .preloader-logo {
   opacity: 0; pointer-events: none;
   font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
   white-space: nowrap; color: var(--ink);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, font-size 0.2s ease;
 }
-.dots-nav:hover .dots-nav-label,
-.dots-nav:focus-within .dots-nav-label {
-  opacity: 1; transform: translate(0, -50%); pointer-events: auto;
+@media (hover: hover) and (pointer: fine) {
+  .dots-nav-item:hover .dots-nav-label,
+  .dots-nav-item:focus-visible .dots-nav-label {
+    opacity: 1; transform: translate(0, -50%);
+  }
+  /* hover edilen noktanın üstü ve altı da görünsün, biraz daha içeride */
+  .dots-nav-item:has(+ .dots-nav-item:hover) .dots-nav-label,
+  .dots-nav-item:has(+ .dots-nav-item:focus-visible) .dots-nav-label,
+  .dots-nav-item:hover + .dots-nav-item .dots-nav-label,
+  .dots-nav-item:focus-visible + .dots-nav-item .dots-nav-label {
+    opacity: 0.62;
+    transform: translate(14px, -50%);
+    font-size: 10px;
+    color: var(--ink-2);
+  }
 }
 .dots-nav-item.is-active .dots-nav-dot {
   background: var(--accent); height: 16px; border-radius: 99px;
@@ -1222,11 +1234,30 @@ html[data-theme="light"] .preloader-logo {
     padding: 8px 0;
     background: transparent; border: 0;
     backdrop-filter: none; -webkit-backdrop-filter: none;
+    touch-action: none;
   }
   .dots-nav-item {
     min-width: 28px; min-height: 28px; justify-content: center; padding: 5px 2px;
   }
-  .dots-nav-label { display: none; }
+  .dots-nav-label {
+    display: none;
+    left: 22px; transform: translateY(-50%);
+    font-size: 9.5px; letter-spacing: 0.08em; font-weight: 650;
+    padding: 2px 7px; border-radius: 99px;
+    background: color-mix(in srgb, var(--bg) 48%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
+    color: var(--ink);
+  }
+  .dots-nav.is-scrubbing .dots-nav-item.is-press .dots-nav-label {
+    display: block; opacity: 0.92;
+  }
+  .dots-nav.is-scrubbing .dots-nav-item:has(+ .is-press) .dots-nav-label,
+  .dots-nav.is-scrubbing .dots-nav-item.is-press + .dots-nav-item .dots-nav-label {
+    display: block; opacity: 0.62;
+    transform: translate(10px, -50%);
+    font-size: 9px; color: var(--ink-2);
+  }
   .dots-nav-item.is-active .dots-nav-dot {
     width: 7px; height: 16px; transform: none;
   }
@@ -1258,7 +1289,7 @@ html[data-theme="light"] .preloader-logo {
      görünmüyordu. Footer'a bu barları temizleyecek kadar boşluk ekliyoruz. */
   .footer { padding-bottom: 96px; }
   .work-teaser-grid { grid-template-columns: 1fr; }
-  .work-teaser-card, .work-teaser-overlay { min-height: 340px; }
+  .work-teaser-card, .work-teaser-overlay { min-height: min(58svh, 420px); }
   .case-block-inner { gap: 20px; }
   .case-visuals, .case-block--flip .case-visuals { grid-template-columns: 1fr; }
   .case-block--flip .case-hero { order: 0; }

@@ -447,8 +447,10 @@ function initDotsNav() {
   const dots = document.querySelectorAll('.dots-nav-item');
   if (!dots.length) return;
 
-  const targets = Array.from(document.querySelectorAll('.case-block, #media-reels, #event-reels, #cinematic'))
-    .filter(el => el.id);
+  const nav = document.querySelector('.dots-nav');
+  const targetIds = new Set([...dots].map(dot => dot.dataset.target).filter(Boolean));
+  const targets = Array.from(document.querySelectorAll('.case-block, #media-reels, #event-reels, #event-open, #cinematic'))
+    .filter(el => el.id && targetIds.has(el.id));
 
   if (!targets.length) return;
 
@@ -466,6 +468,70 @@ function initDotsNav() {
   }, { rootMargin: '-20% 0px -45% 0px', threshold: [0.2, 0.4, 0.6] });
 
   targets.forEach(section => observer.observe(section));
+
+  if (nav) bindDotsScrub(nav, dots, setActive);
+}
+
+function bindDotsScrub(nav, dots, setActive) {
+  let holding = false;
+  let dragged = false;
+  let suppressClick = false;
+  let startY = 0;
+  let current = null;
+
+  const itemFromPoint = (x, y) => {
+    const el = document.elementFromPoint(x, y);
+    return el ? el.closest('.dots-nav-item') : null;
+  };
+
+  const setPress = (item) => {
+    if (!item || !nav.contains(item)) return;
+    current = item;
+    dots.forEach(dot => dot.classList.toggle('is-press', dot === item));
+  };
+
+  const endHold = () => {
+    if (!holding) return;
+    holding = false;
+    nav.classList.remove('is-scrubbing');
+    if (dragged && current && current.dataset.target) {
+      suppressClick = true;
+      const target = document.getElementById(current.dataset.target);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setActive(current.dataset.target);
+    }
+    dots.forEach(dot => dot.classList.remove('is-press'));
+    current = null;
+    dragged = false;
+  };
+
+  nav.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse') return;
+    holding = true;
+    dragged = false;
+    startY = event.clientY;
+    nav.classList.add('is-scrubbing');
+    const item = event.target.closest('.dots-nav-item') || itemFromPoint(event.clientX, event.clientY);
+    if (item) setPress(item);
+    try { nav.setPointerCapture(event.pointerId); } catch (_) { /* ignore */ }
+  });
+
+  nav.addEventListener('pointermove', (event) => {
+    if (!holding) return;
+    if (Math.abs(event.clientY - startY) > 6) dragged = true;
+    const item = itemFromPoint(event.clientX, event.clientY);
+    if (item) setPress(item);
+  });
+
+  nav.addEventListener('pointerup', endHold);
+  nav.addEventListener('pointercancel', endHold);
+
+  nav.addEventListener('click', (event) => {
+    if (!suppressClick) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick = false;
+  }, true);
 }
 
 
