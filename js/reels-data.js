@@ -19,8 +19,8 @@
 
    Listeye yeni reel eklemek için ilgili dizinin EN BAŞINA obje ekle.
 
-   Yüksek çözünürlük: Xbearmediavideo2, 3, 6 ve Xbearvideo2.
-   Hâlâ küçük orijinal: Xbearmediavideo1, 8, 9 ve Xbearvideo9, 10 — yeni mp4
+   Yüksek çözünürlük: Xbearmediavideo1, 2, 3, 6, 8 ve Xbearvideo2.
+   Hâlâ küçük orijinal: Xbearmediavideo9 ve Xbearvideo9, 10 — yeni mp4
    koyunca thumbs/ altındaki kapağı da yenile.
    ============================================================ */
 
@@ -41,15 +41,15 @@ window.XBEAR_REELS = {
   ],
 
   xbearmedia: [
-    { src: 'assets/videos/Xbearmediavideo0.mp4', title: 'KAMPANYA' },
     { src: 'assets/videos/Xbearmediavideo1.mp4', title: 'LUPEN' },
+    { src: 'assets/videos/Xbearmediavideo8.mp4', title: 'ÖZÜMÜZ' },
+    { src: 'assets/videos/Xbearmediavideo0.mp4', title: 'KAMPANYA' },
     { src: 'assets/videos/Xbearmediavideo2.mp4', title: 'LUPEN SİNEMATİK', orientation: 'landscape', rotate: -90 },
     { src: 'assets/videos/Xbearmediavideo3.mp4', title: 'MYPOINT', orientation: 'landscape' },
     { src: 'assets/videos/Xbearmediavideo4.mp4', title: 'MACKBEAR SİNEMATİK', orientation: 'landscape', rotate: -90 },
     { src: 'assets/videos/Xbearmediavideo5.mp4', title: 'MACKBEAR' },
     { src: 'assets/videos/Xbearmediavideo6.mp4', title: 'EXTRABLATT SİNEMATİK', orientation: 'landscape' },
     { src: 'assets/videos/Xbearmediavideo7.mp4', title: 'BACKSTAGE', previewAt: 1 },
-    { src: 'assets/videos/Xbearmediavideo8.mp4', title: 'ÖZÜMÜZ' },
     { src: 'assets/videos/Xbearmediavideo9.mp4', title: 'BACKSTAGE #2', orientation: 'landscape' },
   ],
 };

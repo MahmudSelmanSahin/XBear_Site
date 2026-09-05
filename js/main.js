@@ -554,8 +554,8 @@ function bindMatrix90cwRotation(video, { onPortrait, onApplied }) {
     if (video.videoWidth < video.videoHeight) onPortrait();
     else onApplied();
   };
-  if (video.readyState >= 1) apply();
-  else video.addEventListener('loadedmetadata', apply, { once: true });
+  apply();
+  video.addEventListener('loadedmetadata', apply);
 }
 
 function hydrateReelsFromData() {
@@ -581,7 +581,7 @@ function cacheAssetUrl(url) {
   if (!url) return '';
   const [path, hash] = url.split('#');
   const clean = path.split('?')[0];
-  const next = `${clean}?v=3`;
+  const next = `${clean}?v=4`;
   return hash ? `${next}#${hash}` : next;
 }
 
@@ -631,9 +631,10 @@ function renderReelCard(item, username, badgeClass) {
 
   const badgeIconClass = isVideo ? 'ph ph-video-camera' : 'ph ph-instagram-logo';
   const thumbRotateClass = rotateDeg ? ' reel-thumb--rotate90' : '';
+  const thumbContainClass = item.orientation === 'landscape' && !rotateDeg ? ' reel-thumb--contain' : '';
 
   return `<div class="reel-card" ${cardDataAttrs} data-reel-account="${accountAttr}" data-reel-title="${title}">
-      <div class="reel-thumb${mediaMarkup ? '' : ' reel-thumb--placeholder'}${thumbRotateClass}">
+      <div class="reel-thumb${mediaMarkup ? '' : ' reel-thumb--placeholder'}${thumbRotateClass}${thumbContainClass}">
         ${mediaMarkup}
         <div class="reel-play-icon"><i class="ph-fill ph-play"></i></div>
         <div class="reel-badge ${badgeClass}">
@@ -1014,7 +1015,7 @@ function renderReel(index, firstOpen) {
       `;
     }
     const popupVideo = body.querySelector('.reel-popup-video');
-    if (popupVideo && item.matrix === '90cw' && !rotateDeg) {
+    if (popupVideo && isLandscape && !rotateDeg) {
       bindMatrix90cwRotation(popupVideo, {
         onPortrait: () => {
           popupVideo.classList.remove('reel-popup-video--rotate180');
@@ -1024,6 +1025,8 @@ function renderReel(index, firstOpen) {
         },
         onApplied: () => {
           popupVideo.classList.remove('reel-popup-video--rotate90', 'reel-popup-video--rotate180');
+          if (popup) popup.classList.remove('is-rotate90');
+          body.classList.remove('is-rotate90');
         },
       });
     }
