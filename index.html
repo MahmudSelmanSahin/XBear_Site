@@ -11,23 +11,29 @@
   <meta property="og:title" content="XBear Event-Media | Konya'nın Organizasyon Gücü">
   <meta property="og:description"
     content="Konser, festival, kurumsal etkinlik ve özel gün organizasyonları. Alışılmışın dışına çıkıyoruz.">
-  <meta property="og:image" content="assets/images/hero-bg.jpg">
+  <meta property="og:image" content="assets/images/eyes-poster.jpg">
   <meta property="og:type" content="website">
   <title>XBear Event-Media | Konya'nın Organizasyon Gücü</title>
+  <link rel="preload" as="image" href="assets/images/eyes-poster.jpg">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon.png">
   <link rel="apple-touch-icon" href="assets/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;640;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,550;0,600;0,700;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Instrument+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="css/style.css?v=91">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  </noscript>
+  <link rel="stylesheet" href="css/style.css?v=205">
 </head>
 
-<body>
+<body id="top">
 
   <!-- ===== PRELOADER ===== -->
   <div class="preloader" id="preloader">
@@ -168,7 +174,7 @@
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar" id="navbar">
     <div class="container">
-      <a href="#hero">
+      <a href="#top">
         <img src="assets/images/logo.png" alt="XBear Event-Media" class="nav-logo">
       </a>
       <ul class="nav-links" id="navLinks">
@@ -238,7 +244,6 @@
             </div>
           </div>
         </li>
-        <li><a href="basvuru.html" class="nav-btn-highlight"><i class="ph ph-note-pencil"></i> Ekip Başvurusu</a></li>
       </ul>
       <div class="hamburger" id="hamburger">
         <span></span>
@@ -248,45 +253,58 @@
     </div>
   </nav>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero" id="hero" data-screen-label="Hero">
-    <div class="hero-bg">
-      <img src="assets/images/hero-bg.jpg" alt="XBear Event" loading="eager">
-    </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1 class="hero-title">
-        XBEAR<br><span>Fırsat Yaratır</span>
-      </h1>
-      <p class="hero-slogan">
-        Her etkinlik yeni bir kapı: yeni insanlar, yeni dostluklar, yeni iş birlikleri. 
-        Konserden festivale, turlardan konsept gecelere
-        <em>— insanları bir araya getiren deneyimler tasarlıyor</em>, hayatına yön verecek fırsatlar yaratıyoruz.
-        <em>#alışılmışındışınaçıkıyoruz</em>
-      </p>
-      <div class="hero-buttons">
-        <a href="#contact" class="btn btn-primary">
-          <i class="ph ph-phone"></i>
-          Bize Ulaşın
-        </a>
-        <a href="event.html" class="btn btn-outline">
-          Etkinliklerimiz
-        </a>
+  <!-- ===== HERO / IRIS GATEWAY ===== -->
+  <section class="gateway" id="hero" data-screen-label="Hero">
+    <div class="gateway-pin" id="gatewayPin">
+      <div class="hero-media">
+        <img class="hero-poster" src="assets/images/eyes-poster.jpg" alt="" width="1920" height="1080" decoding="sync">
+        <video id="irisVideo" class="hero-video" muted playsinline webkit-playsinline preload="none" poster="assets/images/eyes-poster.jpg" disablepictureinpicture>
+          <source src="assets/eyes-project-website.mp4" type="video/mp4">
+        </video>
       </div>
-    </div>
-    <div class="hero-scroll">
-      <span>Keşfet</span>
-      <div class="scroll-line"></div>
+      <div class="hero-veil" data-hero-fade aria-hidden="true"></div>
+      <div class="hero-content" data-hero-disperse>
+        <p class="hero-kicker">XBear Event · Konya</p>
+        <h1 class="hero-title">
+          XBEAR<br><span>Fırsat Yaratır</span>
+        </h1>
+        <p class="hero-slogan">
+          Her etkinlik yeni bir kapı: yeni insanlar, yeni dostluklar, yeni iş birlikleri.
+          Konserden festivale, turlardan konsept gecelere
+          <em>— insanları bir araya getiren deneyimler tasarlıyor</em>, hayatına yön verecek fırsatlar yaratıyoruz.
+          <em>#alışılmışındışınaçıkıyoruz</em>
+        </p>
+        <div class="hero-buttons">
+          <a href="#contact" class="btn btn-primary">
+            <i class="ph ph-phone"></i>
+            Bize Ulaşın
+          </a>
+          <a href="event.html" class="btn btn-outline">
+            Etkinliklerimiz
+          </a>
+        </div>
+      </div>
+      <div class="hero-scroll" data-hero-fade>
+        <span>Kaydır</span>
+        <div class="scroll-line"></div>
+      </div>
     </div>
   </section>
 
+  <div class="gateway-hold" id="aboutHold" aria-hidden="true"></div>
+
   <!-- ===== ABOUT ===== -->
-  <section class="section about" id="about" data-screen-label="Hakkımızda">
+  <section class="section about iris-next" id="about" data-screen-label="Hakkımızda">
     <div class="container">
       <div class="about-grid">
         <div class="about-image about-image--video reveal">
-          <video id="aboutVideo" class="about-video" src="assets/videos/Xbearvideo1.mp4" autoplay controls loop
+          <video id="aboutVideo" class="about-video" src="assets/videos/Xbearvideo1.mp4" loop
             playsinline preload="metadata" aria-label="XBear etkinlik tanıtım videosu"></video>
+          <button type="button" class="about-video-hit" id="aboutVideoHit" aria-label="Videoyu oynat">
+            <span class="about-video-icon" aria-hidden="true">
+              <i class="ph-fill ph-play"></i>
+            </span>
+          </button>
         </div>
         <div class="about-content reveal">
           <div class="about-tag">Biz Kimiz?</div>
@@ -593,7 +611,7 @@
           </div>
         </a>
         <a href="media.html" class="work-teaser-card reveal">
-          <img src="assets/images/reels/Xbearmedia12.png" alt="XBear Media — prodüksiyon ve medya" loading="lazy" decoding="async">
+            <img src="assets/images/reels/Xbearmedia12.webp" alt="XBear Media — prodüksiyon ve medya" loading="lazy" decoding="async">
           <div class="work-teaser-overlay">
             <span class="work-teaser-eyebrow">02 — Media</span>
             <h3>Prodüksiyon &amp; Medya</h3>
@@ -909,15 +927,10 @@
     </button>
   </div>
 
-  <!-- Floating Mobile Apply Button -->
-  <a href="basvuru.html" class="mobile-floating-apply-btn">
-    <i class="ph ph-note-pencil"></i> Ekip Başvuru Formu
-  </a>
-
   <!-- Scripts -->
+  <script src="js/gateway.js?v=8"></script>
   <script src="js/reels-data.js?v=22"></script>
-  <script src="js/main.js?v=67"></script>
-  <script async src="//www.instagram.com/embed.js"></script>
+  <script src="js/main.js?v=73"></script>
 </body>
 
 </html>

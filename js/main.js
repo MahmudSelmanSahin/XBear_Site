@@ -25,18 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== PRELOADER =====
   const preloader = document.getElementById('preloader');
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      preloader.classList.add('hidden');
-    }, 600);
-  });
-
-  // Fallback
-  setTimeout(() => {
+  const hidePreloader = () => {
+    if (!preloader || preloader.classList.contains('hidden')) return;
     preloader.classList.add('hidden');
-  }, 2500);
-
+  };
+  const fontsReady = (document.fonts && document.fonts.ready)
+    ? document.fonts.ready.catch(() => {})
+    : Promise.resolve();
+  Promise.race([
+    fontsReady,
+    new Promise((resolve) => setTimeout(resolve, 800)),
+  ]).then(() => setTimeout(hidePreloader, 180));
+  setTimeout(hidePreloader, 1200);
 
   // ===== NAVBAR =====
   const navbar = document.getElementById('navbar');
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleScroll() {
     const scrollY = window.scrollY;
 
-    // Navbar background
-    navbar.classList.toggle('scrolled', scrollY > 60);
+    const irisHold = document.body.classList.contains('iris-hold');
+    if (!irisHold) navbar.classList.toggle('scrolled', scrollY > 60);
 
     // Hide/show navbar on scroll (desktop only). On mobile the hamburger
     // lives inside .navbar, and any non-"none" transform on .navbar (even
@@ -59,12 +59,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // unreachable. So never auto-hide the bar below the mobile breakpoint,
     // or while the mobile menu is open.
     const isMobileNav = window.innerWidth <= MOBILE_NAV_BREAKPOINT;
+    const gateway = document.getElementById('hero');
+    const inGateway = gateway && gateway.classList.contains('gateway')
+      && scrollY < Math.max(0, gateway.offsetHeight - window.innerHeight * 0.55);
     const scrollingDown = !isMobileNav && !navLinks.classList.contains('open') &&
-      scrollY > lastScrollY && scrollY > 200;
+      !inGateway && !irisHold && scrollY > lastScrollY && scrollY > 200;
     navbar.classList.toggle('nav-hidden', scrollingDown);
 
     lastScrollY = scrollY;
-    updateActiveNavLink();
+    if (!handleScroll._navT) handleScroll._navT = 0;
+    const now = performance.now();
+    if (now - handleScroll._navT > 140) {
+      handleScroll._navT = now;
+      updateActiveNavLink();
+    }
     ticking = false;
   }
 
@@ -775,17 +783,72 @@ function pausePageVideos() {
   });
 }
 
+function loadInstagramEmbed(onReady) {
+  if (window.instgrm && window.instgrm.Embeds) {
+    onReady?.();
+    return;
+  }
+  const existing = document.querySelector('script[data-ig-embed]');
+  if (existing) {
+    existing.addEventListener('load', () => onReady?.(), { once: true });
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = 'https://www.instagram.com/embed.js';
+  script.async = true;
+  script.dataset.igEmbed = '1';
+  script.addEventListener('load', () => onReady?.(), { once: true });
+  document.body.appendChild(script);
+}
+
 function ensureAboutVideoPlayback() {
   const aboutVideo = document.getElementById('aboutVideo');
-  if (!aboutVideo) return;
-  aboutVideo.defaultMuted = false;
-  aboutVideo.muted = false;
-  const playPromise = aboutVideo.play();
-  if (playPromise && typeof playPromise.catch === 'function') {
-    playPromise.catch(() => {
-      // Tarayıcı sesli autoplay'i engellerse kullanıcı controls üzerinden oynatabilir.
-    });
-  }
+  const hit = document.getElementById('aboutVideoHit');
+  const wrap = aboutVideo && aboutVideo.closest('.about-image');
+  if (!aboutVideo || !hit || !wrap) return;
+
+  aboutVideo.autoplay = false;
+  aboutVideo.controls = false;
+  aboutVideo.preload = 'metadata';
+  aboutVideo.loop = true;
+  aboutVideo.removeAttribute('controls');
+
+  const icon = hit.querySelector('i');
+  const sync = () => {
+    const paused = aboutVideo.paused;
+    wrap.classList.toggle('is-playing', !paused);
+    hit.setAttribute('aria-label', paused ? 'Videoyu oynat' : 'Videoyu durdur');
+    if (icon) {
+      icon.className = paused ? 'ph-fill ph-play' : 'ph-fill ph-pause';
+    }
+  };
+
+  const play = () => aboutVideo.play().then(sync).catch(sync);
+  const toggle = () => {
+    if (aboutVideo.paused) play();
+    else {
+      aboutVideo.pause();
+      sync();
+    }
+  };
+
+  hit.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggle();
+  });
+  aboutVideo.addEventListener('play', sync);
+  aboutVideo.addEventListener('pause', sync);
+  aboutVideo.addEventListener('ended', sync);
+  sync();
+
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.2);
+    if (!visible) return;
+    play();
+    io.disconnect();
+  }, { threshold: [0, 0.2, 0.45] });
+  io.observe(wrap);
 }
 
 // <video controls>'a tıklamak Chrome'da native bir "click to toggle
@@ -1168,6 +1231,9 @@ function renderReel(index, firstOpen) {
   syncReelImmersive();
 
   if (!isVideo) {
+    loadInstagramEmbed(() => {
+      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+    });
     setTimeout(() => {
       if (window.instgrm && window.instgrm.Embeds) {
         window.instgrm.Embeds.process();
@@ -1493,14 +1559,3 @@ function updateActiveThemeUI(theme) {
 }
 
 
-// ===== ABOUT VIDEO: Range desteksiz sunucularda ilerletmeyi mümkün kıl =====
-(function () {
-  function init() {
-    var av = document.getElementById('aboutVideo');
-    if (!av || !av.getAttribute('src')) return;
-    attachFrameClickToggle(av);
-    bindRangeSeekFallback(av, av.getAttribute('src'));
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
