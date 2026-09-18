@@ -391,16 +391,6 @@ html[data-theme="light"] .preloader-logo {
 @media (max-width: 880px) {
   .gateway { height: 280vh; }
   .hero-content { width: min(1160px, 100% - 32px); bottom: clamp(96px, 16vh, 150px); }
-  .hero-poster,
-  .hero-video {
-    inset: auto 0;
-    top: 50%;
-    width: 100%;
-    height: 62vh;
-    transform: translateY(-50%);
-    object-fit: cover;
-    object-position: 50% 48%;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
